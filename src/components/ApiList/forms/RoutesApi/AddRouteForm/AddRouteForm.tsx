@@ -52,7 +52,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
     }
 
     addNewRoute() {
-        //TODO: consume rest api
+        //TODO: consume rest api and reload api
         console.log(this.state);
     }
 
