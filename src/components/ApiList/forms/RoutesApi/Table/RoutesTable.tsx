@@ -5,6 +5,7 @@ import {IApiInstance} from "../../../../../domain/IApiInstance";
 
 interface IViewProps {
     selectedApi: IApiInstance;
+    reloadApis(): void;
 }
 
 const TableExampleVerticalAlign = (props: IViewProps) => (
@@ -26,7 +27,12 @@ const TableExampleVerticalAlign = (props: IViewProps) => (
                         <Table.Cell>
                             {route.resources.map((resource) => {
                                 return (
-                                    <ActionOneRoute resource={resource}/>
+                                    <ActionOneRoute
+                                        resource={resource}
+                                        path={route.path}
+                                        apiId={props.selectedApi._id}
+                                        reloadApis={props.reloadApis}
+                                    />
                                 );
                             })}
                         </Table.Cell>

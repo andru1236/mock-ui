@@ -24,7 +24,7 @@ const RoutesApiForm = (props: IViewProps) => (
 
                 <AddRouteForm reloadApis={props.reloadApis}/>
 
-                <RoutesTable selectedApi={props.selectedApi}/>
+                <RoutesTable selectedApi={props.selectedApi} reloadApis={props.reloadApis}/>
 
             </Modal.Description>
         </Modal.Content>

@@ -4,6 +4,9 @@ import {IResource} from "../../../../../domain/IResource";
 
 interface IViewProps {
     resource: IResource;
+    path: string;
+    apiId: string;
+    reloadApis(): void;
 }
 
 interface IViewState {
@@ -20,13 +23,20 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
         this.renderMethod = this.renderMethod.bind(this);
     }
 
-
     open() {
         this.setState({open: true});
     }
 
     close() {
         this.setState({open: false});
+    }
+
+    updateResponse(event: any) {
+        // TODO: consume api for update response and  reload apis list
+    }
+
+    removeRoute(){
+        //TODO: consume api for remove route with (apiId, path, method) and reload api list
     }
 
     renderMethod(resource: IResource) {
@@ -58,7 +68,7 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                     this.renderMethod(this.props.resource)
                 }
             >
-                <Modal.Header>Resource</Modal.Header>
+                <Modal.Header>{`Resource ${this.props.path}`} </Modal.Header>
                 <Modal.Content>
                     <p>{`Method: ${this.props.resource.method}`}</p>
                 </Modal.Content>
