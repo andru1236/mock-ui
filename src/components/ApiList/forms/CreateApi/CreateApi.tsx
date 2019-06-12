@@ -15,8 +15,8 @@ interface IContainerProps {
         ui: {
             closeCreateApiModal(): void;
         },
-        api: {
-            loadApis(api: IApiInstance[]): void
+        apis: {
+            load(api: IApiInstance[]): void
         }
 
     }
@@ -65,7 +65,7 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
                 this.props.actions.ui.closeCreateApiModal();
                 apiService.getApis()
                     .then((response: any) => {
-                        this.props.actions.api.loadApis(response.data.data.apis);
+                        this.props.actions.apis.load(response.data.data.apis);
                     })
                     .catch((error: any) => {
                         console.log(error);
@@ -103,8 +103,8 @@ const mapDispatchProps = (dispatch: any) => {
                     dispatch(UIActions.closeCreateApiModal())
                 }
             },
-            api: {
-                loadApis: (apis: IApiInstance[]) => {
+            apis: {
+                load: (apis: IApiInstance[]) => {
                     dispatch(ApiActions.load(apis))
                 }
             }

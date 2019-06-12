@@ -12,7 +12,7 @@ interface IContainerProps {
     removeApiModal: boolean;
     selectedApi: IApiInstance;
     actions: {
-        api: {
+        apis: {
             load(apis: IApiInstance[]): void;
         }
         ui: {
@@ -54,7 +54,7 @@ const mapStateToProps = (state: IStoreState) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         actions: {
-            api: {
+            apis: {
                 load: (apis: IApiInstance[]) => {
                     dispatch(ApiActions.load(apis));
                 }
