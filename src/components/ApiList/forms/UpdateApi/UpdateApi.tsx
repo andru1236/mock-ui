@@ -7,6 +7,7 @@ import {IApiInstance} from "../../../../domain/IApiInstance";
 import {IStoreState} from "../../../../reducers/domain/IStoreState";
 import {connect} from "react-redux";
 import UpdateApiForm from "./UpdateApiForm";
+import {apiService} from "../../../../services";
 
 interface IContainerProps {
     selectedApi: IApiInstance;
@@ -61,7 +62,22 @@ class UpdateApi extends React.Component<IContainerProps, IContainerState> {
     }
 
     updateApi() {
-        console.log(this.state);
+        const apiWillBeUpdated: IApiInstance = {
+            _id: this.props.selectedApi._id,
+            name: this.state.name,
+            port: this.state.port
+        };
+        apiService.putApi(apiWillBeUpdated)
+            .then(() => {
+                this.props.actions.ui.closeUpdateApiModal();
+                apiService.getApis()
+                    .then((response) => {
+                        this.props.actions.apis.load(response.data.data.apis);
+                    });
+            })
+            .catch((error) => {
+                console.log(error.response.data.custom)
+            })
     }
 
     render() {

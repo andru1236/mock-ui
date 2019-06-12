@@ -49,7 +49,7 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
 
     handlerPort(event: any) {
         this.setState({
-            port: event.target.value
+            port: parseInt(event.target.value)
         })
     }
 
