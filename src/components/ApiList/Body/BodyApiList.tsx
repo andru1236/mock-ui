@@ -3,7 +3,8 @@ import {Table, Checkbox, Button} from "semantic-ui-react";
 import {IApiInstance} from "../../../domain/IApiInstance";
 
 interface IViewProps {
-    apis: IApiInstance[]
+    apis: IApiInstance[];
+    openRemoveModal(apiId: string): void;
 }
 
 
@@ -24,7 +25,7 @@ const BodyApiList = (props: IViewProps) => (
                     <Button basic size={'tiny'} color={'blue'}>
                         {"Update Api"}
                     </Button>
-                    <Button basic size={'tiny'} color={'red'}>
+                    <Button basic size={'tiny'} color={'red'} onClick={() => props.openRemoveModal(api._id)}>
                         {"Remove"}
                     </Button>
                 </Table.Cell>

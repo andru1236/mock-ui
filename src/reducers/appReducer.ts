@@ -1,10 +1,23 @@
 import {APIS, UI} from './actionTypes';
 import {IStoreState} from "./domain/IStoreState";
 import {IAction} from "./domain/IAction";
+import {IApiInstance} from "../domain/IApiInstance";
+
+const initialSelectedApi: IApiInstance = {
+    _id: "",
+    name: "",
+    port: 0,
+    routes: [],
+    settings: {
+        enabled: false,
+        createdOn: '',
+    }
+
+};
 
 const AppInitState: IStoreState = {
     apis: [],
-    selectedApi: {},
+    selectedApi: initialSelectedApi,
     ui: {
         showCreateApiModal: false,
         showApiRoutesModal: false,

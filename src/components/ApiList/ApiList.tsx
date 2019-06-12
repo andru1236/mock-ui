@@ -7,6 +7,7 @@ import CreateApi from './forms/CreateApi/CreateApi';
 import HeaderApiList from './Header/HeaderApiList';
 import FooterApiListContainer from "./Footer/FooterApiListContainer";
 import BodyApiListContainer from "./Body/BodyApiListContainer";
+import RemoveApi from "./forms/RemoveApi/RemoveApi";
 
 const ApiList = (props: any) => (
     <Table compact celled definition>
@@ -16,6 +17,7 @@ const ApiList = (props: any) => (
 
         {/*Forms*/}
         <CreateApi/>
+        <RemoveApi/>
     </Table>
 );
 
