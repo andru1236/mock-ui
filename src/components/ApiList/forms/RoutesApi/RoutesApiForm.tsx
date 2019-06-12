@@ -29,7 +29,7 @@ const RoutesApiForm = (props: IViewProps) => (
             </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-            <Button onClick={props.closeForm} negative>
+            <Button onClick={props.closeForm}>
                 Close
             </Button>
         </Modal.Actions>
