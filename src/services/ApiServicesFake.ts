@@ -48,7 +48,7 @@ class ApiServicesFake implements IApiService {
   stopApi(apiId: string): any {
   }
 
-  updateRoute(apiId: string, route: IRoute): any {
+  purRoute(apiId: string, route: IRoute): any {
   }
 }
 
