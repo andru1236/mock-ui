@@ -6,6 +6,7 @@ import * as UIActions from '../../../../reducers/uiActions';
 import {IApiInstance} from "../../../../domain/IApiInstance";
 import {IStoreState} from "../../../../reducers/domain/IStoreState";
 import RemoveApiForm from "./RemoveApiForm";
+import {apiService} from "../../../../services";
 
 
 interface IContainerProps {
@@ -29,7 +30,17 @@ class RemoveApi extends React.Component<IContainerProps, any> {
     }
 
     removeApi(apiId: string) {
-
+        apiService.deleteApi(apiId)
+            .then(() => {
+                this.props.actions.ui.closeRemoveApiModal();
+                apiService.getApis()
+                    .then((response) => {
+                        this.props.actions.apis.load(response.data.data.apis)
+                    });
+            })
+            .catch((error) => {
+                console.log(error.response)
+            })
     }
 
     render() {
