@@ -1,9 +1,12 @@
 import React from "react";
+
+import {connect} from "react-redux";
 import * as ApiActions from '../../../../reducers/apiActions';
 import * as UIActions from '../../../../reducers/uiActions';
-import {connect} from "react-redux";
-import RemoveApiForm from "./RemoveApiForm";
 import {IApiInstance} from "../../../../domain/IApiInstance";
+import RemoveApiForm from "./RemoveApiForm";
+import {IStoreState} from "../../../../reducers/domain/IStoreState";
+
 
 interface IContainerProps {
     removeApiModal: boolean;
@@ -39,9 +42,10 @@ class RemoveApi extends React.Component<IContainerProps, any> {
     }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IStoreState) => {
     return {
-        removeApiModal: state.ui.showRemoveApiModal
+        removeApiModal: state.ui.showRemoveApiModal,
+        currentApiInstance: state.apiSelected
     }
 };
 
