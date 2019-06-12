@@ -10,6 +10,7 @@ import RemoveApiForm from "./RemoveApiForm";
 
 interface IContainerProps {
     removeApiModal: boolean;
+    selectedApi: IApiInstance;
     actions: {
         api: {
             loadApis(apis: IApiInstance[]): void;
@@ -45,7 +46,7 @@ class RemoveApi extends React.Component<IContainerProps, any> {
 const mapStateToProps = (state: IStoreState) => {
     return {
         removeApiModal: state.ui.showRemoveApiModal,
-        currentApiInstance: state.selectedApi
+        selectedApi: state.selectedApi
     }
 };
 
