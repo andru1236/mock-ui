@@ -4,6 +4,7 @@ import {IApiInstance} from "../../../domain/IApiInstance";
 
 interface IViewProps {
     apis: IApiInstance[];
+    openUpdateModal(apiId: string): void;
     openRemoveModal(apiId: string): void;
 }
 
@@ -22,7 +23,7 @@ const BodyApiList = (props: IViewProps) => (
                     <Button api_id={api._id} basic size={'tiny'} color={'green'}>
                         {"Rotes"}
                     </Button>
-                    <Button basic size={'tiny'} color={'blue'}>
+                    <Button basic size={'tiny'} color={'blue'} onClick={() => props.openUpdateModal(api._id)}>
                         {"Update Api"}
                     </Button>
                     <Button basic size={'tiny'} color={'red'} onClick={() => props.openRemoveModal(api._id)}>

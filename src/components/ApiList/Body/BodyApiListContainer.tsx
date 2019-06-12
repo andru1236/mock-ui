@@ -49,7 +49,6 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
     }
 
     openRemoveModal(apiId: string) {
-        console.log(apiId);
         this.selectApi(apiId);
         this.props.actions.ui.openRemoveApiModal();
     }
@@ -68,6 +67,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
         return (
             <BodyApiList
                 apis={this.props.apis}
+                openUpdateModal={this.openUpdateModal}
                 openRemoveModal={this.openRemoveModal}
             />
         );

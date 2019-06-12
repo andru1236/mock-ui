@@ -16,7 +16,7 @@ interface IContainerProps {
             closeCreateApiModal(): void;
         },
         apis: {
-            load(api: IApiInstance[]): void
+            load(apis: IApiInstance[]): void
         }
 
     }
@@ -59,7 +59,6 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
             name: name,
             port: port
         };
-
         apiService.postApis(newApiInstance)
             .then(() => {
                 this.props.actions.ui.closeCreateApiModal();
@@ -72,7 +71,7 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
                     });
             })
             .catch((error: any) => {
-                console.log(error)
+                console.log(error.response)
             });
     }
 
@@ -95,7 +94,7 @@ const mapStateToProps = (state: IStoreState) => {
     };
 };
 
-const mapDispatchProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
         actions: {
             ui: {
@@ -116,5 +115,5 @@ const mapDispatchProps = (dispatch: any) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchProps
+    mapDispatchToProps
 )(CreateApi);
