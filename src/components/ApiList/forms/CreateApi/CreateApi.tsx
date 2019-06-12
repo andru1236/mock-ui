@@ -12,8 +12,13 @@ import {IStoreState} from "../../../../reducers/domain/IStoreState";
 interface IContainerProps {
     createApiModal: boolean;
     actions: {
-        closeCreateApiModal(): void;
-        loadApis(api: IApiInstance[]): void
+        ui: {
+            closeCreateApiModal(): void;
+        },
+        api: {
+            loadApis(api: IApiInstance[]): void
+        }
+
     }
 }
 
@@ -57,10 +62,10 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
 
         apiService.postApis(newApiInstance)
             .then(() => {
-                this.props.actions.closeCreateApiModal();
+                this.props.actions.ui.closeCreateApiModal();
                 apiService.getApis()
                     .then((response: any) => {
-                        this.props.actions.loadApis(response.data.data.apis);
+                        this.props.actions.api.loadApis(response.data.data.apis);
                     })
                     .catch((error: any) => {
                         console.log(error);
@@ -75,7 +80,7 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
         return (
             <CreateApiForm
                 isOpenModal={this.props.createApiModal}
-                closeForm={this.props.actions.closeCreateApiModal}
+                closeForm={this.props.actions.ui.closeCreateApiModal}
                 handleName={this.handlerName}
                 handlePort={this.handlerPort}
                 createApi={this.createApi}
@@ -93,12 +98,17 @@ const mapStateToProps = (state: IStoreState) => {
 const mapDispatchProps = (dispatch: any) => {
     return {
         actions: {
-            closeCreateApiModal: () => {
-                dispatch(UIActions.closeCreateApiModal())
+            ui: {
+                closeCreateApiModal: () => {
+                    dispatch(UIActions.closeCreateApiModal())
+                }
             },
-            loadApis: (apis: IApiInstance[]) => {
-                dispatch(ApiActions.load(apis))
+            api: {
+                loadApis: (apis: IApiInstance[]) => {
+                    dispatch(ApiActions.load(apis))
+                }
             }
+
         }
     }
 };
