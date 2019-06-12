@@ -4,7 +4,7 @@ import {IAction} from "./domain/IAction";
 
 const AppInitState: IStoreState = {
     apis: [],
-    apiSelected: {},
+    selectedApi: {},
     ui: {
         showCreateApiModal: false,
         showApiRoutesModal: false,
@@ -14,7 +14,7 @@ const AppInitState: IStoreState = {
     }
 };
 
-export default function app(state: IStoreState = AppInitState, action: IAction) {
+export default function app(state: IStoreState = AppInitState, action: IAction): IStoreState {
     switch (action.type) {
         case APIS.LOAD:
             if (action.payload === undefined) {
@@ -30,12 +30,12 @@ export default function app(state: IStoreState = AppInitState, action: IAction) 
         case APIS.SELECT_API:
             return {
                 ...state,
-                apiSelected: action.payload
+                selectedApi: action.payload
             };
         case APIS.DESELECT_API:
             return {
                 ...state,
-                apiSelected: {}
+                selectedApi: {}
             };
         case UI.OPEN_CREATE_API_MODAL:
             return {

@@ -2,7 +2,7 @@ import {IApiInstance} from "../../domain/IApiInstance";
 
 export interface IStoreState {
   apis: IApiInstance[]
-  apiSelected: IApiInstance | {};
+  selectedApi: IApiInstance | {};
   ui: {
     showCreateApiModal: boolean
     showApiRoutesModal: boolean
