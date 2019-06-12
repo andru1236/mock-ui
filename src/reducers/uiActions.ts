@@ -42,3 +42,17 @@ export function closeRemoveApiModal(): IAction {
     payload: false
   }
 }
+
+export function openApiRoutesModal(): IAction {
+  return {
+    type: UI.OPEN_API_ROUTES_MODAL,
+    payload: true
+  }
+}
+
+export function closeApiRoutesModal(): IAction {
+  return {
+    type: UI.CLOSE_API_ROUTES_MODAL,
+    payload: false
+  }
+}
