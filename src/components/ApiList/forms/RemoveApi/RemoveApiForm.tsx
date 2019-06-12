@@ -1,9 +1,14 @@
 import React from 'react';
 import {Button, Header, Modal, Icon} from "semantic-ui-react";
 
+interface IViewProps {
+    isOpenModal: boolean;
+    removeApi(apiId: string): void;
+    closeForm(): void;
+}
 
-const RemoveApiForm = (props: any) => (
-    <Modal trigger={props.showRemoveApiModal} basic size='small'>
+const RemoveApiForm = (props: IViewProps) => (
+    <Modal open={props.isOpenModal} basic size='small'>
         <Header icon='archive' content='Are you sure to remove this api' />
         <Modal.Content>
             <p>
@@ -11,7 +16,7 @@ const RemoveApiForm = (props: any) => (
             </p>
         </Modal.Content>
         <Modal.Actions>
-            <Button basic color='red' inverted>
+            <Button basic color='red' inverted onClick={props.closeForm}>
                 <Icon name='remove' /> No
             </Button>
             <Button color='green' inverted>

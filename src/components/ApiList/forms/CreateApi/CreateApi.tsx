@@ -10,7 +10,7 @@ import {IApiInstance} from "../../../../domain/IApiInstance";
 import {IStoreState} from "../../../../reducers/domain/IStoreState";
 
 interface IContainerProps {
-    isOpenModal: boolean;
+    createApiModal: boolean;
     actions: {
         closeCreateApiModal(): void;
         loadApis(api: IApiInstance[]): void
@@ -74,8 +74,8 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
     render() {
         return (
             <CreateApiForm
-                isOpenModal={this.props.isOpenModal}
-                closeModal={this.props.actions.closeCreateApiModal}
+                isOpenModal={this.props.createApiModal}
+                closeForm={this.props.actions.closeCreateApiModal}
                 handleName={this.handlerName}
                 handlePort={this.handlerPort}
                 createApi={this.createApi}
@@ -86,7 +86,7 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
 
 const mapStateToProps = (state: IStoreState) => {
     return {
-        isOpenModal: state.ui.showCreateApiModal
+        createApiModal: state.ui.showCreateApiModal
     };
 };
 

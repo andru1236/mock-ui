@@ -3,10 +3,10 @@ import {Modal, Form, Button} from "semantic-ui-react";
 
 interface IViewProps {
     isOpenModal: boolean;
+    closeForm(): void
     handleName(event: any): void;
     handlePort(event: any): void;
     createApi(): void;
-    closeModal(): void
 }
 
 
@@ -33,7 +33,7 @@ const CreateApiForm = (props: IViewProps) => (
             </Form>
         </Modal.Content>
         <Modal.Actions>
-            <Button onClick={props.closeModal} negative>
+            <Button onClick={props.closeForm} negative>
                 Close
             </Button>
             <Button
