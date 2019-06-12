@@ -4,6 +4,7 @@ import {IApiInstance} from "../../../domain/IApiInstance";
 
 interface IViewProps {
     apis: IApiInstance[];
+    openApiRoutesModal(apiId: string): void;
     openUpdateModal(apiId: string): void;
     openRemoveModal(apiId: string): void;
 }
@@ -20,7 +21,7 @@ const BodyApiList = (props: IViewProps) => (
                 <Table.Cell>{api.port}</Table.Cell>
                 <Table.Cell>{api.routes.length} </Table.Cell>
                 <Table.Cell>
-                    <Button api_id={api._id} basic size={'tiny'} color={'green'}>
+                    <Button basic size={'tiny'} color={'green'} onClick={() => props.openApiRoutesModal(api._id)}>
                         {"Rotes"}
                     </Button>
                     <Button basic size={'tiny'} color={'blue'} onClick={() => props.openUpdateModal(api._id)}>

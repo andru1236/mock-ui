@@ -81,6 +81,16 @@ export default function app(state: IStoreState = AppInitState, action: IAction):
                 ...state,
                 ui: {...state.ui, showRemoveApiModal: action.payload}
             };
+        case UI.OPEN_API_ROUTES_MODAL:
+            return {
+                ...state,
+                ui: {...state.ui, showApiRoutesModal: action.payload}
+            };
+        case UI.CLOSE_API_ROUTES_MODAL:
+            return {
+                ...state,
+                ui: {...state.ui, showApiRoutesModal: action.payload}
+            };
 
         default:
             return state;

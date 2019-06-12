@@ -21,6 +21,7 @@ interface IContainerProps {
             selectApi(api: IApiInstance): void;
         };
         ui: {
+            openApiRoutesModal(): void;
             openUpdateApiModal(): void;
             openRemoveApiModal(): void;
         }
@@ -33,7 +34,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
 
     constructor(props: IContainerProps) {
         super(props);
-
+        this.openApiRoutesModal = this.openApiRoutesModal.bind(this);
         this.openUpdateModal = this.openUpdateModal.bind(this);
         this.openRemoveModal = this.openRemoveModal.bind(this);
     }
@@ -41,6 +42,11 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
     private selectApi(apiId: string) {
         const selectedApi = this.props.apis.find((api) => api._id == apiId);
         this.props.actions.apis.selectApi(selectedApi);
+    }
+
+    openApiRoutesModal(apiId:string) {
+        this.selectApi(apiId);
+        this.props.actions.ui.openApiRoutesModal();
     }
 
     openUpdateModal(apiId: string) {
@@ -67,6 +73,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
         return (
             <BodyApiList
                 apis={this.props.apis}
+                openApiRoutesModal={this.openApiRoutesModal}
                 openUpdateModal={this.openUpdateModal}
                 openRemoveModal={this.openRemoveModal}
             />
@@ -93,6 +100,9 @@ const mapDispatchToProps = (dispatch: any) => {
                 }
             },
             ui: {
+                openApiRoutesModal: () => {
+                    dispatch(UIActions.openApiRoutesModal())
+                },
                 openUpdateApiModal: () => {
                     dispatch(UIActions.openUpdateApiModal())
                 },
