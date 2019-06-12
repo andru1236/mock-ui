@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button, Label, Modal} from 'semantic-ui-react'
-import {IResource} from "../../../../domain/IResource";
+import {IResource} from "../../../../../domain/IResource";
 
 interface IViewProps {
     resource: IResource;
@@ -32,9 +32,9 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
     renderMethod(resource: IResource) {
         switch (resource.method) {
             case 'GET':
-                return (<Label as={'a'} color={'blue'}>GET</Label>);
+                return (<Label as={'a'} color={'green'}>GET</Label>);
             case 'POST':
-                return (<Label as={'a'} color={'green'}>POST</Label>);
+                return (<Label as={'a'} color={'blue'}>POST</Label>);
             case 'PUT':
                 return (<Label as={'a'} color={'violet'}>PUT</Label>);
             case 'DELETE':
@@ -60,10 +60,12 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
             >
                 <Modal.Header>Resource</Modal.Header>
                 <Modal.Content>
-                    <p>{this.props.resource.reponse}</p>
+                    <p>{`Method: ${this.props.resource.method}`}</p>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button icon='check' content='All Done' onClick={this.close}/>
+                    <Button content='Delete route' color={'red'} floated={'left'} onClick={this.close}/>
+                    <Button icon='check' content='Update Response' color={'green'} onClick={this.close}/>
+                    <Button content='Close' onClick={this.close}/>
                 </Modal.Actions>
             </Modal>
         )

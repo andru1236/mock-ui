@@ -1,7 +1,7 @@
 import React from 'react'
 import {Table} from 'semantic-ui-react'
 import ActionOneRoute from "./ActionOneRoute";
-import {IApiInstance} from "../../../../domain/IApiInstance";
+import {IApiInstance} from "../../../../../domain/IApiInstance";
 
 interface IViewProps {
     selectedApi: IApiInstance;

@@ -40,7 +40,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
     }
 
     private selectApi(apiId: string) {
-        const selectedApi = this.props.apis.find((api) => api._id == apiId);
+        const selectedApi = this.props.apis.find((api) => api._id === apiId);
         this.props.actions.apis.selectApi(selectedApi);
     }
 
