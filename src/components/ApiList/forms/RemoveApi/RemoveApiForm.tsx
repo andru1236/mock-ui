@@ -21,7 +21,7 @@ const RemoveApiForm = (props: IViewProps) => (
             <Button basic color='red' inverted onClick={props.closeForm}>
                 <Icon name='remove'/> No
             </Button>
-            <Button color='green' inverted>
+            <Button color='green' inverted onClick={() => props.removeApi(props.selectedApi._id)}>
                 <Icon name='checkmark'/> Yes
             </Button>
         </Modal.Actions>

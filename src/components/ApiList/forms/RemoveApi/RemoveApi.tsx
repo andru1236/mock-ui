@@ -13,7 +13,7 @@ interface IContainerProps {
     selectedApi: IApiInstance;
     actions: {
         api: {
-            loadApis(apis: IApiInstance[]): void;
+            load(apis: IApiInstance[]): void;
         }
         ui: {
             closeRemoveApiModal(): void;
@@ -28,13 +28,14 @@ class RemoveApi extends React.Component<IContainerProps, any> {
         this.removeApi = this.removeApi.bind(this);
     }
 
-    removeApi(event: any) {
+    removeApi(apiId: string) {
 
     }
 
     render() {
         return (
             <RemoveApiForm
+                selectedApi={this.props.selectedApi}
                 isOpenModal={this.props.removeApiModal}
                 removeApi={this.removeApi}
                 closeForm={this.props.actions.ui.closeRemoveApiModal}
@@ -54,9 +55,10 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         actions: {
             api: {
-                loadApis: (apis: IApiInstance[]) => {
+                load: (apis: IApiInstance[]) => {
                     dispatch(ApiActions.load(apis));
                 }
+
             },
             ui: {
                 closeRemoveApiModal: () => {

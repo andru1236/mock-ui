@@ -35,7 +35,7 @@ export default function app(state: IStoreState = AppInitState, action: IAction):
         case APIS.DESELECT_API:
             return {
                 ...state,
-                selectedApi: {}
+                selectedApi: action.payload
             };
         case UI.OPEN_CREATE_API_MODAL:
             return {
