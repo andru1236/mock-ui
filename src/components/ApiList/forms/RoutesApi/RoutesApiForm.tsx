@@ -7,9 +7,7 @@ import {IApiInstance} from "../../../../domain/IApiInstance";
 interface IViewProps {
     isModalOpen: boolean;
     selectedApi: IApiInstance;
-
     reloadApis(): void;
-
     closeForm(): void;
 }
 
@@ -22,9 +20,9 @@ const RoutesApiForm = (props: IViewProps) => (
 
                 <Header as={"h3"}> Add route </Header>
 
-                <AddRouteForm reloadApis={props.reloadApis}/>
+                <AddRouteForm selectecApi={props.selectedApi} reloadApis={props.reloadApis} closeForm={props.closeForm}/>
 
-                <RoutesTable selectedApi={props.selectedApi} reloadApis={props.reloadApis}/>
+                <RoutesTable selectedApi={props.selectedApi} reloadApis={props.reloadApis} closeForm={props.closeForm}/>
 
             </Modal.Description>
         </Modal.Content>

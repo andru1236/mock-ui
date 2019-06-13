@@ -1,5 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
+import { toast } from 'react-semantic-toasts';
 // Domain
 import {IApiInstance} from "../../../domain/IApiInstance";
 import {IStoreState} from "../../../reducers/domain/IStoreState";
@@ -44,7 +45,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
         this.props.actions.apis.selectApi(selectedApi);
     }
 
-    openApiRoutesModal(apiId:string) {
+    openApiRoutesModal(apiId: string) {
         this.selectApi(apiId);
         this.props.actions.ui.openApiRoutesModal();
     }
@@ -65,7 +66,14 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
                 this.props.actions.apis.load(response.data.data.apis)
             })
             .catch((error: any) => {
-                console.log(error)
+                toast({
+                    type: 'error',
+                    icon: 'bullhorn',
+                    title: 'Service unavailable',
+                    description: `problem with get apis`,
+                    animation: 'bounce',
+                    time: 5000,
+                });
             })
     }
 

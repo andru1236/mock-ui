@@ -6,6 +6,7 @@ import {IApiInstance} from "../../../../../domain/IApiInstance";
 interface IViewProps {
     selectedApi: IApiInstance;
     reloadApis(): void;
+    closeForm(): void;
 }
 
 const TableExampleVerticalAlign = (props: IViewProps) => (
@@ -32,6 +33,7 @@ const TableExampleVerticalAlign = (props: IViewProps) => (
                                         path={route.path}
                                         apiId={props.selectedApi._id}
                                         reloadApis={props.reloadApis}
+                                        closeForm={props.closeForm}
                                         key={resource.method}
                                     />
                                 );
