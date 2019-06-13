@@ -34,7 +34,6 @@ export class ApiServiceRest implements IApiService{
     }
 
     deleteRoute(apiId: string, route: IRoute): any {
-        console.log(apiId, route);
         return this.axiosInstance.delete(`${this.END_POINT}/${apiId}/routes`, {
             data: {
                 path: route.path,

@@ -61,8 +61,6 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
 
     addNewRoute() {
         if (this.validatedFields()) {
-            console.log(this.state);
-            console.log(this.state.method);
             apiService.postRoute(this.props.selectecApi._id, {
                 path: this.state.path,
                 method: this.state.method,
