@@ -37,7 +37,6 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
 
     open() {
         this.setState({open: true});
-        console.log(this.props.resource.response)
     }
 
     close() {
