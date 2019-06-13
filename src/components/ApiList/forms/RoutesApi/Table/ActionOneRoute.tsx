@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Form, Button, Label, Modal} from 'semantic-ui-react'
+import ReactJson from 'react-json-view';
 import {toast} from 'react-semantic-toasts';
 import {IResource} from "../../../../../domain/IResource";
 import {apiService} from "../../../../../services";
@@ -36,6 +37,7 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
 
     open() {
         this.setState({open: true});
+        console.log(this.props.resource.response)
     }
 
     close() {
@@ -145,6 +147,7 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                     <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
                                 onChange={(event) => this.handlerResponse(event.target.files[0])}
                     />
+                    <ReactJson src={this.props.resource.response} />
                 </Modal.Content>
                 <Modal.Actions>
                     <Button content='Delete route' color={'red'} floated={'left'} onClick={this.removeRoute}/>
