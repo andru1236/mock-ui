@@ -113,6 +113,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
                 })
                 .catch((error) => {
                     if (error.response.data.custom) {
+                        const data = error.response.data.custom;
                         toast({
                             type: 'error',
                             icon: 'bullhorn',

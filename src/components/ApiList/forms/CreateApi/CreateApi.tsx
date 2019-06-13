@@ -1,4 +1,5 @@
 import * as React from "react";
+import {toast} from 'react-semantic-toasts';
 import {apiService} from "../../../../services";
 // Actions
 import * as UIActions from '../../../../reducers/uiActions';
@@ -39,6 +40,8 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
         this.handlerName = this.handlerName.bind(this);
         this.handlerPort = this.handlerPort.bind(this);
         this.createApi = this.createApi.bind(this);
+        this.guardClause = this.guardClause.bind(this);
+        this.cleanFields = this.cleanFields.bind(this);
     }
 
     handlerName(event: any) {
@@ -53,26 +56,58 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
         })
     }
 
-    createApi() {
-        const {name, port} = this.state;
-        const newApiInstance: IApiInstance = {
-            name: name,
-            port: port
-        };
-        apiService.postApis(newApiInstance)
-            .then(() => {
-                this.props.actions.ui.closeCreateApiModal();
-                apiService.getApis()
-                    .then((response: any) => {
-                        this.props.actions.apis.load(response.data.data.apis);
-                    })
-                    .catch((error: any) => {
-                        console.log(error);
-                    });
-            })
-            .catch((error: any) => {
-                console.log(error.response)
+    cleanFields() {
+        this.setState({name: '', port: 0})
+    }
+
+    guardClause() {
+        if (this.state.name === '' && this.state.port === 0) {
+            toast({
+                type: 'error',
+                icon: 'bullhorn',
+                title: 'Error on fields',
+                description: `name should be a strings and port should be a number`,
+                animation: 'bounce',
+                time: 5000,
             });
+            return false;
+        }
+        return true;
+    }
+
+    createApi() {
+        if (this.guardClause()) {
+            const {name, port} = this.state;
+            const newApiInstance: IApiInstance = {
+                name: name,
+                port: port
+            };
+            apiService.postApis(newApiInstance)
+                .then(() => {
+                    this.props.actions.ui.closeCreateApiModal();
+                    apiService.getApis()
+                        .then((response: any) => {
+                            this.props.actions.apis.load(response.data.data.apis);
+                            this.cleanFields();
+                        })
+                        .catch((error: any) => {
+                            console.log(error.response);
+                        });
+                })
+                .catch((error: any) => {
+                    if (error.response.data.custom) {
+                        const data = error.response.data.custom;
+                        toast({
+                            type: 'error',
+                            icon: 'bullhorn',
+                            title: `Error ${data.errorName}`,
+                            description: ` ${data.message}`,
+                            animation: 'bounce',
+                            time: 5000,
+                        })
+                    }
+                });
+        }
     }
 
     render() {
