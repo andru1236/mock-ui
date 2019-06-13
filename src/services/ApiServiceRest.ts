@@ -34,9 +34,12 @@ export class ApiServiceRest implements IApiService{
     }
 
     deleteRoute(apiId: string, route: IRoute): any {
+        console.log(apiId, route);
         return this.axiosInstance.delete(`${this.END_POINT}/${apiId}/routes`, {
-            path: route.path,
-            method: route.method,
+            data: {
+                path: route.path,
+                method: route.method,
+            }
         });
     }
 
@@ -67,7 +70,7 @@ export class ApiServiceRest implements IApiService{
         return this.axiosInstance.post(`${this.END_POINT}/${apiId}/stop`, {});
     }
 
-    purRoute(apiId: string, route: IRoute): any {
+    putRoute(apiId: string, route: IRoute): any {
         return this.axiosInstance.put(`${this.END_POINT}/${apiId}/routes`, {
             path: route.path,
             method: route.method,
