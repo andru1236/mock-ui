@@ -7,6 +7,7 @@ interface IViewProps {
     openApiRoutesModal(apiId: string): void;
     openUpdateModal(apiId: string): void;
     openRemoveModal(apiId: string): void;
+    startOrStopApi(data: any, apiId: string, port: number): void;
 }
 
 
@@ -15,7 +16,9 @@ const BodyApiList = (props: IViewProps) => (
         {props.apis.map((api: IApiInstance) => (
             <Table.Row key={api._id}>
                 <Table.Cell collapsing>
-                    <Checkbox slider/>
+                    <Checkbox checked={api.settings.enabled} slider
+                              onClick={(event, data) => props.startOrStopApi(data, api._id, api.port)}
+                    />
                 </Table.Cell>
                 <Table.Cell>{api.name}</Table.Cell>
                 <Table.Cell>{api.port}</Table.Cell>

@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import { toast } from 'react-semantic-toasts';
+import {toast} from 'react-semantic-toasts';
 // Domain
 import {IApiInstance} from "../../../domain/IApiInstance";
 import {IStoreState} from "../../../reducers/domain/IStoreState";
@@ -38,11 +38,22 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
         this.openApiRoutesModal = this.openApiRoutesModal.bind(this);
         this.openUpdateModal = this.openUpdateModal.bind(this);
         this.openRemoveModal = this.openRemoveModal.bind(this);
+        this.startOrStopApi = this.startOrStopApi.bind(this);
     }
 
     private selectApi(apiId: string) {
         const selectedApi = this.props.apis.find((api) => api._id === apiId);
         this.props.actions.apis.selectApi(selectedApi);
+    }
+
+    private reloadApis() {
+        apiService.getApis()
+            .then((response: any) => {
+                this.props.actions.apis.load(response.data.data.apis)
+            })
+            .catch((error) => {
+                console.log(error.response);
+            })
     }
 
     openApiRoutesModal(apiId: string) {
@@ -58,6 +69,62 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
     openRemoveModal(apiId: string) {
         this.selectApi(apiId);
         this.props.actions.ui.openRemoveApiModal();
+    }
+
+    startOrStopApi(data: any, apiId: string, port: number) {
+        if (data.checked) {
+            apiService.startApi(apiId)
+                .then(() => {
+                    toast({
+                        type: 'success',
+                        icon: 'bullhorn',
+                        title: 'Launch Api instance',
+                        description: `Exist new api that is executing on port ${port}`,
+                        animation: 'bounce',
+                        time: 5000,
+                    });
+                    this.reloadApis();
+                })
+                .catch((error) => {
+                    if (error.response.data.custom) {
+                        const data = error.response.data.custom;
+                        toast({
+                            type: 'error',
+                            icon: 'bullhorn',
+                            title: 'Error with launch api instance',
+                            description: `Error: ${data.errorName} ${data.message}`,
+                            animation: 'bounce',
+                            time: 5000,
+                        })
+                    }
+                });
+        } else {
+            apiService.stopApi(apiId)
+                .then(() => {
+                    toast({
+                        type: 'warning',
+                        icon: 'bullhorn',
+                        title: 'Stop api instance',
+                        description: `The api instance with port ${port} was stopped`,
+                        animation: 'bounce',
+                        time: 5000,
+                    });
+                    this.reloadApis();
+                })
+                .catch((error) => {
+                    if (error.response.data.custom) {
+                        toast({
+                            type: 'error',
+                            icon: 'bullhorn',
+                            title: 'Error when stopping api instance',
+                            description: `Error: ${data.errorName} ${data.message}`,
+                            animation: 'bounce',
+                            time: 5000,
+                        })
+                    }
+                });
+        }
+
     }
 
     componentDidMount() {
@@ -84,6 +151,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
                 openApiRoutesModal={this.openApiRoutesModal}
                 openUpdateModal={this.openUpdateModal}
                 openRemoveModal={this.openRemoveModal}
+                startOrStopApi={this.startOrStopApi}
             />
         );
     }
