@@ -8,6 +8,7 @@ import {IStoreState} from "../../../../reducers/domain/IStoreState";
 import {connect} from "react-redux";
 import UpdateApiForm from "./UpdateApiForm";
 import {apiService} from "../../../../services";
+import {HandlerError} from "../../../utils/HandlerError";
 
 interface IContainerProps {
     selectedApi: IApiInstance;
@@ -76,7 +77,7 @@ class UpdateApi extends React.Component<IContainerProps, IContainerState> {
                     });
             })
             .catch((error) => {
-                console.log(error.response.data.custom)
+                HandlerError.handler(error);
             })
     }
 

@@ -9,6 +9,7 @@ import CreateApiForm from './CreateApiForm';
 import {connect} from "react-redux";
 import {IApiInstance} from "../../../../domain/IApiInstance";
 import {IStoreState} from "../../../../reducers/domain/IStoreState";
+import {HandlerError} from "../../../utils/HandlerError";
 
 interface IContainerProps {
     createApiModal: boolean;
@@ -95,17 +96,7 @@ class CreateApi extends React.Component<IContainerProps, IContainerState> {
                         });
                 })
                 .catch((error: any) => {
-                    if (error.response.data.custom) {
-                        const data = error.response.data.custom;
-                        toast({
-                            type: 'error',
-                            icon: 'bullhorn',
-                            title: `Error ${data.errorName}`,
-                            description: ` ${data.message}`,
-                            animation: 'bounce',
-                            time: 5000,
-                        })
-                    }
+                    HandlerError.handler(error);
                 });
         }
     }
