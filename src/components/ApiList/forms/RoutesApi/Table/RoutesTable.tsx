@@ -9,7 +9,7 @@ interface IViewProps {
 }
 
 const TableExampleVerticalAlign = (props: IViewProps) => (
-    <Table compact={'very'} basic={'very'} celled collaping>
+    <Table compact={'very'} basic={'very'} celled collaping={'true'}>
         <Table.Header>
             <Table.Row>
                 <Table.HeaderCell>Path</Table.HeaderCell>
@@ -20,7 +20,7 @@ const TableExampleVerticalAlign = (props: IViewProps) => (
         <Table.Body>
             {props.selectedApi.routes.map((route) => {
                 return (
-                    <Table.Row verticalAlign='top'>
+                    <Table.Row verticalAlign='top' key={route.path}>
 
                         <Table.Cell> {route.path}</Table.Cell>
 
@@ -32,6 +32,7 @@ const TableExampleVerticalAlign = (props: IViewProps) => (
                                         path={route.path}
                                         apiId={props.selectedApi._id}
                                         reloadApis={props.reloadApis}
+                                        key={resource.method}
                                     />
                                 );
                             })}

@@ -39,10 +39,13 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
         });
     }
 
-    handlerResponse(event: any) {
-        this.setState({
-            response: event.target.value
-        });
+    handlerResponse(file: any) {
+        const reader = new FileReader();
+        reader.onload = (event:any ) => {
+            this.setState({response: JSON.parse(event.target.result)});
+            console.log(this.state);
+        };
+        reader.readAsText(file);
     }
 
     handlerMethod(event: any) {
@@ -52,7 +55,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
     }
 
     addNewRoute() {
-        //TODO: consume rest api and reload api
+
         console.log(this.state);
     }
 
@@ -67,8 +70,8 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                     <Form.Input fluid required label='Path' placeholder='/path'
                                 onChange={this.handlerPath}
                     />
-                    <Form.Input fluid required label='Response' placeholder='Response'
-                                onChange={this.handlerResponse}
+                    <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
+                                onChange={(event) => this.handlerResponse(event.target.files[0])}
                     />
                 </Form.Group>
                 <Form.Group widths={'5'}>
