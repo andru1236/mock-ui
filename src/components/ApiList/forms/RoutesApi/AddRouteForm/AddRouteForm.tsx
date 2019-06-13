@@ -3,6 +3,7 @@ import {Button, Form, Icon} from "semantic-ui-react";
 import {toast} from 'react-semantic-toasts';
 import {apiService} from "../../../../../services";
 import {IApiInstance} from "../../../../../domain/IApiInstance";
+import {HandlerError} from "../../../../utils/HandlerError";
 
 const options = [
     {key: 'GET', text: 'GET', value: 'GET'},
@@ -72,10 +73,11 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                     this.props.reloadApis();
                 })
                 .catch((error) => {
+                    HandlerError.handler(error);
                     toast({
                         type: 'error',
                         icon: 'bullhorn',
-                        title: 'Problem with register pat',
+                        title: 'Problem with register path',
                         description: `This route is already exist`,
                         animation: 'bounce',
                         time: 5000,

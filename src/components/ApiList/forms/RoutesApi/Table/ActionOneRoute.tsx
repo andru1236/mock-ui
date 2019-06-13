@@ -3,6 +3,7 @@ import {Form, Button, Label, Modal} from 'semantic-ui-react'
 import {toast} from 'react-semantic-toasts';
 import {IResource} from "../../../../../domain/IResource";
 import {apiService} from "../../../../../services";
+import {HandlerError} from "../../../../utils/HandlerError";
 
 interface IViewProps {
     resource: IResource;
@@ -67,12 +68,13 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                     response: this.state.response
                 }
             )
-                .then((response) => {
+                .then(() => {
                     this.close();
                     this.props.reloadApis();
                     this.props.closeForm();
                 })
                 .catch((error) => {
+                    HandlerError.handler(error);
                     toast({
                         type: 'error',
                         icon: 'bullhorn',
@@ -96,6 +98,7 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                 this.props.closeForm();
             })
             .catch((error) => {
+                HandlerError.handler(error);
                 toast({
                     type: 'error',
                     icon: 'bullhorn',
