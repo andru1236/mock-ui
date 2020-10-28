@@ -1,14 +1,16 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
 import { IResource } from '../../../../../domain/IResource';
-import UpdateResponse from './UpdateResponse';
+import { IPath } from '../../../../../domain/IPath';
+import UpdateParam from './UpdateParam';
 
 interface IViewProps {
     selectedResource: IResource;
-    path: string;
-    // reloadApis(): void;
-    // closeForm(): void;
+    apiId: string;
+    route: IPath;
+    reloadApis(): void;
 }
+
 
 const ParamsTable = (props: IViewProps) => (
     <Table compact={'very'} basic={'very'} celled collaping={'true'}>
@@ -27,14 +29,12 @@ const ParamsTable = (props: IViewProps) => (
                         <Table.Cell> {param.param}</Table.Cell>
 
                         <Table.Cell>
-                            <UpdateResponse
-                                resource={props.selectedResource}
-                                path={`${props.path}?${param.param}`}
-                                color={'green'}
-                            // apiId={props.selectedApi._id}
-                            // reloadApis={props.reloadApis}
-                            // closeForm={props.closeForm}
-                            // key={resource.method}
+                            <UpdateParam
+                                selectedResource={props.selectedResource}
+                                apiId={props.apiId}
+                                route={props.route}
+                                param={param}
+                                reloadApis={props.reloadApis}
                             />
                         </Table.Cell>
                     </Table.Row>

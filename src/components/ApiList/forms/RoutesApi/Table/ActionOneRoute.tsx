@@ -8,10 +8,10 @@ import AddParamsForm from "../AddRouteForm/AddParamsForm";
 import ParamsTable from "../Params/ParamsTable";
 import { IApiInstance } from '../../../../../domain/IApiInstance';
 import UpdateResponse from '../Params/UpdateResponse';
+import { IPath } from '../../../../../domain/IPath';
 interface IViewProps {
     resource: IResource;
-    path: string;
-    apiId: string;
+    route: IPath;
     selectedApi: IApiInstance;
     reloadApis(): void;
     closeForm(): void;
@@ -54,9 +54,8 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
         reader.readAsText(file);
     }
 
-    updateResponse(event: any) {
-        event.preventDefault();
-        if (this.state.response === {}) {
+    updateResponse(response: any) {
+        if (response === {}) {
             toast({
                 type: 'error',
                 icon: 'bullhorn',
@@ -66,10 +65,10 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                 time: 5000,
             });
         } else {
-            apiService.putRoute(this.props.apiId, {
-                path: this.props.path,
+            apiService.putRoute(this.props.selectedApi._id, {
+                path: this.props.route.path,
                 method: this.props.resource.method,
-                response: this.state.response
+                response: response
             }
             )
                 .then(() => {
@@ -93,8 +92,8 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
 
     removeRoute() {
         apiService.deleteRoute(
-            this.props.apiId,
-            { path: this.props.path, method: this.props.resource.method, response: {} }
+            this.props.selectedApi._id,
+            { path: this.props.route.path, method: this.props.resource.method, response: {} }
         )
             .then(() => {
                 this.props.reloadApis();
@@ -143,30 +142,32 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                     this.renderMethod(this.props.resource)
                 }
             >
-                <Modal.Header>{`Resource ${this.props.path}`} </Modal.Header>
+                <Modal.Header>{`Resource ${this.props.route.path}`} </Modal.Header>
                 <Modal.Content>
                     <Form>
                         <Form.Group>
 
                             <div>
-                            {`Method ${this.props.resource.method}`}
+                                {`Method ${this.props.resource.method}`}
                             </div>
                             <UpdateResponse
-                                resource={this.props.resource}
-                                path={`${this.props.path}`}
+                                path={`${this.props.resource.method}:  ${this.props.route.path}`}
+                                oldResponse={this.props.resource.response}
                                 color={'grey'}
-                            // apiId={props.selectedApi._id}
-                            // reloadApis={props.reloadApis}
-                            // closeForm={props.closeForm}
-                            // key={resource.method}
+                                updateResponse={this.updateResponse}
                             />
                         </Form.Group>
                     </Form>
                     <h3>{`Add Query Params`} </h3>
                     <Divider />
-                    <AddParamsForm selectecApi={this.props.selectedApi} reloadApis={this.props.reloadApis} closeForm={this.props.closeForm} />
+                    <AddParamsForm
+                        apiId={this.props.selectedApi._id}
+                        routeId={this.props.route._id}
+                        method={this.props.resource.method}
+                        reloadApis={this.props.reloadApis}
+                        closeForm={this.props.closeForm} />
                     <Divider />
-                    <ParamsTable selectedResource={this.props.resource} path={this.props.path} />
+                    <ParamsTable reloadApis={this.props.reloadApis} apiId={this.props.selectedApi._id} selectedResource={this.props.resource} route={this.props.route} />
                 </Modal.Content>
                 <Modal.Actions>
                     <Button content='Delete route' color={'red'} floated={'left'} onClick={this.removeRoute} />

@@ -1,5 +1,6 @@
 export const APIS = {
     LOAD: 'LOAD_APIS',
+    LOAD_API: 'LOAD_API',
     SELECT_API: 'SELECT_API',
     DESELECT_API: 'DESELECT_API'
 };

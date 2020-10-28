@@ -67,7 +67,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                 response: this.state.response
             })
                 .then(() => {
-                    this.props.closeForm();
+                    this.clearForm()
                     this.props.reloadApis();
                 })
                 .catch((error) => {
@@ -82,6 +82,10 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                     })
                 });
         }
+    }
+
+    clearForm() {
+        this.setState({path:'', method:'', response:{}})
     }
 
     private validatedFields() {
@@ -119,11 +123,14 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                 <Form.Group widths='equal'>
                     <Form.Select required fluid label='Method' placeholder='Http method'
                         options={options}
+                        value={this.state.method}
                         onChange={(e, { value }) => this.handlerMethod(value)}
                     />
                     <Form.Input fluid required label='Path' placeholder='/path'
+                        value={this.state.path}
                         onChange={(e) => this.handlerPath(e.target.value)}
                     />
+                    {/* To DO */}
                     <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
                         onChange={(event) => this.handlerResponse(event.target.files[0])}
                     />

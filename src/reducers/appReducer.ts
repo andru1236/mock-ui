@@ -40,6 +40,11 @@ export default function app(state: IStoreState = AppInitState, action: IAction):
                 ...state,
                 apis: action.payload
             };
+        case APIS.LOAD_API:
+            return {
+                ...state,
+                selectedApi: action.payload
+            }
         case APIS.SELECT_API:
             return {
                 ...state,

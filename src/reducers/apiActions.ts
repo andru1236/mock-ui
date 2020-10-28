@@ -9,6 +9,13 @@ export function load(apis: IApiInstance[]): IAction {
     }
 }
 
+export function loadApi(api: IApiInstance): IAction {
+    return {
+        type: APIS.LOAD_API,
+        payload: api
+    }
+}
+
 
 export function selectApi(api: IApiInstance): IAction {
     return {

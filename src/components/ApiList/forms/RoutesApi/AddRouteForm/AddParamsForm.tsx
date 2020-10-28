@@ -2,18 +2,18 @@ import * as React from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
 import { toast } from 'react-semantic-toasts';
 import { apiService } from "../../../../../services";
-import { IApiInstance } from "../../../../../domain/IApiInstance";
 import { HandlerError } from "../../../../utils/HandlerError";
 
 interface IViewProps {
-    selectecApi: IApiInstance;
+    apiId: string;
+    routeId: string;
+    method: string;
     reloadApis(): void;
     closeForm(): void;
 }
 
 interface IViewState {
-    path: string
-    method: string;
+    params: string;
     response: any;
 }
 
@@ -22,19 +22,17 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
     constructor(props: IViewProps) {
         super(props);
         this.state = {
-            path: '',
-            method: '',
+            params: '',
             response: {}
         };
-        this.handlerPath = this.handlerPath.bind(this);
-        this.handlerMethod = this.handlerMethod.bind(this);
+        this.handlerParams = this.handlerParams.bind(this);
         this.handlerResponse = this.handlerResponse.bind(this);
         this.addNewRoute = this.addNewRoute.bind(this);
     }
 
-    handlerPath(path: string) {
+    handlerParams(value: string) {
         this.setState({
-            path: path
+            params: value
         });
     }
 
@@ -46,30 +44,24 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
         reader.readAsText(file);
     }
 
-    handlerMethod(method: any) {
-        this.setState({
-            method: method
-        });
-    }
-
     addNewRoute() {
         if (this.validatedFields()) {
-            apiService.postRoute(this.props.selectecApi._id, {
-                path: this.state.path,
-                method: this.state.method,
+            apiService.postParams(this.props.apiId, this.props.routeId, this.props.method, {
+                param: this.state.params,
                 response: this.state.response
             })
                 .then(() => {
-                    this.props.closeForm();
+                    this.clearForm();
                     this.props.reloadApis();
                 })
                 .catch((error) => {
+                    console.log(error)
                     HandlerError.handler(error);
                     toast({
                         type: 'error',
                         icon: 'bullhorn',
                         title: 'Problem with register path',
-                        description: `This route is already exist`,
+                        description: `This params is already exist`,
                         animation: 'bounce',
                         time: 5000,
                     })
@@ -77,16 +69,20 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
         }
     }
 
+    clearForm() {
+        this.setState({ params: '', response: {} });
+    }
+
     private validatedFields() {
         let isValidPath: boolean = true;
         let isValidResponse: boolean = true;
 
-        if (!this.state.path.startsWith('/')) {
+        if (this.state.params.length === 0) {
             toast({
                 type: 'error',
                 icon: 'bullhorn',
-                title: 'Error on path',
-                description: `The path should started with / `,
+                title: 'Error on Params',
+                description: `The param can't be empty `,
                 animation: 'bounce',
                 time: 5000,
             });
@@ -111,7 +107,8 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
             <Form size={'tiny'}>
                 <Form.Group widths='equal'>
                     <Form.Input fluid required label='Params' placeholder='page=1&limit=10'
-                        onChange={(e) => this.handlerPath(e.target.value)}
+                        value={this.state.params}
+                        onChange={(e) => this.handlerParams(e.target.value)}
                     />
                     <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
                         onChange={(event) => this.handlerResponse(event.target.files[0])}

@@ -1,21 +1,13 @@
 import React, { Component } from 'react'
 import { Form, Button, Label, Modal, Divider } from 'semantic-ui-react'
 import ReactJson from 'react-json-view';
-import { toast } from 'react-semantic-toasts';
-import { IResource } from "../../../../../domain/IResource";
-import { apiService } from "../../../../../services";
-import { HandlerError } from "../../../../utils/HandlerError";
-import ParamsTable from "../Params/ParamsTable";
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic';
 
 interface IViewProps {
-    resource: IResource;
     path: string;
     color: SemanticCOLORS;
-    // updateResponse(): void;
-    // removeElement(): void;
-    // reloadApis(): void;
-    // closeForm(): void;
+    oldResponse: any;
+    updateResponse(response: any): any;
 }
 
 interface IViewState {
@@ -36,7 +28,6 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
         this.handlerResponse = this.handlerResponse.bind(this);
         this.renderButton = this.renderButton.bind(this);
         this.updateResponse = this.updateResponse.bind(this);
-        this.removeRoute = this.removeRoute.bind(this);
     }
 
     open() {
@@ -57,11 +48,8 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
 
     updateResponse(event: any) {
         event.preventDefault();
-        // this.props.updateResponse()
-    }
-
-    removeRoute() {
-        // this.props.removeElement()
+        this.props.updateResponse(this.state.response)
+        this.close();
     }
 
     renderButton() {
@@ -85,17 +73,16 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                 <Modal.Header>
                     {`Resource `}
                     <Label>
-                        {`${this.props.resource.method}:  ${this.props.path}`}
+                        {`${this.props.path}`}
                     </Label>
                 </Modal.Header>
                 <Modal.Content>
                     <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
                         onChange={(event) => this.handlerResponse(event.target.files[0])}
                     />
-                    <ReactJson src={this.props.resource.response} />
+                    <ReactJson src={this.props.oldResponse} />
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button content='Delete resource' color={'red'} floated={'left'} onClick={this.removeRoute} />
                     <Button icon='check' content='Update Response' color={'green'} onClick={this.updateResponse} />
                     <Button content='Close' onClick={this.close} />
                 </Modal.Actions>
