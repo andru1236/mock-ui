@@ -5,11 +5,13 @@ import {IApiInstance} from "../../../../domain/IApiInstance";
 import {IStoreState} from "../../../../reducers/domain/IStoreState";
 import {connect} from "react-redux";
 import RoutesApiForm from "./RoutesApiForm";
+import { withRouter } from "react-router-dom";
 import {apiService} from "../../../../services";
 
 interface IContainerProps {
     selectedApi: IApiInstance;
     apiRouteModal: boolean;
+    history: any;
     actions: {
         apis: {
             load(apis: IApiInstance[]): void;
@@ -46,6 +48,7 @@ class RoutesApi extends React.Component<IContainerProps, any> {
                 isModalOpen={this.props.apiRouteModal}
                 reloadApis={this.reloadApis}
                 closeForm={this.props.actions.ui.closeApiRoutesModal}
+                history={this.props.history}
             />
         );
     }
@@ -78,4 +81,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(RoutesApi);
+)(withRouter(RoutesApi));

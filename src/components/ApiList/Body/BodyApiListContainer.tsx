@@ -11,11 +11,13 @@ import * as UIActions from '../../../reducers/uiActions';
 import {apiService} from "../../../services";
 // Views
 import BodyApiList from "./BodyApiList";
+import { withRouter } from "react-router-dom";
 
 
 interface IContainerProps {
     apis: IApiInstance[];
     selectedApi: IApiInstance;
+    history: any;
     actions: {
         apis: {
             load(apis: IApiInstance[]): void;
@@ -58,7 +60,7 @@ class BodyApiListContainer extends React.Component<IContainerProps, any> {
 
     openApiRoutesModal(apiId: string) {
         this.selectApi(apiId);
-        this.props.actions.ui.openApiRoutesModal();
+        this.props.history.push(`/apis/${apiId}/routes`)
     }
 
     openUpdateModal(apiId: string) {
@@ -194,4 +196,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(BodyApiListContainer);
+)(withRouter(BodyApiListContainer));

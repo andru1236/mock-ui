@@ -35,6 +35,7 @@ const TableExampleVerticalAlign = (props: IViewProps) => (
                                         reloadApis={props.reloadApis}
                                         closeForm={props.closeForm}
                                         key={resource.method}
+                                        selectedApi={props.selectedApi}
                                     />
                                 );
                             })}

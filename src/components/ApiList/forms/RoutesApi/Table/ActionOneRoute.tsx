@@ -1,15 +1,18 @@
-import React, {Component} from 'react'
-import {Form, Button, Label, Modal} from 'semantic-ui-react'
-import ReactJson from 'react-json-view';
-import {toast} from 'react-semantic-toasts';
-import {IResource} from "../../../../../domain/IResource";
-import {apiService} from "../../../../../services";
-import {HandlerError} from "../../../../utils/HandlerError";
-
+import React, { Component } from 'react'
+import { Form, Button, Label, Modal, Divider } from 'semantic-ui-react'
+import { toast } from 'react-semantic-toasts';
+import { IResource } from "../../../../../domain/IResource";
+import { apiService } from "../../../../../services";
+import { HandlerError } from "../../../../utils/HandlerError";
+import AddParamsForm from "../AddRouteForm/AddParamsForm";
+import ParamsTable from "../Params/ParamsTable";
+import { IApiInstance } from '../../../../../domain/IApiInstance';
+import UpdateResponse from '../Params/UpdateResponse';
 interface IViewProps {
     resource: IResource;
     path: string;
     apiId: string;
+    selectedApi: IApiInstance;
     reloadApis(): void;
     closeForm(): void;
 }
@@ -36,17 +39,17 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
     }
 
     open() {
-        this.setState({open: true});
+        this.setState({ open: true });
     }
 
     close() {
-        this.setState({open: false});
+        this.setState({ open: false });
     }
 
     handlerResponse(file: any) {
         const reader = new FileReader();
         reader.onload = (event: any) => {
-            this.setState({response: JSON.parse(event.target.result)});
+            this.setState({ response: JSON.parse(event.target.result) });
         };
         reader.readAsText(file);
     }
@@ -64,10 +67,10 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
             });
         } else {
             apiService.putRoute(this.props.apiId, {
-                    path: this.props.path,
-                    method: this.props.resource.method,
-                    response: this.state.response
-                }
+                path: this.props.path,
+                method: this.props.resource.method,
+                response: this.state.response
+            }
             )
                 .then(() => {
                     this.close();
@@ -91,7 +94,7 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
     removeRoute() {
         apiService.deleteRoute(
             this.props.apiId,
-            {path: this.props.path, method: this.props.resource.method, response: {}}
+            { path: this.props.path, method: this.props.resource.method, response: {} }
         )
             .then(() => {
                 this.props.reloadApis();
@@ -128,30 +131,46 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
     }
 
     render() {
-        const {open} = this.state;
+        const { open } = this.state;
 
         return (
             <Modal
                 open={open}
                 onOpen={this.open}
                 onClose={this.close}
-                size='small'
+                size='large'
                 trigger={
                     this.renderMethod(this.props.resource)
                 }
             >
                 <Modal.Header>{`Resource ${this.props.path}`} </Modal.Header>
                 <Modal.Content>
-                    <p>{`Method: ${this.props.resource.method}`}</p>
-                    <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
-                                onChange={(event) => this.handlerResponse(event.target.files[0])}
-                    />
-                    <ReactJson src={this.props.resource.response} />
+                    <Form>
+                        <Form.Group>
+
+                            <div>
+                            {`Method ${this.props.resource.method}`}
+                            </div>
+                            <UpdateResponse
+                                resource={this.props.resource}
+                                path={`${this.props.path}`}
+                                color={'grey'}
+                            // apiId={props.selectedApi._id}
+                            // reloadApis={props.reloadApis}
+                            // closeForm={props.closeForm}
+                            // key={resource.method}
+                            />
+                        </Form.Group>
+                    </Form>
+                    <h3>{`Add Query Params`} </h3>
+                    <Divider />
+                    <AddParamsForm selectecApi={this.props.selectedApi} reloadApis={this.props.reloadApis} closeForm={this.props.closeForm} />
+                    <Divider />
+                    <ParamsTable selectedResource={this.props.resource} path={this.props.path} />
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button content='Delete route' color={'red'} floated={'left'} onClick={this.removeRoute}/>
-                    <Button icon='check' content='Update Response' color={'green'} onClick={this.updateResponse}/>
-                    <Button content='Close' onClick={this.close}/>
+                    <Button content='Delete route' color={'red'} floated={'left'} onClick={this.removeRoute} />
+                    <Button content='Close' onClick={this.close} />
                 </Modal.Actions>
             </Modal>
         )

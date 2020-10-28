@@ -9,6 +9,7 @@
     "react-dom": "^16.8.6",
     "react-json-view": "^1.19.1",
     "react-redux": "^7.1.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
     "react-semantic-toasts": "^0.5.3",
     "redux": "^4.0.1",

@@ -5,13 +5,6 @@ import { apiService } from "../../../../../services";
 import { IApiInstance } from "../../../../../domain/IApiInstance";
 import { HandlerError } from "../../../../utils/HandlerError";
 
-const options = [
-    { key: 'GET', text: 'GET', value: 'GET' },
-    { key: 'POST', text: 'POST', value: 'POST' },
-    { key: 'PUT', text: 'PUT', value: 'PUT' },
-    { key: 'DELETE', text: 'DELETE', value: 'DELETE' },
-];
-
 interface IViewProps {
     selectecApi: IApiInstance;
     reloadApis(): void;
@@ -117,11 +110,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
         return (
             <Form size={'tiny'}>
                 <Form.Group widths='equal'>
-                    <Form.Select required fluid label='Method' placeholder='Http method'
-                        options={options}
-                        onChange={(e, { value }) => this.handlerMethod(value)}
-                    />
-                    <Form.Input fluid required label='Path' placeholder='/path'
+                    <Form.Input fluid required label='Params' placeholder='page=1&limit=10'
                         onChange={(e) => this.handlerPath(e.target.value)}
                     />
                     <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
@@ -134,7 +123,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                             onClick={this.addNewRoute}
                         >
                             <Icon name={"add"} />
-                            Add new route
+                            Add Params
                         </Button>
                     </Grid.Column>
                 </Grid>

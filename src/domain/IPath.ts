@@ -1,6 +1,6 @@
-import {IResource} from "./IResource";
+import { IResource } from "./IResource";
 
 export interface IPath {
   path: string;
-  resources: IResource[]
+  resources: IResource[];
 }
