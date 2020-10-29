@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Button, Label, Modal, Divider } from 'semantic-ui-react'
+import { Form, Button, Label, Modal } from 'semantic-ui-react'
 import ReactJson from 'react-json-view';
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic';
 
