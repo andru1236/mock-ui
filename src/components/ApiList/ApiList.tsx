@@ -9,7 +9,6 @@ import FooterApiListContainer from "./Footer/FooterApiListContainer";
 import BodyApiListContainer from "./Body/BodyApiListContainer";
 import RemoveApi from "./forms/RemoveApi/RemoveApi";
 import UpdateApi from "./forms/UpdateApi/UpdateApi";
-// import RoutesApi from "./forms/RoutesApi/RoutesApi";
 
 const ApiList = (props: any) => (
     <Table compact celled definition>
@@ -18,7 +17,6 @@ const ApiList = (props: any) => (
         <FooterApiListContainer/>
 
         {/*Forms*/}
-        {/* <RoutesApi/> */}
         <UpdateApi/>
         <RemoveApi/>
         <CreateApi/>
