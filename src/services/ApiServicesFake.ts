@@ -1,6 +1,7 @@
-import {IApiService} from "./domain/IApiService";
-import {IApiInstance} from "../domain/IApiInstance";
-import {IRoute} from "../domain/IRoute";
+import { IApiService } from "./domain/IApiService";
+import { IApiInstance } from "../domain/IApiInstance";
+import { IRoute } from "../domain/IRoute";
+import { IParam } from "../domain/IParam";
 
 class ApiServicesFake implements IApiService {
 
@@ -49,6 +50,15 @@ class ApiServicesFake implements IApiService {
   }
 
   putRoute(apiId: string, route: IRoute): any {
+  }
+
+  postParams(apiId: string, routeId: string, method: string, param: IParam): any {
+  }
+
+  putParams(apiId: string, routeId: string, method: string, param: IParam): any {
+  }
+
+  deleteParams(apiId: string, routeId: string, method: string, params: string) {
   }
 }
 

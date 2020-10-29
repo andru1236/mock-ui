@@ -30,11 +30,11 @@ const TableExampleVerticalAlign = (props: IViewProps) => (
                                 return (
                                     <ActionOneRoute
                                         resource={resource}
-                                        path={route.path}
-                                        apiId={props.selectedApi._id}
+                                        route={route}
                                         reloadApis={props.reloadApis}
                                         closeForm={props.closeForm}
                                         key={resource.method}
+                                        selectedApi={props.selectedApi}
                                     />
                                 );
                             })}

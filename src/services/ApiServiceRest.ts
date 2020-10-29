@@ -1,6 +1,7 @@
 import {IApiService} from "./domain/IApiService";
 import {IApiInstance} from "../domain/IApiInstance";
 import {IRoute} from "../domain/IRoute";
+import { IParam } from "../domain/IParam";
 
 const axios = require('axios');
 
@@ -74,6 +75,33 @@ export class ApiServiceRest implements IApiService{
             path: route.path,
             method: route.method,
             response: route.response
+        });
+    }
+
+    postParams(apiId: string, routeId: string, method: string, param: IParam): any {
+        return this.axiosInstance.post(`${this.END_POINT}/${apiId}/routes/${routeId}/params`, {
+            method: method,
+            params: param.param,
+            response: param.response
+        });
+    }
+
+    putParams(apiId: string, routeId: string, method: string, param: IParam): any {
+        return this.axiosInstance.put(`${this.END_POINT}/${apiId}/routes/${routeId}/params`,
+        {
+            method: method,
+            params: param.param,
+            response: param.response
+        });
+    }
+
+    deleteParams(apiId: string, routeId: string, method: string, params: string) {
+        return this.axiosInstance.delete(`${this.END_POINT}/${apiId}/routes/${routeId}/params`,
+        {
+            data: {
+                params: params,
+                method: method
+            }
         });
     }
 }

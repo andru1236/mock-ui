@@ -1,9 +1,15 @@
 import React from 'react'
-import {Header} from 'semantic-ui-react'
+import { Header } from 'semantic-ui-react'
 
-const ApiHeader = () => (
+interface HeadProps {
+  section?: string;
+}
+
+const ApiHeader = (props: HeadProps) => (
   <div>
-    <Header size={'huge'} as={'h1'} textAlign={'center'}> Api mock </Header>
+    <Header size={'huge'} as={'h1'} textAlign={'center'}>
+      Api mock {!props.section ? '' : `/ ${props.section}`}
+    </Header>
   </div>
 );
 export default ApiHeader;

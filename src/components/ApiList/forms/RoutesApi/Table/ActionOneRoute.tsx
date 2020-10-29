@@ -1,15 +1,18 @@
-import React, {Component} from 'react'
-import {Form, Button, Label, Modal} from 'semantic-ui-react'
-import ReactJson from 'react-json-view';
-import {toast} from 'react-semantic-toasts';
-import {IResource} from "../../../../../domain/IResource";
-import {apiService} from "../../../../../services";
-import {HandlerError} from "../../../../utils/HandlerError";
-
+import React, { Component } from 'react'
+import { Form, Button, Label, Modal, Divider } from 'semantic-ui-react'
+import { toast } from 'react-semantic-toasts';
+import { IResource } from "../../../../../domain/IResource";
+import { apiService } from "../../../../../services";
+import { HandlerError } from "../../../../utils/HandlerError";
+import AddParamsForm from "../AddRouteForm/AddParamsForm";
+import ParamsTable from "../Params/ParamsTable";
+import { IApiInstance } from '../../../../../domain/IApiInstance';
+import UpdateResponse from '../Params/UpdateResponse';
+import { IPath } from '../../../../../domain/IPath';
 interface IViewProps {
     resource: IResource;
-    path: string;
-    apiId: string;
+    route: IPath;
+    selectedApi: IApiInstance;
     reloadApis(): void;
     closeForm(): void;
 }
@@ -36,24 +39,23 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
     }
 
     open() {
-        this.setState({open: true});
+        this.setState({ open: true });
     }
 
     close() {
-        this.setState({open: false});
+        this.setState({ open: false });
     }
 
     handlerResponse(file: any) {
         const reader = new FileReader();
         reader.onload = (event: any) => {
-            this.setState({response: JSON.parse(event.target.result)});
+            this.setState({ response: JSON.parse(event.target.result) });
         };
         reader.readAsText(file);
     }
 
-    updateResponse(event: any) {
-        event.preventDefault();
-        if (this.state.response === {}) {
+    updateResponse(response: any) {
+        if (response === {}) {
             toast({
                 type: 'error',
                 icon: 'bullhorn',
@@ -63,11 +65,11 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                 time: 5000,
             });
         } else {
-            apiService.putRoute(this.props.apiId, {
-                    path: this.props.path,
-                    method: this.props.resource.method,
-                    response: this.state.response
-                }
+            apiService.putRoute(this.props.selectedApi._id, {
+                path: this.props.route.path,
+                method: this.props.resource.method,
+                response: response
+            }
             )
                 .then(() => {
                     this.close();
@@ -76,22 +78,14 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                 })
                 .catch((error) => {
                     HandlerError.handler(error);
-                    toast({
-                        type: 'error',
-                        icon: 'bullhorn',
-                        title: 'Problem with update this route',
-                        description: `Can't update route`,
-                        animation: 'bounce',
-                        time: 5000,
-                    });
                 })
         }
     }
 
     removeRoute() {
         apiService.deleteRoute(
-            this.props.apiId,
-            {path: this.props.path, method: this.props.resource.method, response: {}}
+            this.props.selectedApi._id,
+            { path: this.props.route.path, method: this.props.resource.method, response: {} }
         )
             .then(() => {
                 this.props.reloadApis();
@@ -100,14 +94,6 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
             })
             .catch((error) => {
                 HandlerError.handler(error);
-                toast({
-                    type: 'error',
-                    icon: 'bullhorn',
-                    title: 'Problem with remove route',
-                    description: `Problem with this route`,
-                    animation: 'bounce',
-                    time: 5000,
-                });
             })
     }
 
@@ -128,30 +114,48 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
     }
 
     render() {
-        const {open} = this.state;
+        const { open } = this.state;
 
         return (
             <Modal
                 open={open}
                 onOpen={this.open}
                 onClose={this.close}
-                size='small'
+                size='large'
                 trigger={
                     this.renderMethod(this.props.resource)
                 }
             >
-                <Modal.Header>{`Resource ${this.props.path}`} </Modal.Header>
+                <Modal.Header>{`Resource ${this.props.route.path}`} </Modal.Header>
                 <Modal.Content>
-                    <p>{`Method: ${this.props.resource.method}`}</p>
-                    <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
-                                onChange={(event) => this.handlerResponse(event.target.files[0])}
-                    />
-                    <ReactJson src={this.props.resource.response} />
+                    <Form>
+                        <Form.Group>
+
+                            <div>
+                                {`Method ${this.props.resource.method}`}
+                            </div>
+                            <UpdateResponse
+                                path={`${this.props.resource.method}:  ${this.props.route.path}`}
+                                oldResponse={this.props.resource.response}
+                                color={'grey'}
+                                updateResponse={this.updateResponse}
+                            />
+                        </Form.Group>
+                    </Form>
+                    <h3>{`Add Query Params`} </h3>
+                    <Divider />
+                    <AddParamsForm
+                        apiId={this.props.selectedApi._id}
+                        routeId={this.props.route._id}
+                        method={this.props.resource.method}
+                        reloadApis={this.props.reloadApis}
+                        closeForm={this.props.closeForm} />
+                    <Divider />
+                    <ParamsTable reloadApis={this.props.reloadApis} apiId={this.props.selectedApi._id} selectedResource={this.props.resource} route={this.props.route} />
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button content='Delete route' color={'red'} floated={'left'} onClick={this.removeRoute}/>
-                    <Button icon='check' content='Update Response' color={'green'} onClick={this.updateResponse}/>
-                    <Button content='Close' onClick={this.close}/>
+                    <Button content='Delete route' color={'red'} floated={'left'} onClick={this.removeRoute} />
+                    <Button content='Close' onClick={this.close} />
                 </Modal.Actions>
             </Modal>
         )

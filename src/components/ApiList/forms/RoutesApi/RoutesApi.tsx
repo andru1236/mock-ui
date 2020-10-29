@@ -1,18 +1,22 @@
 import * as React from 'react';
 import * as UIActions from '../../../../reducers/uiActions';
 import * as ApiActions from '../../../../reducers/apiActions';
-import {IApiInstance} from "../../../../domain/IApiInstance";
-import {IStoreState} from "../../../../reducers/domain/IStoreState";
-import {connect} from "react-redux";
+import { IApiInstance } from "../../../../domain/IApiInstance";
+import { IStoreState } from "../../../../reducers/domain/IStoreState";
+import { toast } from 'react-semantic-toasts';
+import { connect } from "react-redux";
 import RoutesApiForm from "./RoutesApiForm";
-import {apiService} from "../../../../services";
+import { withRouter } from "react-router-dom";
+import { apiService } from "../../../../services";
 
 interface IContainerProps {
     selectedApi: IApiInstance;
     apiRouteModal: boolean;
+    history: any;
+    match: any;
     actions: {
         apis: {
-            load(apis: IApiInstance[]): void;
+            loadApi(api: IApiInstance): void;
         },
         ui: {
             closeApiRoutesModal(): void;
@@ -28,15 +32,29 @@ class RoutesApi extends React.Component<IContainerProps, any> {
         this.reloadApis = this.reloadApis.bind(this);
     }
 
+    componentDidMount() {
+        this.reloadApis()
+    }
+
+    getApiId() {
+        return this.props.match.params.apiId
+    }
+
     reloadApis() {
-        this.props.actions.ui.closeApiRoutesModal();
-        apiService.getApis()
-            .then((response) => {
-                this.props.actions.apis.load(response.data.data.apis);
+        apiService.getApi(this.getApiId())
+            .then((response: any) => {
+                this.props.actions.apis.loadApi(response.data.data)
             })
-            .catch((error) => {
-                console.log(error.response);
-            })
+            .catch((error: any) => {
+                toast({
+                    type: 'error',
+                    icon: 'bullhorn',
+                    title: 'Service unavailable',
+                    description: `problem with get api`,
+                    animation: 'bounce',
+                    time: 5000,
+                });
+            });
     }
 
     render() {
@@ -46,6 +64,7 @@ class RoutesApi extends React.Component<IContainerProps, any> {
                 isModalOpen={this.props.apiRouteModal}
                 reloadApis={this.reloadApis}
                 closeForm={this.props.actions.ui.closeApiRoutesModal}
+                history={this.props.history}
             />
         );
     }
@@ -62,8 +81,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         actions: {
             apis: {
-                load: (apis: IApiInstance[]) => {
-                    dispatch(ApiActions.load(apis))
+                loadApi: (api: IApiInstance) => {
+                    dispatch(ApiActions.loadApi(api))
                 }
             },
             ui: {
@@ -78,4 +97,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(RoutesApi);
+)(withRouter(RoutesApi));
