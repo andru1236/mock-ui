@@ -72,14 +72,6 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                 })
                 .catch((error) => {
                     HandlerError.handler(error);
-                    toast({
-                        type: 'error',
-                        icon: 'bullhorn',
-                        title: 'Problem with register path',
-                        description: `This route is already exist`,
-                        animation: 'bounce',
-                        time: 5000,
-                    })
                 });
         }
     }

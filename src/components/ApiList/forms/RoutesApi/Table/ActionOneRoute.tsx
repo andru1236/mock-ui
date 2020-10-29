@@ -78,14 +78,6 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                 })
                 .catch((error) => {
                     HandlerError.handler(error);
-                    toast({
-                        type: 'error',
-                        icon: 'bullhorn',
-                        title: 'Problem with update this route',
-                        description: `Can't update route`,
-                        animation: 'bounce',
-                        time: 5000,
-                    });
                 })
         }
     }
@@ -102,14 +94,6 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
             })
             .catch((error) => {
                 HandlerError.handler(error);
-                toast({
-                    type: 'error',
-                    icon: 'bullhorn',
-                    title: 'Problem with remove route',
-                    description: `Problem with this route`,
-                    animation: 'bounce',
-                    time: 5000,
-                });
             })
     }
 

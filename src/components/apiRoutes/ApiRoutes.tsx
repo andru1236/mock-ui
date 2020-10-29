@@ -9,7 +9,7 @@ import RoutesApi from "../ApiList/forms/RoutesApi/RoutesApi";
 
 const ApplicationMockApi = () => (
     <div className="App">
-        <ApiHeader />
+        <ApiHeader section='Routes'/>
         <Divider />
         <Container textAlign='justified'>
             <RoutesApi />

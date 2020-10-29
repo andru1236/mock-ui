@@ -28,7 +28,8 @@ class UpdateParam extends React.Component<IViewProps, IViewState> {
         this.state = {
             open: true
         }
-        this.updateResponse = this.updateResponse.bind(this)
+        this.updateResponse = this.updateResponse.bind(this);
+        this.deleteParam = this.deleteParam.bind(this);
         this.close = this.close.bind(this);
     }
 
@@ -57,14 +58,6 @@ class UpdateParam extends React.Component<IViewProps, IViewState> {
                 })
                 .catch((error) => {
                     HandlerError.handler(error);
-                    toast({
-                        type: 'error',
-                        icon: 'bullhorn',
-                        title: 'Problem with update this param',
-                        description: `Can't update the param`,
-                        animation: 'bounce',
-                        time: 5000,
-                    });
                 });
         }
     }
@@ -73,18 +66,10 @@ class UpdateParam extends React.Component<IViewProps, IViewState> {
         apiService.deleteParams(this.props.apiId, this.props.route._id,
             this.props.selectedResource.method, this.props.param.param)
             .then(() => {
-
+                this.props.reloadApis();
             })
             .catch((error) => {
                 HandlerError.handler(error);
-                toast({
-                    type: 'error',
-                    icon: 'bullhorn',
-                    title: 'Problem with delete this param',
-                    description: `Can't delete this param`,
-                    animation: 'bounce',
-                    time: 5000,
-                });
             });
     }
 
