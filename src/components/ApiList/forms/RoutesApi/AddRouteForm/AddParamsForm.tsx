@@ -55,7 +55,6 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
                     this.props.reloadApis();
                 })
                 .catch((error) => {
-                    console.log(error)
                     HandlerError.handler(error);
                 });
         }
