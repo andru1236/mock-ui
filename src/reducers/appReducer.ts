@@ -1,7 +1,7 @@
-import {APIS, UI} from './actionTypes';
-import {IStoreState} from "./domain/IStoreState";
-import {IAction} from "./domain/IAction";
-import {IApiInstance} from "../domain/IApiInstance";
+import { APIS, UI } from './actionTypes';
+import { IStoreState } from "./domain/IStoreState";
+import { IAction } from "./domain/IAction";
+import { IApiInstance } from "../domain/IApiInstance";
 
 const initialSelectedApi: IApiInstance = {
     _id: "",
@@ -23,7 +23,6 @@ const AppInitState: IStoreState = {
         showApiRoutesModal: false,
         showUpdateApiModal: false,
         showRemoveApiModal: false
-
     }
 };
 
@@ -58,43 +57,43 @@ export default function app(state: IStoreState = AppInitState, action: IAction):
         case UI.OPEN_CREATE_API_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showCreateApiModal: action.payload}
+                ui: { ...state.ui, showCreateApiModal: action.payload }
             };
         case UI.CLOSE_CREATE_API_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showCreateApiModal: action.payload}
+                ui: { ...state.ui, showCreateApiModal: action.payload }
             };
         case UI.OPEN_UPDATE_API_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showUpdateApiModal: action.payload}
+                ui: { ...state.ui, showUpdateApiModal: action.payload }
             };
         case UI.CLOSE_UPDATE_API_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showUpdateApiModal: action.payload}
+                ui: { ...state.ui, showUpdateApiModal: action.payload }
             };
         case UI.OPEN_REMOVE_API_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showRemoveApiModal: action.payload}
+                ui: { ...state.ui, showRemoveApiModal: action.payload }
             };
 
         case UI.CLOSE_REMOVE_API_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showRemoveApiModal: action.payload}
+                ui: { ...state.ui, showRemoveApiModal: action.payload }
             };
         case UI.OPEN_API_ROUTES_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showApiRoutesModal: action.payload}
+                ui: { ...state.ui, showApiRoutesModal: action.payload }
             };
         case UI.CLOSE_API_ROUTES_MODAL:
             return {
                 ...state,
-                ui: {...state.ui, showApiRoutesModal: action.payload}
+                ui: { ...state.ui, showApiRoutesModal: action.payload }
             };
 
         default:

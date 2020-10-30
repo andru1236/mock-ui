@@ -3,19 +3,19 @@ import { Container, Divider } from "semantic-ui-react";
 // Toast
 import { SemanticToastContainer } from 'react-semantic-toasts';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
-import ApiHeader from "../apiHeader/ApiHeader";
-import RoutesApi from "../ApiList/forms/RoutesApi/RoutesApi";
+import MainHeader from "../common/MainHeader";
+import ApiTable from "./table/ApiTable";
 
 
-const ApplicationMockApi = () => (
+const MainView = () => (
     <div className="App">
-        <ApiHeader section='Routes'/>
+        <MainHeader />
         <Divider />
         <Container textAlign='justified'>
-            <RoutesApi />
+            <ApiTable />
         </Container>
         <SemanticToastContainer />
     </div>
 );
 
-export default ApplicationMockApi;
+export default MainView;

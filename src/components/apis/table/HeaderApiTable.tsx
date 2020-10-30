@@ -1,7 +1,7 @@
 import React from 'react';
 import {Table} from 'semantic-ui-react';
 
-const HeaderApiList = () => (
+const HeaderApiTable = () => (
     <Table.Header>
         <Table.Row>
             <Table.HeaderCell/>
@@ -13,4 +13,4 @@ const HeaderApiList = () => (
     </Table.Header>
 );
 
-export default HeaderApiList;
+export default HeaderApiTable;

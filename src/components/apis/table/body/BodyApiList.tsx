@@ -1,6 +1,6 @@
 import React from "react";
-import {Table, Checkbox, Button} from "semantic-ui-react";
-import {IApiInstance} from "../../../domain/IApiInstance";
+import { Table, Checkbox, Button } from "semantic-ui-react";
+import { IApiInstance } from "../../../../domain/IApiInstance";
 
 interface IViewProps {
     apis: IApiInstance[];
@@ -17,7 +17,7 @@ const BodyApiList = (props: IViewProps) => (
             <Table.Row key={api._id}>
                 <Table.Cell collapsing>
                     <Checkbox checked={api.settings.enabled} slider
-                              onClick={(event, data) => props.startOrStopApi(data, api._id, api.port)}
+                        onClick={(event, data) => props.startOrStopApi(data, api._id, api.port)}
                     />
                 </Table.Cell>
                 <Table.Cell>{api.name}</Table.Cell>

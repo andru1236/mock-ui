@@ -1,4 +1,4 @@
-import {toast} from 'react-semantic-toasts';
+import { toast } from 'react-semantic-toasts';
 
 export class HandlerError {
 
@@ -10,6 +10,15 @@ export class HandlerError {
                 icon: 'bullhorn',
                 title: `Error ${data.errorName}`,
                 description: ` ${data.message}`,
+                animation: 'bounce',
+                time: 5000,
+            })
+        } else {
+            toast({
+                type: 'error',
+                icon: 'bullhorn',
+                title: `Unkown Error!!!`,
+                description: ` Unexpected system error!!!! check the backend logs`,
                 animation: 'bounce',
                 time: 5000,
             })

@@ -1,12 +1,16 @@
 import React from "react";
-
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+// Redux
 import * as ApiActions from '../../../../reducers/apiActions';
 import * as UIActions from '../../../../reducers/uiActions';
-import {IApiInstance} from "../../../../domain/IApiInstance";
-import {IStoreState} from "../../../../reducers/domain/IStoreState";
+import { IStoreState } from "../../../../reducers/domain/IStoreState";
+// Domain
+import { IApiInstance } from "../../../../domain/IApiInstance";
+// Services
+import { apiService } from "../../../../services";
+// Views
 import RemoveApiForm from "./RemoveApiForm";
-import {apiService} from "../../../../services";
+
 
 
 interface IContainerProps {
@@ -22,20 +26,14 @@ interface IContainerProps {
     }
 }
 
-
-class RemoveApi extends React.Component<IContainerProps, any> {
-    constructor(props: IContainerProps) {
-        super(props);
-        this.removeApi = this.removeApi.bind(this);
-    }
-
-    removeApi(apiId: string) {
+const RemoveApiV2 = (props: IContainerProps) => {
+    const removeApi = (apiId: string) => {
         apiService.deleteApi(apiId)
             .then(() => {
-                this.props.actions.ui.closeRemoveApiModal();
+                props.actions.ui.closeRemoveApiModal();
                 apiService.getApis()
                     .then((response) => {
-                        this.props.actions.apis.load(response.data.data.apis)
+                        props.actions.apis.load(response.data.data.apis)
                     });
             })
             .catch((error) => {
@@ -43,17 +41,15 @@ class RemoveApi extends React.Component<IContainerProps, any> {
             })
     }
 
-    render() {
-        return (
-            <RemoveApiForm
-                selectedApi={this.props.selectedApi}
-                isOpenModal={this.props.removeApiModal}
-                removeApi={this.removeApi}
-                closeForm={this.props.actions.ui.closeRemoveApiModal}
-            />
-        );
-    }
-}
+    return (
+        <RemoveApiForm
+            selectedApi={props.selectedApi}
+            isOpenModal={props.removeApiModal}
+            removeApi={removeApi}
+            closeForm={props.actions.ui.closeRemoveApiModal}
+        />
+    );
+};
 
 const mapStateToProps = (state: IStoreState) => {
     return {
@@ -84,5 +80,5 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(RemoveApi);
+)(RemoveApiV2);
 

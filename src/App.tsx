@@ -4,8 +4,9 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import ApplicationMockApi from "./components/ApplicationMockApi";
-import ApiRoutes from "./components/apiRoutes/ApiRoutes";
+
+import MainView from "./components/apis/MainView";
+import ApiRoutes from "./components/routes/ApiRoutes";
 
 const App: React.FC = () => {
   return (
@@ -16,7 +17,7 @@ const App: React.FC = () => {
             <ApiRoutes />
           </Route>
           <Route path="/">
-            <ApplicationMockApi />
+            <MainView/>
           </Route>
         </Switch>
       </Router>

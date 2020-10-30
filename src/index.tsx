@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {createStore} from "redux";
+import { Provider } from 'react-redux';
+import { createStore } from "redux";
 
 import * as serviceWorker from './serviceWorker';
 
@@ -13,7 +13,7 @@ export let store = createStore(app);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>, document.getElementById('root')
 );
 
