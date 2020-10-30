@@ -14,6 +14,7 @@
 ```bash
 git clone $(link_repository)
 cd repository
+# Update .env with the backend
 docker-compose up
 ``` 
 

@@ -1,12 +1,13 @@
-import {IApiService} from "./domain/IApiService";
-import {IApiInstance} from "../domain/IApiInstance";
-import {IRoute} from "../domain/IRoute";
+import { IApiService } from "./domain/IApiService";
+import { IApiInstance } from "../domain/IApiInstance";
+import { IRoute } from "../domain/IRoute";
 import { IParam } from "../domain/IParam";
 
 const axios = require('axios');
+const { REACT_APP_BACKEND } = process.env
 
-export class ApiServiceRest implements IApiService{
-    public readonly BASE_URL = 'http://localhost:5000/api/v1';
+export class ApiServiceRest implements IApiService {
+    public readonly BASE_URL = `http://${REACT_APP_BACKEND}:5000/api/v1`;
     public readonly END_POINT = '/apis';
     private axiosInstance: any;
 
@@ -88,20 +89,20 @@ export class ApiServiceRest implements IApiService{
 
     putParams(apiId: string, routeId: string, method: string, param: IParam): any {
         return this.axiosInstance.put(`${this.END_POINT}/${apiId}/routes/${routeId}/params`,
-        {
-            method: method,
-            params: param.param,
-            response: param.response
-        });
+            {
+                method: method,
+                params: param.param,
+                response: param.response
+            });
     }
 
     deleteParams(apiId: string, routeId: string, method: string, params: string) {
         return this.axiosInstance.delete(`${this.END_POINT}/${apiId}/routes/${routeId}/params`,
-        {
-            data: {
-                params: params,
-                method: method
-            }
-        });
+            {
+                data: {
+                    params: params,
+                    method: method
+                }
+            });
     }
 }
