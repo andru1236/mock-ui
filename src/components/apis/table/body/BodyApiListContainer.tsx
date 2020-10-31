@@ -45,16 +45,6 @@ const BodyApiListContainerV2 = (props: IContainerProps) => {
         // React route render the route component and it will be fulfilled the states via redux
         props.history.push(`/apis/${apiId}/routes`)
     };
-    /* 
-        const openUpdateModal = (apiId: string) => {
-            selectApi(apiId);
-            actions.ui.openUpdateApiModal();
-        };
-    
-        const openRemoveModal = (apiId: string) => {
-            selectApi(apiId);
-            actions.ui.openRemoveApiModal();
-        }; */
 
     const startOrStopApi = async (data: any, apiId: string, port: number) => {
         if (data.checked) {
@@ -78,8 +68,7 @@ const BodyApiListContainerV2 = (props: IContainerProps) => {
     };
 
     useEffect(() => {
-        props.getApis();
-
+        props.reloadApis();
     }, []);
 
     return (
@@ -95,37 +84,4 @@ const BodyApiListContainerV2 = (props: IContainerProps) => {
     );
 }
 
-const mapStateToProps = (state: IStoreState) => {
-    return {
-        apis: state.apis,
-        selectedApi: state.selectedApi
-    }
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        actions: {
-            apis: {
-                load: (apis: IApiInstance[]) => {
-                    dispatch(ApiActions.load(apis))
-                },
-                selectApi: (api: IApiInstance) => {
-                    dispatch(ApiActions.selectApi(api))
-                }
-            },
-            ui: {
-                openUpdateApiModal: () => {
-                    dispatch(UIActions.openUpdateApiModal())
-                },
-                openRemoveApiModal: () => {
-                    dispatch(UIActions.openRemoveApiModal())
-                }
-            }
-        }
-    }
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withRouter(BodyApiListContainerV2));
+export default withApiActions(withRouter(BodyApiListContainerV2));

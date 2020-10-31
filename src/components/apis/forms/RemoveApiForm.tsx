@@ -5,7 +5,7 @@ import { IApiInstance } from "../../../domain/IApiInstance";
 interface IViewProps {
     selectedApi: IApiInstance
     isOpenModal: boolean;
-    removeApi(apiId: string): void;
+    removeApi(): void;
     closeForm(): void;
 }
 
@@ -21,7 +21,7 @@ const RemoveApiForm = (props: IViewProps) => (
             <Button basic color='red' inverted onClick={props.closeForm}>
                 <Icon name='remove' /> No
             </Button>
-            <Button color='green' inverted onClick={() => props.removeApi(props.selectedApi._id)}>
+            <Button color='green' inverted onClick={() => {props.removeApi(); props.closeForm();}}>
                 <Icon name='checkmark' /> Yes
             </Button>
         </Modal.Actions>

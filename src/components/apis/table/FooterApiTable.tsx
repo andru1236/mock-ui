@@ -19,7 +19,7 @@ const FooterApiTable = (props: incomingProps) => {
           >
             Create new api
           </Button>
-          <ApiForm isOpenModal={props.isOpen} closeForm={props.isOpenFalse} submitFunction={props.createApi} />
+          <ApiForm isOpenModal={props.isOpen} closeForm={props.isOpenFalse} submitFunction={props.createApi} action={'Create'}/>
         </Table.HeaderCell>
       </Table.Row>
     </Table.Footer>

@@ -41,9 +41,10 @@ const ApiForm = (props: IViewProps) => {
     };
 
     useEffect( () => {
-        setName(props.name || name);
-        setPort(props.port || port);
-    }, []);
+        console.log(props);
+        setName(props.name);
+        setPort(props.port);
+    }, [props]);
 
     return (
         <Modal
@@ -57,6 +58,7 @@ const ApiForm = (props: IViewProps) => {
                         <input
                             placeholder='Name'
                             onChange={handlerName}
+                            value={name}
                         />
                     </Form.Field>
                     <Form.Field>
@@ -65,6 +67,7 @@ const ApiForm = (props: IViewProps) => {
                             placeholder='Port'
                             type='number'
                             onChange={handlerPort}
+                            value={port}
                         />
                     </Form.Field>
                 </Form>

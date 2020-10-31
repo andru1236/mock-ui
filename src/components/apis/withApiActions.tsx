@@ -39,7 +39,6 @@ interface incomingProps {
 }
 
 interface injectingProps {
-    getApis?(): void;
     selectApi?(apiId: string): void;
     reloadApis?(): void;
     createApi?(name: string, port: number): void;
@@ -62,15 +61,6 @@ const apiActions = Component => (props: incomingProps) => {
             props.actions.load(result.data.data.apis);
         } catch (error) {
             HandlerError.handler(error);
-        }
-    }
-
-    const getApis = async () => {
-        try {
-            const response = await apiService.getApis();
-            props.actions.load(response.data.data.apis);
-        } catch (error) {
-            emmitToastMessage.error('Service unavailable', 'problem with get apis')
         }
     }
 
@@ -109,7 +99,6 @@ const apiActions = Component => (props: incomingProps) => {
     }
 
     const newProps: injectingProps = {
-        getApis,
         selectApi,
         reloadApis,
         createApi,
