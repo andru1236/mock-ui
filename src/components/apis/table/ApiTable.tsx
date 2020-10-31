@@ -7,7 +7,7 @@ import CreateApi from '../forms/CreateApi/CreateApi';
 import HeaderApiTable from './HeaderApiTable';
 import FooterApiTable from './FooterApiTable';
 import BodyApiListContainer from "./body/BodyApiListContainer";
-import RemoveApi from "../forms/RemoveApi/RemoveApi";
+
 import UpdateApi from "../forms/UpdateApi/UpdateApi";
 
 const ApiTable = (props: any) => (
@@ -15,11 +15,6 @@ const ApiTable = (props: any) => (
         <HeaderApiTable/>
         <BodyApiListContainer/>
         <FooterApiTable/>
-
-        {/*Forms*/}
-        <UpdateApi/>
-        <RemoveApi/>
-        <CreateApi/>
     </Table>
 );
 

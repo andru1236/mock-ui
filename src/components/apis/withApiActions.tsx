@@ -43,7 +43,7 @@ interface injectingProps {
     selectApi?(apiId: string): void;
     reloadApis?(): void;
     createApi?(name: string, port: number): void;
-    updateApi?(name: string, port: number): void;
+    updateApi?(name?: string, port?: number): void;
     deleteApi?(): void;
 }
 

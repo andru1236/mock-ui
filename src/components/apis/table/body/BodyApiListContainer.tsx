@@ -13,9 +13,11 @@ import { apiService } from "../../../../services";
 import emmitToastMessage from '../../../common/emmitToastMessage';
 // Views
 import BodyApiList from "./BodyApiList";
+// Decorators
+import withApiActions, { withApiActionsProps } from '../../withApiActions';
 
 
-interface IContainerProps {
+/* interface IContainerProps {
     apis: IApiInstance[];
     selectedApi: IApiInstance;
     history: any;
@@ -30,47 +32,36 @@ interface IContainerProps {
         }
 
     };
+} */
+
+interface IContainerProps extends withApiActionsProps {
+    history: any
 }
 
-const BodyApiListContainerV2 = ({ apis, history, actions }: IContainerProps) => {
-    // private methods
-    const selectApi = (apiId: string) => {
-        const selectedApi = apis.find((api) => api._id === apiId);
-        actions.apis.selectApi(selectedApi);
-    };
-
-    const reloadApis = async () => {
-        try {
-            const response = await apiService.getApis();
-            actions.apis.load(response.data.data.apis)
-        } catch (error) {
-            console.log(error.response);
-        }
-    };
-
+const BodyApiListContainerV2 = (props: IContainerProps) => {
     // methods to pass through props
-    const openApiRoutesModal = (apiId: string) => {
-        selectApi(apiId);
+    const goApiPathsPage = (apiId: string) => {
+        props.selectApi(apiId);
         // React route render the route component and it will be fulfilled the states via redux
-        history.push(`/apis/${apiId}/routes`)
+        props.history.push(`/apis/${apiId}/routes`)
     };
-
-    const openUpdateModal = (apiId: string) => {
-        selectApi(apiId);
-        actions.ui.openUpdateApiModal();
-    };
-
-    const openRemoveModal = (apiId: string) => {
-        selectApi(apiId);
-        actions.ui.openRemoveApiModal();
-    };
+    /* 
+        const openUpdateModal = (apiId: string) => {
+            selectApi(apiId);
+            actions.ui.openUpdateApiModal();
+        };
+    
+        const openRemoveModal = (apiId: string) => {
+            selectApi(apiId);
+            actions.ui.openRemoveApiModal();
+        }; */
 
     const startOrStopApi = async (data: any, apiId: string, port: number) => {
         if (data.checked) {
             try {
                 await apiService.startApi(apiId);
                 emmitToastMessage.success('Launch Api instance', `Exist new api that is executing on port ${port}`);
-                reloadApis();
+                props.reloadApis();
             } catch (error) {
                 emmitToastMessage.error('Error with launch api instance', `Error: ${data.errorName} ${data.message}`);
             }
@@ -78,7 +69,7 @@ const BodyApiListContainerV2 = ({ apis, history, actions }: IContainerProps) => 
             try {
                 await apiService.stopApi(apiId);
                 emmitToastMessage.warning('Stop api instance', `The api instance with port ${port} was stopped`);
-                reloadApis();
+                props.reloadApis();
 
             } catch (error) {
                 emmitToastMessage.error('Error with launch api instance', `Error: ${data.errorName} ${data.message}`);
@@ -87,24 +78,19 @@ const BodyApiListContainerV2 = ({ apis, history, actions }: IContainerProps) => 
     };
 
     useEffect(() => {
-        async function getApis() {
-            try {
-                const response = await apiService.getApis();
-                actions.apis.load(response.data.data.apis);
-            } catch (error) {
-                emmitToastMessage.error('Service unavailable', 'problem with get apis')
-            }
-        }
-        getApis()
+        props.getApis();
+
     }, []);
 
     return (
         <BodyApiList
-            apis={apis}
-            openApiRoutesModal={openApiRoutesModal}
-            openUpdateModal={openUpdateModal}
-            openRemoveModal={openRemoveModal}
+            apis={props.apis}
             startOrStopApi={startOrStopApi}
+            goPathPage={goApiPathsPage}
+            selectedApi={props.selectedApi}
+            selectApi={props.selectApi}
+            removeApi={props.deleteApi}
+            updateApi={props.updateApi}
         />
     );
 }
