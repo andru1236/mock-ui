@@ -1,5 +1,33 @@
-import {UI} from './actionTypes';
-import {IAction} from "./domain/IAction";
+import { UI } from './actionTypes';
+import { IAction } from "./domain/IAction";
+
+export const isOpenTrue = (): IAction => {
+  return {
+    type: UI.IS_OPEN_TRUE,
+    payload: true
+  }
+}
+
+export const isSecondOpenTrue = (): IAction => {
+  return {
+    type: UI.IS_SECOND_OPEN_TRUE,
+    payload: true
+  }
+}
+
+export const isOpenFalse = (): IAction => {
+  return {
+    type: UI.IS_OPEN_TRUE,
+    payload: false
+  }
+}
+
+export const isSecondOpenFalse = (): IAction => {
+  return {
+    type: UI.IS_SECOND_OPEN_TRUE,
+    payload: false
+  }
+}
 
 export function openCreateApiModal(): IAction {
   return {

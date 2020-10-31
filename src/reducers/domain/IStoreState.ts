@@ -8,5 +8,7 @@ export interface IStoreState {
     showApiRoutesModal: boolean
     showUpdateApiModal: boolean
     showRemoveApiModal: boolean
+    isOpen: boolean
+    isSecondOpen: boolean
   }
 }

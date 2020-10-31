@@ -1,29 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // Actions
 import * as ApiActions from '../../reducers/apiActions';
-import { connect } from "react-redux";
-
-import { IApiInstance } from '../../domain/IApiInstance';
 import { IStoreState } from '../../reducers/domain/IStoreState';
-import { apiService } from '../../services';
-import { HandlerError } from '../utils/HandlerError';
+import { connect } from "react-redux";
 import { compose } from 'redux';
+import emmitToastMessage from '../common/emmitToastMessage';
+import { HandlerError } from '../utils/HandlerError';
+import { IApiInstance } from '../../domain/IApiInstance';
+import { apiService } from '../../services';
 
-
-interface IActionsProps {
-    selectedApi: IApiInstance;
-    actions: {
-        load(apis: IApiInstance[]): void
-        selectApi(api: IApiInstance): void
-    }
-}
-
+// Redux operations
 const mapStateToProps = (state: IStoreState) => {
     return {
-        selectedApi: state.selectedApi
+        selectedApi: state.selectedApi,
+        apis: state.apis
     }
 };
-
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: {
@@ -37,13 +29,48 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const apiActions = ( Component ) => (props: IActionsProps) => {
+interface incomingProps {
+    apis: IApiInstance[],
+    selectedApi: IApiInstance;
+    actions:{
+        load(apis: IApiInstance[]): void;
+        selectApi(api: IApiInstance): void;
+    }
+}
+
+interface injectingProps {
+    getApis?(): void;
+    selectApi?(apiId: string): void;
+    reloadApis?(): void;
+    createApi?(name: string, port: number): void;
+    updateApi?(name: string, port: number): void;
+    deleteApi?(): void;
+}
+
+export interface withApiActionsProps extends incomingProps, injectingProps{};
+
+const apiActions = Component => (props: incomingProps) => {
+
+    const selectApi = async(apiId: string) => {
+        const selectedApi = props.apis.find((api) => api._id === apiId);
+        props.actions.selectApi(selectedApi);
+    };
+
     const reloadApis = async () => {
         try {
             const result = await apiService.getApis();
             props.actions.load(result.data.data.apis);
         } catch (error) {
             HandlerError.handler(error);
+        }
+    }
+
+    const getApis = async () => {
+        try {
+            const response = await apiService.getApis();
+            props.actions.load(response.data.data.apis);
+        } catch (error) {
+            emmitToastMessage.error('Service unavailable', 'problem with get apis')
         }
     }
 
@@ -81,7 +108,9 @@ const apiActions = ( Component ) => (props: IActionsProps) => {
         }
     }
 
-    const newProps = {
+    const newProps: injectingProps = {
+        getApis,
+        selectApi,
         reloadApis,
         createApi,
         updateApi,

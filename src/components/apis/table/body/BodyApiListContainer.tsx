@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { toast } from 'react-semantic-toasts';
 // Domain
 import { IApiInstance } from "../../../../domain/IApiInstance";
 import { IStoreState } from "../../../../reducers/domain/IStoreState";
@@ -10,9 +9,10 @@ import * as ApiActions from '../../../../reducers/apiActions';
 import * as UIActions from '../../../../reducers/uiActions';
 // Services
 import { apiService } from "../../../../services";
+// Common
+import emmitToastMessage from '../../../common/emmitToastMessage';
 // Views
 import BodyApiList from "./BodyApiList";
-
 
 
 interface IContainerProps {
@@ -31,41 +31,6 @@ interface IContainerProps {
 
     };
 }
-
-// to show alerts in UI
-const emmitToastMessage = {
-    error: (title: string, description: string) => {
-        toast({
-            type: 'error',
-            icon: 'bullhorn',
-            title: title,
-            description: description,
-            animation: 'bounce',
-            time: 5000,
-        });
-    },
-    warning: (title: string, description: string) => {
-        toast({
-            type: 'warning',
-            icon: 'bullhorn',
-            title: title,
-            description: description,
-            animation: 'bounce',
-            time: 5000,
-        });
-    },
-    success: (title: string, description: string) => {
-        toast({
-            type: 'success',
-            icon: 'bullhorn',
-            title: title,
-            description: description,
-            animation: 'bounce',
-            time: 5000,
-        });
-    }
-};
-
 
 const BodyApiListContainerV2 = ({ apis, history, actions }: IContainerProps) => {
     // private methods
@@ -131,7 +96,7 @@ const BodyApiListContainerV2 = ({ apis, history, actions }: IContainerProps) => 
             }
         }
         getApis()
-    });
+    }, []);
 
     return (
         <BodyApiList

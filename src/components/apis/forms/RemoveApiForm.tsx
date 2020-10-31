@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Header, Modal, Icon} from "semantic-ui-react";
-import {IApiInstance} from "../../../../domain/IApiInstance";
+import {IApiInstance} from "../../../domain/IApiInstance";
 
 interface IViewProps {
     selectedApi: IApiInstance

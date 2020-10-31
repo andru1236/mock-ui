@@ -22,7 +22,9 @@ const AppInitState: IStoreState = {
         showCreateApiModal: false,
         showApiRoutesModal: false,
         showUpdateApiModal: false,
-        showRemoveApiModal: false
+        showRemoveApiModal: false,
+        isOpen: false,
+        isSecondOpen: false
     }
 };
 
@@ -53,6 +55,26 @@ export default function app(state: IStoreState = AppInitState, action: IAction):
             return {
                 ...state,
                 selectedApi: action.payload
+            };
+        case UI.IS_OPEN_TRUE:
+            return {
+                ...state,
+                ui: { ...state.ui, isOpen: action.payload }
+            };
+        case UI.IS_SECOND_OPEN_TRUE:
+            return {
+                ...state,
+                ui: { ...state.ui, isSecondOpen: action.payload }
+            };
+        case UI.IS_OPEN_FALSE:
+            return {
+                ...state,
+                ui: { ...state.ui, isOpen: action.payload }
+            };
+        case UI.IS_SECOND_OPEN_FALSE:
+            return {
+                ...state,
+                ui: { ...state.ui, isSecondOpen: action.payload }
             };
         case UI.OPEN_CREATE_API_MODAL:
             return {

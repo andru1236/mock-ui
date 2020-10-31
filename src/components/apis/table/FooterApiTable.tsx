@@ -1,36 +1,29 @@
 import React from "react";
-import * as UIActions from '../../../reducers/uiActions';
-import { connect } from "react-redux";
 import { Table, Button } from "semantic-ui-react";
+import ApiForm from '../forms/ApiForm';
+import withApiActions, { withApiActionsProps } from '../withApiActions';
+import withIsOpen, { withIsOpenProps } from '../../common/withIsOpen';
 
-interface IViewProps {
-  createApiModal(): void;
-}
+interface incomingProps extends withApiActionsProps, withIsOpenProps { };
 
-const FooterApiTable = (props: IViewProps) => (
-  <Table.Footer fullWidth>
-    <Table.Row>
-      <Table.HeaderCell />
-      <Table.HeaderCell colSpan='4'>
-        <Button
-          floated='right'
-          primary size='small'
-          onClick={() => props.createApiModal()}
-        >
-          Create new api
-        </Button>
-      </Table.HeaderCell>
-    </Table.Row>
-  </Table.Footer>
-);
-
-
-const mapDispatchTotProps = (dispatch: any) => {
-  return {
-    createApiModal: () => {
-      dispatch(UIActions.openCreateApiModal())
-    }
-  }
+const FooterApiTable = (props: incomingProps) => {
+  return (
+    <Table.Footer fullWidth>
+      <Table.Row>
+        <Table.HeaderCell />
+        <Table.HeaderCell colSpan='4'>
+          <Button
+            floated='right'
+            primary size='small'
+            onClick={props.isOpenTrue}
+          >
+            Create new api
+          </Button>
+          <ApiForm isOpenModal={props.isOpen} closeForm={props.isOpenFalse} submitFunction={props.createApi} />
+        </Table.HeaderCell>
+      </Table.Row>
+    </Table.Footer>
+  )
 };
 
-export default connect(null, mapDispatchTotProps)(FooterApiTable);
+export default withApiActions(withIsOpen(FooterApiTable));
