@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import MainView from "./components/apis/MainView";
-import ApiRoutes from "./components/routes/ApiRoutes";
+import ApiRoutesView from "./components/routes/ApiRoutesView";
 
 const App: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path="/apis/:apiId/routes">
-            <ApiRoutes />
+            <ApiRoutesView />
           </Route>
           <Route path="/">
             <MainView/>

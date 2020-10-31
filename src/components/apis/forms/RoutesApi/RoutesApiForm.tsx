@@ -5,7 +5,6 @@ import AddRouteForm from "./AddRouteForm/AddRouteForm";
 import { IApiInstance } from "../../../../domain/IApiInstance";
 
 interface IViewProps {
-    isModalOpen: boolean;
     selectedApi: IApiInstance;
     history: any;
     reloadApis(): void;

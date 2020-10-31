@@ -25,7 +25,6 @@ interface IContainerProps {
             selectApi(api: IApiInstance): void;
         };
         ui: {
-            openApiRoutesModal(): void;
             openUpdateApiModal(): void;
             openRemoveApiModal(): void;
         }
@@ -87,6 +86,7 @@ const BodyApiListContainerV2 = ({ apis, history, actions }: IContainerProps) => 
     // methods to pass through props
     const openApiRoutesModal = (apiId: string) => {
         selectApi(apiId);
+        // React route render the route component and it will be fulfilled the states via redux
         history.push(`/apis/${apiId}/routes`)
     };
 
@@ -131,7 +131,7 @@ const BodyApiListContainerV2 = ({ apis, history, actions }: IContainerProps) => 
             }
         }
         getApis()
-    }, []);
+    });
 
     return (
         <BodyApiList
@@ -163,9 +163,6 @@ const mapDispatchToProps = (dispatch: any) => {
                 }
             },
             ui: {
-                openApiRoutesModal: () => {
-                    dispatch(UIActions.openApiRoutesModal())
-                },
                 openUpdateApiModal: () => {
                     dispatch(UIActions.openUpdateApiModal())
                 },

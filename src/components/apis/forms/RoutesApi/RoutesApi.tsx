@@ -11,7 +11,6 @@ import { apiService } from "../../../../services";
 
 interface IContainerProps {
     selectedApi: IApiInstance;
-    apiRouteModal: boolean;
     history: any;
     match: any;
     actions: {
@@ -61,7 +60,6 @@ class RoutesApi extends React.Component<IContainerProps, any> {
         return (
             <RoutesApiForm
                 selectedApi={this.props.selectedApi}
-                isModalOpen={this.props.apiRouteModal}
                 reloadApis={this.reloadApis}
                 closeForm={this.props.actions.ui.closeApiRoutesModal}
                 history={this.props.history}
@@ -73,7 +71,6 @@ class RoutesApi extends React.Component<IContainerProps, any> {
 const mapStateToProps = (state: IStoreState) => {
     return {
         selectedApi: state.selectedApi,
-        apiRouteModal: state.ui.showApiRoutesModal
     }
 };
 
