@@ -1,7 +1,6 @@
 import { APIS, UI } from './actionTypes';
-import { IStoreState } from "./domain/IStoreState";
-import { IAction } from "./domain/IAction";
-import { IApiInstance } from "../domain/IApiInstance";
+import {IApiInstance} from "../domain/api";
+import {IAction, IStoreState} from "../domain/reducer";
 
 const initialSelectedApi: IApiInstance = {
     _id: "",

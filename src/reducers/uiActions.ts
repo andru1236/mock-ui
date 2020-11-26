@@ -1,5 +1,5 @@
 import { UI } from './actionTypes';
-import { IAction } from "./domain/IAction";
+import {IAction} from "../domain/reducer";
 
 export const isOpenTrue = (): IAction => {
   return {

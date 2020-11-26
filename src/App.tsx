@@ -5,8 +5,8 @@ import {
   Route
 } from "react-router-dom";
 
-import MainView from "./components/apis/MainView";
-import ApiRoutesView from "./components/routes/ApiRoutesView";
+import MainView from "./packages/apis/MainView";
+import ApiRoutesView from "./packages/routes/ApiRoutesView";
 
 const App: React.FC = () => {
   return (

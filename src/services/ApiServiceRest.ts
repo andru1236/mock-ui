@@ -1,12 +1,10 @@
-import { IApiService } from "./domain/IApiService";
-import { IApiInstance } from "../domain/IApiInstance";
-import { IRoute } from "../domain/IRoute";
-import { IParam } from "../domain/IParam";
+import {IApiInstance, IParam, IRoute} from "../domain/api";
+import {RestAPI} from "../domain/gateways";
 
 const axios = require('axios');
 const { REACT_APP_BACKEND } = process.env
 
-export class ApiServiceRest implements IApiService {
+export class ApiServiceRest implements RestAPI {
     public readonly BASE_URL = `http://${REACT_APP_BACKEND}:5000/api/v1`;
     public readonly END_POINT = '/apis';
     private axiosInstance: any;

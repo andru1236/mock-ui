@@ -1,6 +1,6 @@
 import { APIS } from "./actionTypes";
-import { IAction } from "./domain/IAction";
-import { IApiInstance } from "../domain/IApiInstance";
+import {IApiInstance} from "../domain/api";
+import {IAction} from "../domain/reducer";
 
 export function load(apis: IApiInstance[]): IAction {
     return {
