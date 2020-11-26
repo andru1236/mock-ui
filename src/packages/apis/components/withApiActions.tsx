@@ -1,13 +1,13 @@
 import React from 'react';
 // Actions
-import * as ApiActions from '../../reducers/apiActions';
+import * as ApiActions from '../../../reducers/apiActions';
 import { connect } from "react-redux";
 import { compose } from 'redux';
-import emmitToastMessage from '../common/emmitToastMessage';
-import { HandlerError } from '../utils/HandlerError';
-import { apiService } from '../../services';
-import {IApiInstance} from "../../domain/api";
-import {IStoreState} from "../../domain/reducer";
+import emmitToastMessage from '../../common/emmitToastMessage';
+import { HandlerError } from '../../common/HandlerError';
+import { apiServiceRest } from '../../../services';
+import {IApiInstance} from "../../../domain/api";
+import {IStoreState} from "../../../domain/reducer";
 
 // Redux operations
 const mapStateToProps = (state: IStoreState) => {
@@ -57,7 +57,7 @@ const apiActions = Component => (props: incomingProps) => {
 
     const reloadApis = async () => {
         try {
-            const result = await apiService.getApis();
+            const result = await apiServiceRest.getApis();
             props.actions.load(result.data.data.apis);
         } catch (error) {
             HandlerError.handler(error);
@@ -67,7 +67,7 @@ const apiActions = Component => (props: incomingProps) => {
     const createApi = async (name: string, port: number) => {
         const newApiInstance: IApiInstance = {name: name, port: port};
         try {
-            await apiService.postApis(newApiInstance);
+            await apiServiceRest.postApis(newApiInstance);
             await reloadApis();
 
         } catch (error) {
@@ -82,7 +82,7 @@ const apiActions = Component => (props: incomingProps) => {
             port: port
         };
         try {
-            await apiService.putApi(apiWillBeUpdated);
+            await apiServiceRest.putApi(apiWillBeUpdated);
             await reloadApis();
         } catch (error) {
             HandlerError.handler(error);
@@ -91,7 +91,7 @@ const apiActions = Component => (props: incomingProps) => {
 
     const deleteApi = async() => {
         try{
-            await apiService.deleteApi(props.selectedApi._id);
+            await apiServiceRest.deleteApi(props.selectedApi._id);
             reloadApis();
         } catch (error) {
             HandlerError.handler(error);

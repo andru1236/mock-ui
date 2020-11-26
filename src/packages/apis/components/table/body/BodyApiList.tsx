@@ -3,7 +3,7 @@ import { Table, Checkbox, Button } from "semantic-ui-react";
 
 import RemoveApiForm from '../../forms/RemoveApiForm';
 import ApiForm from '../../forms/ApiForm';
-import {IApiInstance} from "../../../../domain/api";
+import {IApiInstance} from "../../../../../domain/api";
 
 interface IViewProps {
     apis: IApiInstance[];

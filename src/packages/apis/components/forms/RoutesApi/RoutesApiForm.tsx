@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Container, Grid, Header } from "semantic-ui-react";
 import RoutesTable from './Table/RoutesTable';
 import AddRouteForm from "./AddRouteForm/AddRouteForm";
-import {IApiInstance} from "../../../../domain/api";
+import {IApiInstance} from "../../../../../domain/api";
 
 interface IViewProps {
     selectedApi: IApiInstance;

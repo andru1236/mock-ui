@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
 import { toast } from 'react-semantic-toasts';
-import { apiService } from "../../../../../services";
-import { HandlerError } from "../../../../utils/HandlerError";
+import { apiServiceRest } from "../../../../../../services";
+import { HandlerError } from "../../../../../common/HandlerError";
 
 interface IViewProps {
     apiId: string;
@@ -46,7 +46,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
 
     addNewRoute() {
         if (this.validatedFields()) {
-            apiService.postParams(this.props.apiId, this.props.routeId, this.props.method, {
+            apiServiceRest.postParams(this.props.apiId, this.props.routeId, this.props.method, {
                 param: this.state.params,
                 response: this.state.response
             })

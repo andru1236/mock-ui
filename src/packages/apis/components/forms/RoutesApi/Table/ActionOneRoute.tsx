@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Form, Button, Label, Modal, Divider } from 'semantic-ui-react'
 import { toast } from 'react-semantic-toasts';
-import { apiService } from "../../../../../services";
-import { HandlerError } from "../../../../utils/HandlerError";
+import { apiServiceRest } from "../../../../../../services";
+import { HandlerError } from "../../../../../common/HandlerError";
 import AddParamsForm from "../AddRouteForm/AddParamsForm";
 import ParamsTable from "../Params/ParamsTable";
 import UpdateResponse from '../Params/UpdateResponse';
-import {IApiInstance, IPath, IResource} from "../../../../../domain/api";
+import {IApiInstance, IPath, IResource} from "../../../../../../domain/api";
 interface IViewProps {
     resource: IResource;
     route: IPath;
@@ -63,7 +63,7 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
                 time: 5000,
             });
         } else {
-            apiService.putRoute(this.props.selectedApi._id, {
+            apiServiceRest.putRoute(this.props.selectedApi._id, {
                 path: this.props.route.path,
                 method: this.props.resource.method,
                 response: response
@@ -81,7 +81,7 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
     }
 
     removeRoute() {
-        apiService.deleteRoute(
+        apiServiceRest.deleteRoute(
             this.props.selectedApi._id,
             { path: this.props.route.path, method: this.props.resource.method, response: {} }
         )

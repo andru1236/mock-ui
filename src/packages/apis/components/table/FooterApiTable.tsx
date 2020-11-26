@@ -2,7 +2,7 @@ import React from "react";
 import { Table, Button } from "semantic-ui-react";
 import ApiForm from '../forms/ApiForm';
 import withApiActions, { withApiActionsProps } from '../withApiActions';
-import withIsOpen, { withIsOpenProps } from '../../common/withIsOpen';
+import withIsOpen, { withIsOpenProps } from '../../../common/withIsOpen';
 
 interface incomingProps extends withApiActionsProps, withIsOpenProps { };
 

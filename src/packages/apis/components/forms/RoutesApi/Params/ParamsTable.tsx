@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
 import UpdateParam from './UpdateParam';
-import {IPath, IResource} from "../../../../../domain/api";
+import {IPath, IResource} from "../../../../../../domain/api";
 
 interface IViewProps {
     selectedResource: IResource;

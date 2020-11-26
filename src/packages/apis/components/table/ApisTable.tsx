@@ -6,7 +6,7 @@ import HeaderApiTable from './HeaderApiTable';
 import FooterApiTable from './FooterApiTable';
 import BodyApiListContainer from "./body/BodyApiListContainer";
 
-const ApiTable = (props: any) => (
+const ApisTable = (props: any) => (
     <Table compact celled definition>
         <HeaderApiTable/>
         <BodyApiListContainer/>
@@ -14,4 +14,4 @@ const ApiTable = (props: any) => (
     </Table>
 );
 
-export default ApiTable;
+export default ApisTable;

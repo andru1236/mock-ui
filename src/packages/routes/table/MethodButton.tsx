@@ -3,8 +3,8 @@ import { Label, Modal } from 'semantic-ui-react'
 import { toast } from 'react-semantic-toasts';
 // Domain
 // Services
-import { apiService } from '../../../services';
-import { HandlerError } from '../../utils/HandlerError';
+import { apiServiceRest } from '../../../services';
+import { HandlerError } from '../../common/HandlerError';
 // Components
 import UpdateResponseForm from '../forms/UpdateResponseForm'
 import QueryParamsFeature from '../QueryParamsFeature';

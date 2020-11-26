@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
 import { toast } from 'react-semantic-toasts';
-import { apiService } from "../../../services";
-import { HandlerError } from "../../utils/HandlerError";
+import { apiServiceRest } from "../../../services";
+import { HandlerError } from "../../common/HandlerError";
 
 interface IViewProps {
     apiId: string;
@@ -65,7 +65,7 @@ const AddParamsFormInLine = (props: IViewProps) => {
 
     const addNewParam = () => {
         if (validatedFields()) {
-            apiService.postParams(props.apiId, props.routeId, props.method, {
+            apiServiceRest.postParams(props.apiId, props.routeId, props.method, {
                 param: params,
                 response: response
             })

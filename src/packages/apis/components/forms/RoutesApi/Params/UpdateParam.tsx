@@ -1,10 +1,10 @@
 import React from 'react'
 import UpdateResponse from './UpdateResponse';
 import { toast } from 'react-semantic-toasts';
-import { apiService } from "../../../../../services";
-import { HandlerError } from '../../../../utils/HandlerError';
+import { apiServiceRest } from "../../../../../../services";
+import { HandlerError } from '../../../../../common/HandlerError';
 import { Button, Grid } from 'semantic-ui-react';
-import {IParam, IPath, IResource} from "../../../../../domain/api";
+import {IParam, IPath, IResource} from "../../../../../../domain/api";
 
 
 
@@ -46,7 +46,7 @@ class UpdateParam extends React.Component<IViewProps, IViewState> {
                 time: 5000,
             });
         } else {
-            apiService.putParams(this.props.apiId, this.props.route._id, this.props.selectedResource.method, {
+            apiServiceRest.putParams(this.props.apiId, this.props.route._id, this.props.selectedResource.method, {
                 param: this.props.param.param,
                 response: response
             })
@@ -61,7 +61,7 @@ class UpdateParam extends React.Component<IViewProps, IViewState> {
     }
 
     deleteParam() {
-        apiService.deleteParams(this.props.apiId, this.props.route._id,
+        apiServiceRest.deleteParams(this.props.apiId, this.props.route._id,
             this.props.selectedResource.method, this.props.param.param)
             .then(() => {
                 this.props.reloadApis();

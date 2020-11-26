@@ -1,2 +1,4 @@
-import {ApiServiceRest} from "./ApiServiceRest";
-export const apiService = new ApiServiceRest();
+import { ApiServiceRest } from "./ApiServiceRest";
+
+// emulate singleton
+export const apiServiceRest = new ApiServiceRest();

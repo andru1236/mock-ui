@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
 import { toast } from 'react-semantic-toasts';
-import { apiService } from "../../../../../services";
-import { HandlerError } from "../../../../utils/HandlerError";
-import {IApiInstance} from "../../../../../domain/api";
+import { apiServiceRest } from "../../../../../../services";
+import { HandlerError } from "../../../../../common/HandlerError";
+import {IApiInstance} from "../../../../../../domain/api";
 
 const options = [
     { key: 'GET', text: 'GET', value: 'GET' },
@@ -61,7 +61,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
 
     addNewRoute() {
         if (this.validatedFields()) {
-            apiService.postRoute(this.props.selectecApi._id, {
+            apiServiceRest.postRoute(this.props.selectecApi._id, {
                 path: this.state.path,
                 method: this.state.method,
                 response: this.state.response

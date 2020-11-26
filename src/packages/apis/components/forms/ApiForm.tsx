@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button } from "semantic-ui-react";
 
-import emmitToastMessage from '../../common/emmitToastMessage';
+import emmitToastMessage from '../../../common/emmitToastMessage';
 
 interface IViewProps {
     isOpenModal: boolean;

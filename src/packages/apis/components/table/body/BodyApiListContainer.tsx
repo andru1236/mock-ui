@@ -3,18 +3,18 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 // Domain
 // Redux actions
-import * as ApiActions from '../../../../reducers/apiActions';
-import * as UIActions from '../../../../reducers/uiActions';
+import * as ApiActions from '../../../../../reducers/apiActions';
+import * as UIActions from '../../../../../reducers/uiActions';
 // Services
-import { apiService } from "../../../../services";
+import { apiServiceRest } from "../../../../../services";
 // Common
-import emmitToastMessage from '../../../common/emmitToastMessage';
+import emmitToastMessage from '../../../../common/emmitToastMessage';
 // Views
 import BodyApiList from "./BodyApiList";
 // Decorators
 import withApiActions, { withApiActionsProps } from '../../withApiActions';
-import {IApiInstance} from "../../../../domain/api";
-import {IStoreState} from "../../../../domain/reducer";
+import {IApiInstance} from "../../../../../domain/api";
+import {IStoreState} from "../../../../../domain/reducer";
 
 
 /* interface IContainerProps {
@@ -49,7 +49,7 @@ const BodyApiListContainerV2 = (props: IContainerProps) => {
     const startOrStopApi = async (data: any, apiId: string, port: number) => {
         if (data.checked) {
             try {
-                await apiService.startApi(apiId);
+                await apiServiceRest.startApi(apiId);
                 emmitToastMessage.success('Launch Api instance', `Exist new api that is executing on port ${port}`);
                 props.reloadApis();
             } catch (error) {
@@ -57,7 +57,7 @@ const BodyApiListContainerV2 = (props: IContainerProps) => {
             }
         } else {
             try {
-                await apiService.stopApi(apiId);
+                await apiServiceRest.stopApi(apiId);
                 emmitToastMessage.warning('Stop api instance', `The api instance with port ${port} was stopped`);
                 props.reloadApis();
 

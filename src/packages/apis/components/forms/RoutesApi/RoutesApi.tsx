@@ -1,13 +1,13 @@
 import * as React from 'react';
-import * as UIActions from '../../../../reducers/uiActions';
-import * as ApiActions from '../../../../reducers/apiActions';
+import * as UIActions from '../../../../../reducers/uiActions';
+import * as ApiActions from '../../../../../reducers/apiActions';
 import { toast } from 'react-semantic-toasts';
 import { connect } from "react-redux";
 import RoutesApiForm from "./RoutesApiForm";
 import { withRouter } from "react-router-dom";
-import { apiService } from "../../../../services";
-import {IApiInstance} from "../../../../domain/api";
-import {IStoreState} from "../../../../domain/reducer";
+import { apiServiceRest } from "../../../../../services";
+import {IApiInstance} from "../../../../../domain/api";
+import {IStoreState} from "../../../../../domain/reducer";
 
 interface IContainerProps {
     selectedApi: IApiInstance;
@@ -40,7 +40,7 @@ class RoutesApi extends React.Component<IContainerProps, any> {
     }
 
     reloadApis() {
-        apiService.getApi(this.getApiId())
+        apiServiceRest.getApi(this.getApiId())
             .then((response: any) => {
                 this.props.actions.apis.loadApi(response.data.data)
             })
