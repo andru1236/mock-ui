@@ -6,7 +6,6 @@ import UpdateResponseForm from '../forms/UpdateResponseForm'
 import QueryParamsFeature from '../QueryParamsFeature';
 import { IParam, IPath, IResource, IRoute } from "../../../../domain/api";
 import { withPathConsumer, PathContextProps } from "../PathContext";
-import { addNewRoute } from "../../sources";
 
 
 interface IMethodButtonProps extends PathContextProps {
@@ -80,7 +79,7 @@ const MethodButton = ({ path, resource, reloadSelectedApi, selectedApi, updateRo
                   submitDeleteResponseOfARoute={ _removeResponseOfARoute(path, resource) }
                   submitAddParamToRoute={ _addNewParam }
                   submitUpdateResponseOfParam={ _updateParam }
-                  submitDeleteResponseOfParam={ _removeParam }
+                  submitDeleteParam={ _removeParam }
                   close={ () => setOpen(false) }
                 /> :
 

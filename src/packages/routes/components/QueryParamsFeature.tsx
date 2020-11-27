@@ -4,6 +4,7 @@ import { Form, Button, Modal, Divider, Label } from 'semantic-ui-react'
 import UpdateResponseForm from './forms/UpdateResponseForm';
 import AddParamsFormInLine from './forms/AddParamsFormInLine';
 import { IApiInstance, IPath, IResource } from "../../../domain/api";
+import ParamsTable from "./table/ParamsTable";
 
 interface IViewProps {
     selectedApi: IApiInstance
@@ -16,7 +17,7 @@ interface IViewProps {
     submitDeleteResponseOfARoute (): void;
     submitAddParamToRoute (param): any;
     submitUpdateResponseOfParam (response): any;
-    submitDeleteResponseOfParam (param): any;
+    submitDeleteParam (param): any;
 }
 
 const QueryParamsFeature = (props: IViewProps) => {
@@ -44,16 +45,16 @@ const QueryParamsFeature = (props: IViewProps) => {
 
               <h3>{ `Add Query Params` } </h3>
               <Divider/>
-              <AddParamsFormInLine
-                addNewParam={ (param) => {
-                    props.submitAddParamToRoute(param);
-                    props.close();
-                } }
-              />
+              <AddParamsFormInLine addNewParam={ props.submitAddParamToRoute }/>
               <Divider/>
 
+              <ParamsTable
+                route={ props.path }
+                selectedResource={ props.resource }
+                updateResponse={ props.submitUpdateResponseOfParam }
+                deleteParam={ props.submitDeleteParam }
+              />
 
-              {/* <ParamsTable reloadApis={this.props.reloadApis} apiId={this.props.selectedApi._id} selectedResource={this.props.resource} route={this.props.route} /> */ }
           </Modal.Content>
           <Modal.Actions>
               <Button content='Delete route' color={ 'red' } floated={ 'left' }
