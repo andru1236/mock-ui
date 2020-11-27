@@ -17,13 +17,13 @@ import { handlerError } from "../../common/HandlerError";
 export interface PathContextProps {
     selectedApi: IApiInstance | any;
     getOneApi (apiId: string): void;
-    addNewRoute (apiId: string, route: IRoute): void;
-    updateRoute (apiId: string, route: IRoute): void;
-    removeRoute (apiId: string, route: IRoute): void;
-    addParamToRoute (apiId: string, routeId: string, param: IParam): void;
-    updateParamFromRoute (apiId: string, routeId: string, param: IParam): void;
-    removeParamFromRoute (apiId: string, routeId: string, param: string): void;
-    reloadSelectedApi (): void
+    addNewRoute (apiId: string, route: IRoute): any;
+    updateRoute (apiId: string, route: IRoute): any;
+    removeRoute (apiId: string, route: IRoute): any;
+    addParamToRoute (apiId: string, routeId: string, param: IParam): any;
+    updateParamFromRoute (apiId: string, routeId: string, param: IParam): any;
+    removeParamFromRoute (apiId: string, routeId: string, param: string): any;
+    reloadSelectedApi (): any
 }
 
 const PathContext = createContext<PathContextProps>({

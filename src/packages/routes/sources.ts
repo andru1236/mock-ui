@@ -30,8 +30,10 @@ export const updateRoute = async (apiId: string, route: IRoute) => {
 
 export const removeRoute = async (apiId: string, route: IRoute) => {
     try {
-        return cleanerResponse(apiServiceRest.deleteRoute(apiId, route));
+        //TODO: Error with return -> res.data.data, research why
+        return apiServiceRest.deleteRoute(apiId, route);
     } catch (error) {
+        console.log(error);
         handlerError(error);
     }
 };

@@ -1,122 +1,85 @@
 import React, { useState } from 'react'
 import { Label, Modal } from 'semantic-ui-react'
-import { toast } from 'react-semantic-toasts';
-// Domain
-// Services
-import { apiServiceRest } from '../../../../services';
-import { HandlerError } from '../../../common/HandlerError';
+
 // Components
 import UpdateResponseForm from '../forms/UpdateResponseForm'
 import QueryParamsFeature from '../QueryParamsFeature';
-import {IApiInstance, IPath, IResource} from "../../../../domain/api";
+import { IPath, IResource, IRoute } from "../../../../domain/api";
+import { withPathConsumer, PathContextProps } from "../PathContext";
 
 
-interface IMethodbuttonProps {
+interface IMethodbuttonProps extends PathContextProps {
     path: IPath
     resource: IResource;
-    reloadApis(): void;
 }
 
-const MethodButton = (props: IMethodbuttonProps) => {
+const MethodButton = ({ path, resource, reloadSelectedApi, selectedApi, updateRoute, removeRoute }: IMethodbuttonProps) => {
 
     const [open, setOpen] = useState(false);
 
-/*     const updateMainResponse = (response: any) => {
-        if (response === {}) {
-            toast({
-                type: 'error',
-                icon: 'bullhorn',
-                title: 'Error response',
-                description: `Error on load json file `,
-                animation: 'bounce',
-                time: 5000,
-            });
-        } else {
-            apiService.putRoute(props.selectedApi._id, {
-                path: props.path.path,
-                method: props.resource.method,
-                response: response
-            })
-                .then(() => {
-                    setOpen(false);
-                    props.reloadApis();
-                })
-                .catch((error) => {
-                    HandlerError.handler(error);
-                })
+    const updateResponseOfARoute = (_path: IPath, _resource: IResource) => {
+        const currentRoute: IRoute = { path: _path.path, method: _resource.method }
+        return (response: any) => {
+            const currentRouteWithNewResponse: IRoute = { ...currentRoute, response }
+            updateRoute(selectedApi._id, currentRouteWithNewResponse)
+              .then(r => reloadSelectedApi());
         }
-    };
- */
-/*     const updateParamResponse = (response: any) => {
-        if (response === {}) {
-            toast({
-                type: 'error',
-                icon: 'bullhorn',
-                title: 'Error response',
-                description: `Error on load json file `,
-                animation: 'bounce',
-                time: 5000,
-            });
-        } else {
-            apiService.putParams(props.selectedApi._id, props.path._id, props.resource.method, {
-                param: this.props.param.param,
-                response: response
-            })
-                .then(() => {
-                    this.props.reloadApis();
-                    this.close();
-                })
-                .catch((error) => {
-                    HandlerError.handler(error);
-                });
+    }
+
+    const removeResponseOfARoute = (_path: IPath, _resource: IResource) => {
+        return () => {
+            removeRoute(selectedApi._id, { path: _path.path, method: _resource.method })
+              .then(r => reloadSelectedApi())
         }
-    } */
+    }
 
     const renderMethod = (resource: IResource) => {
         switch (resource.method) {
             case 'GET':
-                return (<Label as={'a'} color={'green'}>GET</Label>);
+                return (<Label as={ 'a' } color={ 'green' }>GET</Label>);
             case 'POST':
-                return (<Label as={'a'} color={'blue'}>POST</Label>);
+                return (<Label as={ 'a' } color={ 'blue' }>POST</Label>);
             case 'PUT':
-                return (<Label as={'a'} color={'violet'}>PUT</Label>);
+                return (<Label as={ 'a' } color={ 'violet' }>PUT</Label>);
             case 'DELETE':
-                return (<Label as={'a'} color={'red'}>DELETE</Label>);
+                return (<Label as={ 'a' } color={ 'red' }>DELETE</Label>);
             default:
                 return;
         }
     };
 
     return (
-        <Modal
-            open={open}
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
-            size='large'
-            trigger={
-                renderMethod(props.resource)
-            }
-        >
-            {
-                props.resource.method == 'GET' ?
-                    <QueryParamsFeature
-                        selectedApi={{name:'', port:0}}
-                        reloadApis={props.reloadApis}
-                        resource={props.resource}
-                        path={props.path}
-                        updateResponse={() => ''}
-                        close={() => setOpen(false)}
-                    /> :
-                    <UpdateResponseForm
-                        updateResponse={()=>{}}
-                        currentResource={props.resource}
-                        path={props.path.path}
-                        close={() => setOpen(false)}
-                        deleteResponse={() => {}}
-                    />
-            }
-        </Modal>
+      <Modal
+        open={ open }
+        onOpen={ () => setOpen(true) }
+        onClose={ () => setOpen(false) }
+        size='large'
+        trigger={
+            renderMethod(resource)
+        }
+      >
+          {
+              resource.method == 'GET' ?
+
+                <QueryParamsFeature
+                  selectedApi={ { name: '', port: 0 } }
+                  reloadApis={ reloadSelectedApi }
+                  resource={ resource }
+                  path={ path }
+                  updateResponse={ () => '' }
+                  close={ () => setOpen(false) }
+                /> :
+
+                <UpdateResponseForm
+                  updateResponse={ updateResponseOfARoute(path, resource) }
+                  currentResource={ resource }
+                  path={ path.path }
+                  close={ () => setOpen(false) }
+                  deleteResponse={ removeResponseOfARoute(path, resource) }
+                />
+          }
+      </Modal>
     )
 }
 
-export default MethodButton;
+export default withPathConsumer(MethodButton);

@@ -14,6 +14,7 @@ interface IViewProps {
 
 const UpdateResponseForm = (props: IViewProps) => {
     const [response, setResponse] = useState({});
+
     const handlerResponse = (file: any) => {
         const reader = new FileReader();
         reader.onload = (event: any) => {
@@ -49,7 +50,7 @@ const UpdateResponseForm = (props: IViewProps) => {
                 <ReactJson src={props.currentResource.response} />
             </Modal.Content>
             <Modal.Actions>
-                <Button content='Delete route' color={'red'} floated={'left'} onClick={deleteResponse}/> 
+                <Button content='Delete route' color={'red'} floated={'left'} onClick={deleteResponse}/>
                 <Button icon='check' content='Update Response' color={'green'} onClick={submitForm} />
                 <Button content='Close' onClick={props.close} />
             </Modal.Actions>

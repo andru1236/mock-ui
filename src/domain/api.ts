@@ -6,7 +6,7 @@ export interface ISettings {
 export interface IRoute {
     path: string;
     method: string;
-    response: any;
+    response?: any;
 }
 
 export interface IParam {

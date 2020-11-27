@@ -28,7 +28,7 @@ const PathsTable = ({ selectedApi, reloadSelectedApi }: PathContextProps) => (
                                 resource={ resource }
                                 key={ resource.method }
                                 path={ route }
-                                reloadApis={ reloadSelectedApi }
+                                reloadSelectedApi={ reloadSelectedApi }
                               />
                             );
                         }) }
