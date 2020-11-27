@@ -9,17 +9,22 @@ import 'react-semantic-toasts/styles/react-semantic-alert.css';
 import ApiRouteFeature from './ApiRouteFeature';
 // Common
 import MainHeader from "../../common/MainHeader";
+import GoToApiButton from "./GoToApiButton";
+import { PathProvider } from "./PathContext";
 
 const ApiRoutesView = () => (
-    <div className="App">
-        <MainHeader section="Routes"/>
-        <Divider/>
-        <Container textAlign='justified'>
-            {/* <RoutesApi /> */ }
-            <ApiRouteFeature/>
-        </Container>
-        <SemanticToastContainer/>
-    </div>
+    <PathProvider>
+        <div className="App">
+            <MainHeader section="Routes"/>
+            <Divider/>
+            <Container textAlign='justified'>
+                {/* <RoutesApi /> */ }
+                <GoToApiButton/>
+                <ApiRouteFeature/>
+            </Container>
+            <SemanticToastContainer/>
+        </div>
+    </PathProvider>
 );
 
 export default ApiRoutesView;

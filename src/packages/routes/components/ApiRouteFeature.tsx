@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { withRouter } from "react-router-dom";
 import { toast } from 'react-semantic-toasts';
-import { Button, Container, Grid, Header } from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 // Redux
 import { connect } from "react-redux";
 import * as ApiActions from '../../../reducers/apiActions';
@@ -89,21 +89,21 @@ interface IViewProps {
 
 const View = (props: IViewProps) => {
     return (
-        <Container>
-            <Grid>
-                <Grid.Row>1
-                    <Button labelPosition='left' icon='left chevron' size='mini'
-                            content={ `API: ${ props.selectedApi.name }   |  PORT:  ${ props.selectedApi.port }` }
-                            onClick={ () => props.history.push('/') }
-                    />
-                </Grid.Row>
-            </Grid>
+        <Fragment>
+            {/*<Grid>*/}
+            {/*    <Grid.Row>*/}
+            {/*        <Button labelPosition='left' icon='left chevron' size='mini'*/}
+            {/*                content={ `API: ${ props.selectedApi.name }   |  PORT:  ${ props.selectedApi.port }` }*/}
+            {/*                onClick={ () => props.history.push('/') }*/}
+            {/*        />*/}
+            {/*    </Grid.Row>*/}
+            {/*</Grid>*/}
             <Header as={ "h3" }> Add route </Header>
 
             <AddPathFormInLine selectecApi={ props.selectedApi } reloadApis={ props.reloadApis }/>
             <PathsTable selectedApi={ props.selectedApi } reloadApis={ props.reloadApis }/>
 
-        </Container>
+        </Fragment>
     );
 }
 

@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import { IApiInstance, IParam, IRoute } from "../../../domain/api";
 import {
     getOneApi,
@@ -9,8 +10,9 @@ import {
     updateParamFromRoute,
     removeParamFromRoute
 } from '../sources';
-import { ApiConsumer } from "../../apis/components/ApiContext";
+
 import { handlerError } from "../../common/HandlerError";
+
 
 export interface PathContextProps {
     selectedApi: IApiInstance | any;
@@ -45,7 +47,7 @@ const PathContext = createContext<PathContextProps>({
     reloadSelectedApi: () => {}
 });
 
-export const PathProvider = ({ match, children }: any) => {
+const _PathProvider = ({ match, children }: any) => {
 
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
@@ -85,12 +87,14 @@ export const PathProvider = ({ match, children }: any) => {
     )
 };
 
+export const PathProvider = withRouter(_PathProvider);
+
 export const PathConsumer = PathContext.Consumer;
 
 export const withPathConsumer = WrappedComponent => props => {
     return (
-        <ApiConsumer>
+        <PathConsumer>
             { context => <WrappedComponent { ...props } { ...context }/> }
-        </ApiConsumer>
+        </PathConsumer>
     )
 };
