@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import { Form, Button, Modal, Divider, Label } from 'semantic-ui-react'
 // Components
 import UpdateResponseForm from './forms/UpdateResponseForm';
@@ -14,9 +14,9 @@ interface IViewProps {
     reloadSelectedApi (): void;
     submitUpdateResponseOfARoute (response: any): any;
     submitDeleteResponseOfARoute (): void;
-    submitAddParamToRoute(param): any;
-    submitUpdateResponseOfParam(response): any;
-    submitDeleteResponseOfParam(param): any;
+    submitAddParamToRoute (param): any;
+    submitUpdateResponseOfParam (response): any;
+    submitDeleteResponseOfParam (param): any;
 }
 
 const QueryParamsFeature = (props: IViewProps) => {
@@ -25,6 +25,7 @@ const QueryParamsFeature = (props: IViewProps) => {
       <Modal open={ props.isOpen }>
           <Modal.Header>{ `Resource ${ props.path.path }` } </Modal.Header>
           <Modal.Content>
+
               <Form>
                   <Form.Group>
                       <div>{ `Method ${ props.resource.method }` }</div>
@@ -39,22 +40,28 @@ const QueryParamsFeature = (props: IViewProps) => {
                       />
                   </Form.Group>
               </Form>
+
+
               <h3>{ `Add Query Params` } </h3>
               <Divider/>
-              {/*<AddParamsFormInLine*/}
-              {/*  apiId={ props.selectedApi._id }*/}
-              {/*  routeId={ props.path._id }*/}
-              {/*  method={ props.resource.method }*/}
-              {/*  reloadSelectedApi={ props.reloadSelectedApi }*/}
-              {/*/>*/}
+              <AddParamsFormInLine
+                addNewParam={ (param) => {
+                    props.submitAddParamToRoute(param);
+                    props.close();
+                } }
+              />
               <Divider/>
+
+
               {/* <ParamsTable reloadApis={this.props.reloadApis} apiId={this.props.selectedApi._id} selectedResource={this.props.resource} route={this.props.route} /> */ }
           </Modal.Content>
           <Modal.Actions>
-              <Button content='Delete route' color={ 'red' } floated={ 'left' }/>
+              <Button content='Delete route' color={ 'red' } floated={ 'left' }
+                      onClick={ props.submitDeleteResponseOfARoute }/>
               <Button content='Close' onClick={ props.close }/>
           </Modal.Actions>
       </Modal>
+
     )
       ;
 };
