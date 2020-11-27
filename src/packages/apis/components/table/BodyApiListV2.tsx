@@ -53,6 +53,7 @@ const BodyApiList = (props: IViewProps) => {
                     <Table.Cell>{ api.name }</Table.Cell>
                     <Table.Cell>{ api.port }</Table.Cell>
                     <Table.Cell>{ api.routes.length } </Table.Cell>
+
                     <Table.Cell>
                         <Button basic size={ 'tiny' } color={ 'green' } onClick={ () => {
                             props.selectApi(api._id);
@@ -76,15 +77,18 @@ const BodyApiList = (props: IViewProps) => {
                     </Table.Cell>
                 </Table.Row>
             )) }
+
             <RemoveApiForm
                 isOpenModal={ isOpenDeleteApi }
                 closeForm={ () => setIsOpenDeleteApi(false) }
             />
+
             <ApiForm
                 isOpenModal={ isOpenUpdateApi }
                 closeForm={ () => setIsOpenUpdateApi(false) }
                 action={ 'Update' }
             />
+
         </Table.Body>
     )
 };

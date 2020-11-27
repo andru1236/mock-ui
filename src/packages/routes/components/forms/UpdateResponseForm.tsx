@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { Form, Button, Label, Modal } from 'semantic-ui-react'
 import ReactJson from 'react-json-view';
-import {IResource} from "../../../domain/api";
+import {IResource} from "../../../../domain/api";
 
 
 interface IViewProps {

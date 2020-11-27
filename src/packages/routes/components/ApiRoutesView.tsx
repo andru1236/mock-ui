@@ -8,17 +8,17 @@ import 'react-semantic-toasts/styles/react-semantic-alert.css';
 
 import ApiRouteFeature from './ApiRouteFeature';
 // Common
-import MainHeader from "../common/MainHeader";
+import MainHeader from "../../common/MainHeader";
 
 const ApiRoutesView = () => (
     <div className="App">
-        <MainHeader section="Routes" />
-        <Divider />
+        <MainHeader section="Routes"/>
+        <Divider/>
         <Container textAlign='justified'>
-            {/* <RoutesApi /> */}
+            {/* <RoutesApi /> */ }
             <ApiRouteFeature/>
         </Container>
-        <SemanticToastContainer />
+        <SemanticToastContainer/>
     </div>
 );
 

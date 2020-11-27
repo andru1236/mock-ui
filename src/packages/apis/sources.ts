@@ -13,7 +13,6 @@ export const getApis = async () => {
     }
 };
 
-export const getOneApi = async (apiId: string) => await apiServiceRest.getApi(apiId);
 
 export const createApi = async (newApi: IApiInstance) => {
     try {

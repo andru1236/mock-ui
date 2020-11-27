@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
 import { toast } from 'react-semantic-toasts';
-import { apiServiceRest } from "../../../services";
-import { HandlerError } from "../../common/HandlerError";
+import { apiServiceRest } from "../../../../services";
+import { HandlerError } from "../../../common/HandlerError";
 
 interface IViewProps {
     apiId: string;

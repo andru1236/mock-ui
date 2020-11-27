@@ -3,7 +3,7 @@ import { Form, Button, Modal, Divider, Label } from 'semantic-ui-react'
 // Components
 import UpdateResponseForm from './forms/UpdateResponseForm';
 import AddParamsFormInLine from './forms/AddParamsFormInLine';
-import {IApiInstance, IPath, IResource} from "../../domain/api";
+import {IApiInstance, IPath, IResource} from "../../../domain/api";
 
 interface IViewProps {
     selectedApi: IApiInstance

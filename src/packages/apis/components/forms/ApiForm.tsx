@@ -42,7 +42,10 @@ const ApiForm = (props: IViewProps) => {
                     await props.createApi({ name: name, port: port });
                     break;
                 case 'UPDATE':
-                    await props.updateApi({ _id: props.selectedApi._id, name: name, port: port })
+                    const apiToUpdate = { ...props.selectedApi };
+                    apiToUpdate.name = name;
+                    apiToUpdate.port = port;
+                    await props.updateApi(apiToUpdate);
                     break;
                 default:
                     emmitToastMessage.error('UI error', 'Something wrong happened, call to Developers to fix it')

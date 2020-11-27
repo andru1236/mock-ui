@@ -2,7 +2,7 @@ import React from 'react'
 import { Table } from 'semantic-ui-react'
 
 import MethodButton from "./MethodButton";
-import {IApiInstance} from "../../../domain/api";
+import {IApiInstance} from "../../../../domain/api";
 
 interface IPathActionsProps {
     selectedApi: IApiInstance;
