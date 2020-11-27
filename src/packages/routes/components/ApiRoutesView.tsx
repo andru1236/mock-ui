@@ -6,7 +6,7 @@ import 'react-semantic-toasts/styles/react-semantic-alert.css';
 // Apis
 // import RoutesApi from "../apis/forms/RoutesApi/RoutesApi";
 
-import ApiRouteFeature from './ApiRouteFeature';
+import ApiRouteFeatureV2 from './ApiRouteFeatureV2';
 // Common
 import MainHeader from "../../common/MainHeader";
 import GoToApiButton from "./GoToApiButton";
@@ -20,7 +20,7 @@ const ApiRoutesView = () => (
             <Container textAlign='justified'>
                 {/* <RoutesApi /> */ }
                 <GoToApiButton/>
-                <ApiRouteFeature/>
+                <ApiRouteFeatureV2/>
             </Container>
             <SemanticToastContainer/>
         </div>

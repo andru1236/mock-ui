@@ -90,19 +90,10 @@ interface IViewProps {
 const View = (props: IViewProps) => {
     return (
         <Fragment>
-            {/*<Grid>*/}
-            {/*    <Grid.Row>*/}
-            {/*        <Button labelPosition='left' icon='left chevron' size='mini'*/}
-            {/*                content={ `API: ${ props.selectedApi.name }   |  PORT:  ${ props.selectedApi.port }` }*/}
-            {/*                onClick={ () => props.history.push('/') }*/}
-            {/*        />*/}
-            {/*    </Grid.Row>*/}
-            {/*</Grid>*/}
             <Header as={ "h3" }> Add route </Header>
 
             <AddPathFormInLine selectecApi={ props.selectedApi } reloadApis={ props.reloadApis }/>
             <PathsTable selectedApi={ props.selectedApi } reloadApis={ props.reloadApis }/>
-
         </Fragment>
     );
 }

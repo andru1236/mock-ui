@@ -98,3 +98,4 @@ export const withPathConsumer = WrappedComponent => props => {
         </PathConsumer>
     )
 };
+

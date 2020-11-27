@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
-import { apiServiceRest } from "../../../../services";
-import { handlerError } from "../../../common/HandlerError";
-import { IApiInstance } from "../../../../domain/api";
 import emmitToastMessage from "../../../common/emmitToastMessage";
+import { withPathConsumer, PathContextProps } from "../PathContext";
+import { IRoute } from "../../../../domain/api";
 
 const options = [
     { key: 'GET', text: 'GET', value: 'GET' },
@@ -12,13 +11,8 @@ const options = [
     { key: 'DELETE', text: 'DELETE', value: 'DELETE' },
 ];
 
+const AddRouteFormInLine = ({ selectedApi, reloadSelectedApi, addNewRoute }: PathContextProps) => {
 
-interface IContainerProps {
-    selectecApi: IApiInstance;
-    reloadApis (): void;
-}
-
-const AddRouteFormInLine = (props: IContainerProps) => {
     const [path, setPath] = useState('');
     const [method, setMethod] = useState('');
     const [response, setResponse] = useState({});
@@ -41,7 +35,7 @@ const AddRouteFormInLine = (props: IContainerProps) => {
         setResponse({});
     }
 
-    const validatedFields = () => {
+    const validFields = () => {
         let isValidPath: boolean = true;
         let isValidResponse: boolean = true;
 
@@ -56,20 +50,12 @@ const AddRouteFormInLine = (props: IContainerProps) => {
         return isValidPath && isValidResponse;
     }
 
-    const addNewRoute = () => {
-        if ( validatedFields() ) {
-            apiServiceRest.postRoute(props.selectecApi._id, {
-                path: path,
-                method: method,
-                response: response
-            })
-            .then(() => {
-                clearForm()
-                props.reloadApis();
-            })
-            .catch((error) => {
-                handlerError(error);
-            });
+    const SubmitAddNewRoute = async () => {
+        if ( validFields() ) {
+            const newRoute: IRoute = { path, method, response };
+            await addNewRoute(selectedApi._id, newRoute);
+            clearForm();
+            reloadSelectedApi();
         }
     }
     return (
@@ -79,7 +65,7 @@ const AddRouteFormInLine = (props: IContainerProps) => {
             handlerMethod={ handlerMethod }
             handlerPath={ handlerPath }
             handlerResponse={ handlerResponse }
-            addNewRoute={ addNewRoute }
+            submitForm={ SubmitAddNewRoute }
         />
     );
 
@@ -92,7 +78,7 @@ interface IViewProps {
     handlerMethod (method: any): void;
     handlerPath (path: string): void;
     handlerResponse (response: any): void;
-    addNewRoute (): void;
+    submitForm (): void;
 }
 
 const View = (props: IViewProps) => {
@@ -116,7 +102,7 @@ const View = (props: IViewProps) => {
             <Grid>
                 <Grid.Column textAlign="right">
                     <Button icon primary circular labelPosition={ 'left' }
-                            onClick={ props.addNewRoute }
+                            onClick={ props.submitForm }
                     >
                         <Icon name={ "add" }/>
                         Add new route
@@ -128,4 +114,4 @@ const View = (props: IViewProps) => {
     );
 }
 
-export default AddRouteFormInLine;
+export default withPathConsumer(AddRouteFormInLine);
