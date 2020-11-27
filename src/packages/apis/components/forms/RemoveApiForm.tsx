@@ -1,30 +1,34 @@
 import React from 'react';
 import { Button, Header, Modal, Icon } from "semantic-ui-react";
-import {IApiInstance} from "../../../../domain/api";
+import { IApiInstance } from "../../../../domain/api";
+import { withApiConsumer } from "../ApiContext";
 
 interface IViewProps {
     selectedApi: IApiInstance
     isOpenModal: boolean;
-    removeApi(): void;
-    closeForm(): void;
+    removeApi (apiId: string): void;
+    reloadApis (): void;
+    closeForm (): void;
 }
 
 const RemoveApiForm = (props: IViewProps) => (
-    <Modal open={props.isOpenModal} basic size='small'>
-        <Header icon='archive' content={`Are you sure to remove this api ${props.selectedApi.name}`} />
+    <Modal open={ props.isOpenModal } basic size='small'>
+        <Header icon='archive' content={ `Are you sure to remove this api ${ props.selectedApi.name }` }/>
         <Modal.Content>
-            <p>
-                This API has {props.selectedApi.routes.length} paths and run in {props.selectedApi.port}
-            </p>
+            <p>This API has { props.selectedApi.routes.length } paths and run in { props.selectedApi.port }</p>
         </Modal.Content>
         <Modal.Actions>
-            <Button basic color='red' inverted onClick={props.closeForm}>
-                <Icon name='remove' /> No
+            <Button basic color='red' inverted onClick={ props.closeForm }>
+                <Icon name='remove'/> No
             </Button>
-            <Button color='green' inverted onClick={() => {props.removeApi(); props.closeForm();}}>
-                <Icon name='checkmark' /> Yes
+            <Button color='red' inverted onClick={ async () => {
+                await props.removeApi(props.selectedApi._id);
+                await props.reloadApis();
+                props.closeForm();
+            } }>
+                <Icon name='checkmark'/> Yes
             </Button>
         </Modal.Actions>
     </Modal>
 );
-export default RemoveApiForm;
+export default withApiConsumer(RemoveApiForm);

@@ -1,29 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Button } from "semantic-ui-react";
 import ApiForm from '../forms/ApiForm';
-import withApiActions, { withApiActionsProps } from '../withApiActions';
-import withIsOpen, { withIsOpenProps } from '../../../common/withIsOpen';
 
-interface incomingProps extends withApiActionsProps, withIsOpenProps { };
 
-const FooterApiTable = (props: incomingProps) => {
-  return (
-    <Table.Footer fullWidth>
-      <Table.Row>
-        <Table.HeaderCell />
-        <Table.HeaderCell colSpan='4'>
-          <Button
-            floated='right'
-            primary size='small'
-            onClick={props.isOpenTrue}
-          >
-            Create new api
-          </Button>
-          <ApiForm isOpenModal={props.isOpen} closeForm={props.isOpenFalse} submitFunction={props.createApi} action={'Create'}/>
-        </Table.HeaderCell>
-      </Table.Row>
-    </Table.Footer>
-  )
+const FooterApiTable = (props: any) => {
+    const [isOpen, setDisplay] = useState(false);
+
+    return (
+        <Table.Footer fullWidth>
+            <Table.Row>
+                <Table.HeaderCell/>
+                <Table.HeaderCell colSpan='4'>
+                    <Button
+                        floated='right'
+                        primary size='small'
+                        onClick={ () => setDisplay(true) }
+                    >
+                        Create new api
+                    </Button>
+                    <ApiForm isOpenModal={ isOpen }
+                             closeForm={ () => setDisplay(false) }
+                             action={ 'Create' }
+                    />
+                </Table.HeaderCell>
+            </Table.Row>
+        </Table.Footer>
+    )
 };
 
-export default withApiActions(withIsOpen(FooterApiTable));
+export default FooterApiTable;

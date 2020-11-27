@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Modal, Form, Button } from "semantic-ui-react";
 
 import emmitToastMessage from '../../../common/emmitToastMessage';
+import { IApiInstance } from "../../../../domain/api";
+import { withApiConsumer } from "../ApiContext";
 
 interface IViewProps {
     isOpenModal: boolean;
-    closeForm(): void
-    submitFunction(name: string, port: number): void;
     action?: string;
-    name?: string;
-    port?: number;
+    selectedApi: IApiInstance;
+    closeForm (): void;
+    reloadApis (): void;
+    createApi (api): void;
+    updateApi (api): void;
 }
 
 const ApiForm = (props: IViewProps) => {
@@ -24,31 +27,40 @@ const ApiForm = (props: IViewProps) => {
         setPort(0);
     };
 
-    const guardClause = () => {
-        if (name === '' && port === 0) {
+    const ensureValidFields = () => {
+        if ( name === '' && port === 0 ) {
             emmitToastMessage.error('Error on Fields', 'name should be a strings and port should be a number');
             return false;
         }
         return true;
     };
 
-    const submitForm = () => {
-        if (guardClause()) {
-            props.submitFunction(name, port);
+    const submitForm = async () => {
+        if ( ensureValidFields() ) {
+            switch (props.action.toUpperCase()) {
+                case 'CREATE':
+                    await props.createApi({ name: name, port: port });
+                    break;
+                case 'UPDATE':
+                    await props.updateApi({ _id: props.selectedApi._id, name: name, port: port })
+                    break;
+                default:
+                    emmitToastMessage.error('UI error', 'Something wrong happened, call to Developers to fix it')
+            }
             cleanFields();
             props.closeForm();
+            props.reloadApis();
         }
     };
 
-    useEffect( () => {
-        console.log(props);
-        setName(props.name);
-        setPort(props.port);
+    useEffect(() => {
+        setName(props.selectedApi.name);
+        setPort(props.selectedApi.port);
     }, [props]);
 
     return (
         <Modal
-         open={props.isOpenModal}
+            open={ props.isOpenModal }
         >
             <Modal.Header>Create new api</Modal.Header>
             <Modal.Content>
@@ -57,8 +69,8 @@ const ApiForm = (props: IViewProps) => {
                         <label>Name</label>
                         <input
                             placeholder='Name'
-                            onChange={handlerName}
-                            value={name}
+                            onChange={ handlerName }
+                            value={ name }
                         />
                     </Form.Field>
                     <Form.Field>
@@ -66,25 +78,25 @@ const ApiForm = (props: IViewProps) => {
                         <input
                             placeholder='Port'
                             type='number'
-                            onChange={handlerPort}
-                            value={port}
+                            onChange={ handlerPort }
+                            value={ port }
                         />
                     </Form.Field>
                 </Form>
             </Modal.Content>
             <Modal.Actions>
-                <Button onClick={props.closeForm} negative>
+                <Button onClick={ props.closeForm } negative>
                     Close
                 </Button>
                 <Button
-                    onClick={submitForm}
+                    onClick={ submitForm }
                     positive
                     labelPosition='right'
                     icon='checkmark'
-                    content={props.action || 'Create/Update'}
+                    content={ props.action || 'Create/Update' }
                 />
             </Modal.Actions>
         </Modal>);
 };
 
-export default ApiForm;
+export default withApiConsumer(ApiForm);

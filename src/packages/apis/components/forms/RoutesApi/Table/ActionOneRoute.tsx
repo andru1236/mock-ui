@@ -6,13 +6,14 @@ import { HandlerError } from "../../../../../common/HandlerError";
 import AddParamsForm from "../AddRouteForm/AddParamsForm";
 import ParamsTable from "../Params/ParamsTable";
 import UpdateResponse from '../Params/UpdateResponse';
-import {IApiInstance, IPath, IResource} from "../../../../../../domain/api";
+import { IApiInstance, IPath, IResource } from "../../../../../../domain/api";
+
 interface IViewProps {
     resource: IResource;
     route: IPath;
     selectedApi: IApiInstance;
-    reloadApis(): void;
-    closeForm(): void;
+    reloadApis (): void;
+    closeForm (): void;
 }
 
 interface IViewState {
@@ -22,7 +23,7 @@ interface IViewState {
 
 class ActionOneRoute extends Component<IViewProps, IViewState> {
 
-    constructor(props: IViewProps) {
+    constructor (props: IViewProps) {
         super(props);
         this.state = {
             open: false,
@@ -36,15 +37,15 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
         this.removeRoute = this.removeRoute.bind(this);
     }
 
-    open() {
+    open () {
         this.setState({ open: true });
     }
 
-    close() {
+    close () {
         this.setState({ open: false });
     }
 
-    handlerResponse(file: any) {
+    handlerResponse (file: any) {
         const reader = new FileReader();
         reader.onload = (event: any) => {
             this.setState({ response: JSON.parse(event.target.result) });
@@ -52,8 +53,8 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
         reader.readAsText(file);
     }
 
-    updateResponse(response: any) {
-        if (response === {}) {
+    updateResponse (response: any) {
+        if ( response === {} ) {
             toast({
                 type: 'error',
                 icon: 'bullhorn',
@@ -64,96 +65,97 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
             });
         } else {
             apiServiceRest.putRoute(this.props.selectedApi._id, {
-                path: this.props.route.path,
-                method: this.props.resource.method,
-                response: response
-            }
+                    path: this.props.route.path,
+                    method: this.props.resource.method,
+                    response: response
+                }
             )
-                .then(() => {
-                    this.close();
-                    this.props.reloadApis();
-                    this.props.closeForm();
-                })
-                .catch((error) => {
-                    HandlerError.handler(error);
-                })
-        }
-    }
-
-    removeRoute() {
-        apiServiceRest.deleteRoute(
-            this.props.selectedApi._id,
-            { path: this.props.route.path, method: this.props.resource.method, response: {} }
-        )
             .then(() => {
-                this.props.reloadApis();
                 this.close();
+                this.props.reloadApis();
                 this.props.closeForm();
             })
             .catch((error) => {
                 HandlerError.handler(error);
             })
+        }
     }
 
-    renderMethod(resource: IResource) {
+    removeRoute () {
+        apiServiceRest.deleteRoute(
+            this.props.selectedApi._id,
+            { path: this.props.route.path, method: this.props.resource.method, response: {} }
+        )
+        .then(() => {
+            this.props.reloadApis();
+            this.close();
+            this.props.closeForm();
+        })
+        .catch((error) => {
+            HandlerError.handler(error);
+        })
+    }
+
+    renderMethod (resource: IResource) {
         switch (resource.method) {
             case 'GET':
-                return (<Label as={'a'} color={'green'}>GET</Label>);
+                return (<Label as={ 'a' } color={ 'green' }>GET</Label>);
             case 'POST':
-                return (<Label as={'a'} color={'blue'}>POST</Label>);
+                return (<Label as={ 'a' } color={ 'blue' }>POST</Label>);
             case 'PUT':
-                return (<Label as={'a'} color={'violet'}>PUT</Label>);
+                return (<Label as={ 'a' } color={ 'violet' }>PUT</Label>);
             case 'DELETE':
-                return (<Label as={'a'} color={'red'}>DELETE</Label>);
+                return (<Label as={ 'a' } color={ 'red' }>DELETE</Label>);
             default:
                 return;
 
         }
     }
 
-    render() {
+    render () {
         const { open } = this.state;
 
         return (
             <Modal
-                open={open}
-                onOpen={this.open}
-                onClose={this.close}
+                open={ open }
+                onOpen={ this.open }
+                onClose={ this.close }
                 size='large'
                 trigger={
                     this.renderMethod(this.props.resource)
                 }
             >
-                <Modal.Header>{`Resource ${this.props.route.path}`} </Modal.Header>
+                <Modal.Header>{ `Resource ${ this.props.route.path }` } </Modal.Header>
                 <Modal.Content>
                     <Form>
                         <Form.Group>
 
                             <div>
-                                {`Method ${this.props.resource.method}`}
+                                { `Method ${ this.props.resource.method }` }
                             </div>
                             <UpdateResponse
-                                path={`${this.props.resource.method}:  ${this.props.route.path}`}
-                                oldResponse={this.props.resource.response}
-                                color={'grey'}
-                                updateResponse={this.updateResponse}
+                                path={ `${ this.props.resource.method }:  ${ this.props.route.path }` }
+                                oldResponse={ this.props.resource.response }
+                                color={ 'grey' }
+                                updateResponse={ this.updateResponse }
                             />
                         </Form.Group>
                     </Form>
-                    <h3>{`Add Query Params`} </h3>
-                    <Divider />
+                    <h3>{ `Add Query Params` } </h3>
+                    <Divider/>
                     <AddParamsForm
-                        apiId={this.props.selectedApi._id}
-                        routeId={this.props.route._id}
-                        method={this.props.resource.method}
-                        reloadApis={this.props.reloadApis}
-                        closeForm={this.props.closeForm} />
-                    <Divider />
-                    <ParamsTable reloadApis={this.props.reloadApis} apiId={this.props.selectedApi._id} selectedResource={this.props.resource} route={this.props.route} />
+                        apiId={ this.props.selectedApi._id }
+                        routeId={ this.props.route._id }
+                        method={ this.props.resource.method }
+                        reloadApis={ this.props.reloadApis }
+                        closeForm={ this.props.closeForm }/>
+                    <Divider/>
+                    <ParamsTable reloadApis={ this.props.reloadApis } apiId={ this.props.selectedApi._id }
+                                 selectedResource={ this.props.resource } route={ this.props.route }/>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button content='Delete route' color={'red'} floated={'left'} onClick={this.removeRoute} />
-                    <Button content='Close' onClick={this.close} />
+                    <Button content='Delete route' color={ 'red' } floated={ 'left' } onClick={ this.removeRoute }/>
+                    <Button content='Close' onClick={ this.close }/>
                 </Modal.Actions>
             </Modal>
         )

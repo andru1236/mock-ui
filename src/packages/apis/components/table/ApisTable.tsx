@@ -1,17 +1,20 @@
 import React from "react";
-import {Table} from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 
 // Api list packages
 import HeaderApiTable from './HeaderApiTable';
 import FooterApiTable from './FooterApiTable';
 import BodyApiListContainer from "./body/BodyApiListContainer";
+import BodyApiList from "./body/BodyApiList";
+import BodyApiListV2 from "./BodyApiListV2";
+import { withApiConsumer } from "../ApiContext";
 
-const ApisTable = (props: any) => (
+const ApisTable = () => (
     <Table compact celled definition>
         <HeaderApiTable/>
-        <BodyApiListContainer/>
+        <BodyApiListV2/>
         <FooterApiTable/>
     </Table>
 );
 
-export default ApisTable;
+export default withApiConsumer(ApisTable);

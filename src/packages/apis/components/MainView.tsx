@@ -6,6 +6,7 @@ import 'react-semantic-toasts/styles/react-semantic-alert.css';
 // Components
 import MainHeader from "../../common/MainHeader";
 import ApisTable from "./table/ApisTable";
+import { ApiProvider } from "./ApiContext";
 
 
 const MainView = () => (
@@ -13,7 +14,9 @@ const MainView = () => (
         <MainHeader/>
         <Divider/>
         <Container textAlign='justified'>
-            <ApisTable/>
+            <ApiProvider>
+                <ApisTable/>
+            </ApiProvider>
         </Container>
         <SemanticToastContainer/>
     </div>

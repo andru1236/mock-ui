@@ -6,8 +6,8 @@ import { compose } from 'redux';
 import emmitToastMessage from '../../common/emmitToastMessage';
 import { HandlerError } from '../../common/HandlerError';
 import { apiServiceRest } from '../../../services';
-import {IApiInstance} from "../../../domain/api";
-import {IStoreState} from "../../../domain/reducer";
+import { IApiInstance } from "../../../domain/api";
+import { IStoreState } from "../../../domain/reducer";
 
 // Redux operations
 const mapStateToProps = (state: IStoreState) => {
@@ -32,25 +32,25 @@ const mapDispatchToProps = (dispatch) => {
 interface incomingProps {
     apis: IApiInstance[],
     selectedApi: IApiInstance;
-    actions:{
-        load(apis: IApiInstance[]): void;
-        selectApi(api: IApiInstance): void;
+    actions: {
+        load (apis: IApiInstance[]): void;
+        selectApi (api: IApiInstance): void;
     }
 }
 
 interface injectingProps {
-    selectApi?(apiId: string): void;
-    reloadApis?(): void;
-    createApi?(name: string, port: number): void;
-    updateApi?(name?: string, port?: number): void;
-    deleteApi?(): void;
+    selectApi? (apiId: string): void;
+    reloadApis? (): void;
+    createApi? (name: string, port: number): void;
+    updateApi? (name?: string, port?: number): void;
+    deleteApi? (): void;
 }
 
-export interface withApiActionsProps extends incomingProps, injectingProps{};
+export interface withApiActionsProps extends incomingProps, injectingProps {};
 
 const apiActions = Component => (props: incomingProps) => {
 
-    const selectApi = async(apiId: string) => {
+    const selectApi = async (apiId: string) => {
         const selectedApi = props.apis.find((api) => api._id === apiId);
         props.actions.selectApi(selectedApi);
     };
@@ -65,7 +65,7 @@ const apiActions = Component => (props: incomingProps) => {
     }
 
     const createApi = async (name: string, port: number) => {
-        const newApiInstance: IApiInstance = {name: name, port: port};
+        const newApiInstance: IApiInstance = { name: name, port: port };
         try {
             await apiServiceRest.postApis(newApiInstance);
             await reloadApis();
@@ -89,8 +89,8 @@ const apiActions = Component => (props: incomingProps) => {
         }
     }
 
-    const deleteApi = async() => {
-        try{
+    const deleteApi = async () => {
+        try {
             await apiServiceRest.deleteApi(props.selectedApi._id);
             reloadApis();
         } catch (error) {
@@ -105,12 +105,12 @@ const apiActions = Component => (props: incomingProps) => {
         updateApi,
         deleteApi
     }
-    
-    return (<Component {...props} {...newProps}/>);
+
+    return (<Component { ...props } { ...newProps }/>);
 };
 
 const withApiActions = compose(
-    connect(mapStateToProps, mapDispatchToProps), 
+    connect(mapStateToProps, mapDispatchToProps),
     apiActions
 );
 

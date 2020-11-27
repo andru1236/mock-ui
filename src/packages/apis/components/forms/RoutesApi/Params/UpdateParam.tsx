@@ -4,8 +4,7 @@ import { toast } from 'react-semantic-toasts';
 import { apiServiceRest } from "../../../../../../services";
 import { HandlerError } from '../../../../../common/HandlerError';
 import { Button, Grid } from 'semantic-ui-react';
-import {IParam, IPath, IResource} from "../../../../../../domain/api";
-
+import { IParam, IPath, IResource } from "../../../../../../domain/api";
 
 
 interface IViewProps {
@@ -13,7 +12,7 @@ interface IViewProps {
     apiId: string;
     route: IPath;
     param: IParam;
-    reloadApis(): void;
+    reloadApis (): void;
 }
 
 interface IViewState {
@@ -21,7 +20,7 @@ interface IViewState {
 }
 
 class UpdateParam extends React.Component<IViewProps, IViewState> {
-    constructor(props: IViewProps) {
+    constructor (props: IViewProps) {
         super(props);
         this.state = {
             open: true
@@ -31,12 +30,12 @@ class UpdateParam extends React.Component<IViewProps, IViewState> {
         this.close = this.close.bind(this);
     }
 
-    close() {
+    close () {
         this.setState({ open: false })
     }
 
-    updateResponse(response: any) {
-        if (response === {}) {
+    updateResponse (response: any) {
+        if ( response === {} ) {
             toast({
                 type: 'error',
                 icon: 'bullhorn',
@@ -50,41 +49,41 @@ class UpdateParam extends React.Component<IViewProps, IViewState> {
                 param: this.props.param.param,
                 response: response
             })
-                .then(() => {
-                    this.props.reloadApis();
-                    this.close();
-                })
-                .catch((error) => {
-                    HandlerError.handler(error);
-                });
-        }
-    }
-
-    deleteParam() {
-        apiServiceRest.deleteParams(this.props.apiId, this.props.route._id,
-            this.props.selectedResource.method, this.props.param.param)
             .then(() => {
                 this.props.reloadApis();
+                this.close();
             })
             .catch((error) => {
                 HandlerError.handler(error);
             });
+        }
     }
 
-    render() {
+    deleteParam () {
+        apiServiceRest.deleteParams(this.props.apiId, this.props.route._id,
+            this.props.selectedResource.method, this.props.param.param)
+        .then(() => {
+            this.props.reloadApis();
+        })
+        .catch((error) => {
+            HandlerError.handler(error);
+        });
+    }
+
+    render () {
         return (
             <Grid>
                 <Grid.Column textAlign="left">
                     <UpdateResponse
-                        oldResponse={this.props.param.response}
-                        path={`${this.props.selectedResource.method}:  ${this.props.route.path}?${this.props.param.param}`}
-                        color={'green'}
-                        updateResponse={this.updateResponse}
+                        oldResponse={ this.props.param.response }
+                        path={ `${ this.props.selectedResource.method }:  ${ this.props.route.path }?${ this.props.param.param }` }
+                        color={ 'green' }
+                        updateResponse={ this.updateResponse }
                     />
                     <Button
-                        color={'red'} floated={'right'}
+                        color={ 'red' } floated={ 'right' }
                         circular icon='delete' size='mini'
-                        onClick={this.deleteParam}
+                        onClick={ this.deleteParam }
                     />
                 </Grid.Column>
             </Grid>

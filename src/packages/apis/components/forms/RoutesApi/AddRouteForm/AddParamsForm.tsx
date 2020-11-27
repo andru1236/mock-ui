@@ -8,8 +8,8 @@ interface IViewProps {
     apiId: string;
     routeId: string;
     method: string;
-    reloadApis(): void;
-    closeForm(): void;
+    reloadApis (): void;
+    closeForm (): void;
 }
 
 interface IViewState {
@@ -19,7 +19,7 @@ interface IViewState {
 
 class AddRouteForm extends React.Component<IViewProps, IViewState> {
 
-    constructor(props: IViewProps) {
+    constructor (props: IViewProps) {
         super(props);
         this.state = {
             params: '',
@@ -30,13 +30,13 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
         this.addNewRoute = this.addNewRoute.bind(this);
     }
 
-    handlerParams(value: string) {
+    handlerParams (value: string) {
         this.setState({
             params: value
         });
     }
 
-    handlerResponse(file: any) {
+    handlerResponse (file: any) {
         const reader = new FileReader();
         reader.onload = (event: any) => {
             this.setState({ response: JSON.parse(event.target.result) });
@@ -44,31 +44,31 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
         reader.readAsText(file);
     }
 
-    addNewRoute() {
-        if (this.validatedFields()) {
+    addNewRoute () {
+        if ( this.validatedFields() ) {
             apiServiceRest.postParams(this.props.apiId, this.props.routeId, this.props.method, {
                 param: this.state.params,
                 response: this.state.response
             })
-                .then(() => {
-                    this.clearForm();
-                    this.props.reloadApis();
-                })
-                .catch((error) => {
-                    HandlerError.handler(error);
-                });
+            .then(() => {
+                this.clearForm();
+                this.props.reloadApis();
+            })
+            .catch((error) => {
+                HandlerError.handler(error);
+            });
         }
     }
 
-    clearForm() {
+    clearForm () {
         this.setState({ params: '', response: {} });
     }
 
-    private validatedFields() {
+    private validatedFields () {
         let isValidPath: boolean = true;
         let isValidResponse: boolean = true;
 
-        if (this.state.params.length === 0) {
+        if ( this.state.params.length === 0 ) {
             toast({
                 type: 'error',
                 icon: 'bullhorn',
@@ -79,7 +79,7 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
             });
             isValidPath = false;
         }
-        if (this.state.response === {}) {
+        if ( this.state.response === {} ) {
             toast({
                 type: 'error',
                 icon: 'bullhorn',
@@ -93,24 +93,24 @@ class AddRouteForm extends React.Component<IViewProps, IViewState> {
         return isValidPath && isValidResponse;
     }
 
-    render() {
+    render () {
         return (
-            <Form size={'tiny'}>
+            <Form size={ 'tiny' }>
                 <Form.Group widths='equal'>
                     <Form.Input fluid required label='Params' placeholder='page=1&limit=10'
-                        value={this.state.params}
-                        onChange={(e) => this.handlerParams(e.target.value)}
+                                value={ this.state.params }
+                                onChange={ (e) => this.handlerParams(e.target.value) }
                     />
-                    <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
-                        onChange={(event) => this.handlerResponse(event.target.files[0])}
+                    <Form.Input fluid required label='Response' placeholder='Response' type={ 'file' }
+                                onChange={ (event) => this.handlerResponse(event.target.files[0]) }
                     />
                 </Form.Group>
                 <Grid>
                     <Grid.Column textAlign="right">
-                        <Button icon primary circular labelPosition={'left'}
-                            onClick={this.addNewRoute}
+                        <Button icon primary circular labelPosition={ 'left' }
+                                onClick={ this.addNewRoute }
                         >
-                            <Icon name={"add"} />
+                            <Icon name={ "add" }/>
                             Add Params
                         </Button>
                     </Grid.Column>

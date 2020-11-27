@@ -7,7 +7,7 @@ interface IViewProps {
     path: string;
     color: SemanticCOLORS;
     oldResponse: any;
-    updateResponse(response: any): any;
+    updateResponse (response: any): any;
 }
 
 interface IViewState {
@@ -17,7 +17,7 @@ interface IViewState {
 
 class ActionOneRoute extends Component<IViewProps, IViewState> {
 
-    constructor(props: IViewProps) {
+    constructor (props: IViewProps) {
         super(props);
         this.state = {
             open: false,
@@ -30,15 +30,15 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
         this.updateResponse = this.updateResponse.bind(this);
     }
 
-    open() {
+    open () {
         this.setState({ open: true });
     }
 
-    close() {
+    close () {
         this.setState({ open: false });
     }
 
-    handlerResponse(file: any) {
+    handlerResponse (file: any) {
         const reader = new FileReader();
         reader.onload = (event: any) => {
             this.setState({ response: JSON.parse(event.target.result) });
@@ -46,45 +46,45 @@ class ActionOneRoute extends Component<IViewProps, IViewState> {
         reader.readAsText(file);
     }
 
-    updateResponse(event: any) {
+    updateResponse (event: any) {
         event.preventDefault();
         this.props.updateResponse(this.state.response)
         this.close();
     }
 
-    renderButton() {
+    renderButton () {
         return (
-            <Label as={'a'} color={this.props.color}>
+            <Label as={ 'a' } color={ this.props.color }>
                 Response
             </Label>);
     }
 
-    render() {
+    render () {
         const { open } = this.state;
 
         return (
             <Modal
-                open={open}
-                onOpen={this.open}
-                onClose={this.close}
+                open={ open }
+                onOpen={ this.open }
+                onClose={ this.close }
                 size='small'
-                trigger={this.renderButton()}
+                trigger={ this.renderButton() }
             >
                 <Modal.Header>
-                    {`Resource `}
+                    { `Resource ` }
                     <Label>
-                        {`${this.props.path}`}
+                        { `${ this.props.path }` }
                     </Label>
                 </Modal.Header>
                 <Modal.Content>
-                    <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
-                        onChange={(event) => this.handlerResponse(event.target.files[0])}
+                    <Form.Input fluid required label='Response' placeholder='Response' type={ 'file' }
+                                onChange={ (event) => this.handlerResponse(event.target.files[0]) }
                     />
-                    <ReactJson src={this.props.oldResponse} />
+                    <ReactJson src={ this.props.oldResponse }/>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button icon='check' content='Update Response' color={'green'} onClick={this.updateResponse} />
-                    <Button content='Close' onClick={this.close} />
+                    <Button icon='check' content='Update Response' color={ 'green' } onClick={ this.updateResponse }/>
+                    <Button content='Close' onClick={ this.close }/>
                 </Modal.Actions>
             </Modal>
         )

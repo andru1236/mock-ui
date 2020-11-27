@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import RoutesApiForm from "./RoutesApiForm";
 import { withRouter } from "react-router-dom";
 import { apiServiceRest } from "../../../../../services";
-import {IApiInstance} from "../../../../../domain/api";
-import {IStoreState} from "../../../../../domain/reducer";
+import { IApiInstance } from "../../../../../domain/api";
+import { IStoreState } from "../../../../../domain/reducer";
 
 interface IContainerProps {
     selectedApi: IApiInstance;
@@ -15,10 +15,10 @@ interface IContainerProps {
     match: any;
     actions: {
         apis: {
-            loadApi(api: IApiInstance): void;
+            loadApi (api: IApiInstance): void;
         },
         ui: {
-            closeApiRoutesModal(): void;
+            closeApiRoutesModal (): void;
         }
     }
 }
@@ -26,43 +26,43 @@ interface IContainerProps {
 class RoutesApi extends React.Component<IContainerProps, any> {
 
 
-    constructor(props: IContainerProps) {
+    constructor (props: IContainerProps) {
         super(props);
         this.reloadApis = this.reloadApis.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount () {
         this.reloadApis()
     }
 
-    getApiId() {
+    getApiId () {
         return this.props.match.params.apiId
     }
 
-    reloadApis() {
+    reloadApis () {
         apiServiceRest.getApi(this.getApiId())
-            .then((response: any) => {
-                this.props.actions.apis.loadApi(response.data.data)
-            })
-            .catch((error: any) => {
-                toast({
-                    type: 'error',
-                    icon: 'bullhorn',
-                    title: 'Service unavailable',
-                    description: `problem with get api`,
-                    animation: 'bounce',
-                    time: 5000,
-                });
+        .then((response: any) => {
+            this.props.actions.apis.loadApi(response.data.data)
+        })
+        .catch((error: any) => {
+            toast({
+                type: 'error',
+                icon: 'bullhorn',
+                title: 'Service unavailable',
+                description: `problem with get api`,
+                animation: 'bounce',
+                time: 5000,
             });
+        });
     }
 
-    render() {
+    render () {
         return (
             <RoutesApiForm
-                selectedApi={this.props.selectedApi}
-                reloadApis={this.reloadApis}
-                closeForm={this.props.actions.ui.closeApiRoutesModal}
-                history={this.props.history}
+                selectedApi={ this.props.selectedApi }
+                reloadApis={ this.reloadApis }
+                closeForm={ this.props.actions.ui.closeApiRoutesModal }
+                history={ this.props.history }
             />
         );
     }

@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Button, Container, Grid, Header } from "semantic-ui-react";
 import RoutesTable from './Table/RoutesTable';
 import AddRouteForm from "./AddRouteForm/AddRouteForm";
-import {IApiInstance} from "../../../../../domain/api";
+import { IApiInstance } from "../../../../../domain/api";
 
 interface IViewProps {
     selectedApi: IApiInstance;
     history: any;
-    reloadApis(): void;
-    closeForm(): void;
+    reloadApis (): void;
+    closeForm (): void;
 }
 
 const RoutesApiForm = (props: IViewProps) => (
@@ -16,16 +16,16 @@ const RoutesApiForm = (props: IViewProps) => (
         <Grid>
             <Grid.Column textAlign="left">
                 <Button labelPosition='left' icon='left chevron' size='mini' content='Apis'
-                    onClick={() => props.history.push('/')}
+                        onClick={ () => props.history.push('/') }
                 />
-                {`API: ${props.selectedApi.name} | PORT: ${props.selectedApi.port}`}
+                { `API: ${ props.selectedApi.name } | PORT: ${ props.selectedApi.port }` }
             </Grid.Column>
         </Grid>
-        <Header as={"h3"}> Add route </Header>
+        <Header as={ "h3" }> Add route </Header>
 
-        <AddRouteForm selectecApi={props.selectedApi} reloadApis={props.reloadApis} closeForm={props.closeForm} />
+        <AddRouteForm selectecApi={ props.selectedApi } reloadApis={ props.reloadApis } closeForm={ props.closeForm }/>
 
-        <RoutesTable selectedApi={props.selectedApi} reloadApis={props.reloadApis} closeForm={props.closeForm} />
+        <RoutesTable selectedApi={ props.selectedApi } reloadApis={ props.reloadApis } closeForm={ props.closeForm }/>
     </Container>
 );
 

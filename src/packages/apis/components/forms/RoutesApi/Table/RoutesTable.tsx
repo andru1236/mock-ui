@@ -1,16 +1,16 @@
 import React from 'react'
-import {Table} from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 import ActionOneRoute from "./ActionOneRoute";
-import {IApiInstance} from "../../../../../../domain/api";
+import { IApiInstance } from "../../../../../../domain/api";
 
 interface IViewProps {
     selectedApi: IApiInstance;
-    reloadApis(): void;
-    closeForm(): void;
+    reloadApis (): void;
+    closeForm (): void;
 }
 
 const TableExampleVerticalAlign = (props: IViewProps) => (
-    <Table compact={'very'} basic={'very'} celled collaping={'true'}>
+    <Table compact={ 'very' } basic={ 'very' } celled collaping={ 'true' }>
         <Table.Header>
             <Table.Row>
                 <Table.HeaderCell>Path</Table.HeaderCell>
@@ -19,29 +19,29 @@ const TableExampleVerticalAlign = (props: IViewProps) => (
         </Table.Header>
 
         <Table.Body>
-            {props.selectedApi.routes.map((route) => {
+            { props.selectedApi.routes.map((route) => {
                 return (
-                    <Table.Row verticalAlign='top' key={route.path}>
+                    <Table.Row verticalAlign='top' key={ route.path }>
 
-                        <Table.Cell> {route.path}</Table.Cell>
+                        <Table.Cell> { route.path }</Table.Cell>
 
                         <Table.Cell>
-                            {route.resources.map((resource) => {
+                            { route.resources.map((resource) => {
                                 return (
                                     <ActionOneRoute
-                                        resource={resource}
-                                        route={route}
-                                        reloadApis={props.reloadApis}
-                                        closeForm={props.closeForm}
-                                        key={resource.method}
-                                        selectedApi={props.selectedApi}
+                                        resource={ resource }
+                                        route={ route }
+                                        reloadApis={ props.reloadApis }
+                                        closeForm={ props.closeForm }
+                                        key={ resource.method }
+                                        selectedApi={ props.selectedApi }
                                     />
                                 );
-                            })}
+                            }) }
                         </Table.Cell>
                     </Table.Row>
                 );
-            })}
+            }) }
         </Table.Body>
     </Table>
 );
