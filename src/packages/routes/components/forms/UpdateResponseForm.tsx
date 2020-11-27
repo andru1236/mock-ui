@@ -1,15 +1,14 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import { Form, Button, Label, Modal } from 'semantic-ui-react'
 import ReactJson from 'react-json-view';
-import {IResource} from "../../../../domain/api";
 
 
 interface IViewProps {
-    path: string;
-    currentResource: IResource;
-    updateResponse(response: any): void;
-    deleteResponse(): void;
-    close(): void;
+    title: string;
+    response: any;
+    updateResponse (response: any): void;
+    deleteResponse (): void;
+    close (): void;
     isOpen: boolean;
 }
 
@@ -37,25 +36,25 @@ const UpdateResponseForm = (props: IViewProps) => {
     }
 
     return (
-        <Modal open={props.isOpen}>
-            <Modal.Header>
-                {`Resource `}
-                <Label>
-                    {`${props.path}`}
-                </Label>
-            </Modal.Header>
-            <Modal.Content>
-                <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
-                    onChange={(event) => handlerResponse(event.target.files[0])}
-                />
-                <ReactJson src={props.currentResource.response} />
-            </Modal.Content>
-            <Modal.Actions>
-                <Button content='Delete route' color={'red'} floated={'left'} onClick={deleteResponse}/>
-                <Button icon='check' content='Update Response' color={'green'} onClick={submitForm} />
-                <Button content='Close' onClick={props.close} />
-            </Modal.Actions>
-        </Modal>
+      <Modal open={ props.isOpen }>
+          <Modal.Header>
+              { `Resource ` }
+              <Label>
+                  { `${ props.title }` }
+              </Label>
+          </Modal.Header>
+          <Modal.Content>
+              <Form.Input fluid required label='Response' placeholder='Response' type={ 'file' }
+                          onChange={ (event) => handlerResponse(event.target.files[0]) }
+              />
+              <ReactJson src={ props.response }/>
+          </Modal.Content>
+          <Modal.Actions>
+              <Button content='Delete route' color={ 'red' } floated={ 'left' } onClick={ deleteResponse }/>
+              <Button icon='check' content='Update Response' color={ 'green' } onClick={ submitForm }/>
+              <Button content='Close' onClick={ props.close }/>
+          </Modal.Actions>
+      </Modal>
     );
 };
 

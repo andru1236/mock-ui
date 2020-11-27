@@ -3,7 +3,7 @@ import { Form, Button, Modal, Divider, Label } from 'semantic-ui-react'
 // Components
 import UpdateResponseForm from './forms/UpdateResponseForm';
 import AddParamsFormInLine from './forms/AddParamsFormInLine';
-import { IApiInstance, IPath, IResource } from "../../../domain/api";
+import { IApiInstance, IParam, IPath, IResource } from "../../../domain/api";
 import ParamsTable from "./table/ParamsTable";
 
 interface IViewProps {
@@ -15,9 +15,9 @@ interface IViewProps {
     reloadSelectedApi (): void;
     submitUpdateResponseOfARoute (response: any): any;
     submitDeleteResponseOfARoute (): void;
-    submitAddParamToRoute (param): any;
-    submitUpdateResponseOfParam (response): any;
-    submitDeleteParam (param): any;
+    submitAddParamToRoute (param: IParam): any;
+    submitUpdateResponseOfParam (param: IParam): any;
+    submitDeleteParam (param: IParam): any;
 }
 
 const QueryParamsFeature = (props: IViewProps) => {
@@ -33,8 +33,8 @@ const QueryParamsFeature = (props: IViewProps) => {
                       <Label as={ 'a' } color={ 'grey' } onClick={ () => setOpen(true) }> Response </Label>
                       <UpdateResponseForm
                         isOpen={ open }
-                        path={ props.path.path }
-                        currentResource={ props.resource }
+                        title={ props.path.path }
+                        response={ props.resource.response }
                         updateResponse={ props.submitUpdateResponseOfARoute }
                         deleteResponse={ props.submitDeleteResponseOfARoute }
                         close={ () => setOpen(false) }

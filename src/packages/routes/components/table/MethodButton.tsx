@@ -13,7 +13,17 @@ interface IMethodButtonProps extends PathContextProps {
     resource: IResource;
 }
 
-const MethodButton = ({ path, resource, reloadSelectedApi, selectedApi, updateRoute, removeRoute, addParamToRoute, updateParamFromRoute, removeParamFromRoute }: IMethodButtonProps) => {
+const MethodButton = ({
+                          path,
+                          resource,
+                          reloadSelectedApi,
+                          selectedApi,
+                          updateRoute,
+                          removeRoute,
+                          addParamToRoute,
+                          updateParamFromRoute,
+                          removeParamFromRoute
+                      }: IMethodButtonProps) => {
 
     const [open, setOpen] = useState(false);
 
@@ -85,8 +95,8 @@ const MethodButton = ({ path, resource, reloadSelectedApi, selectedApi, updateRo
 
                 <UpdateResponseForm
                   isOpen={ open }
-                  currentResource={ resource }
-                  path={ path.path }
+                  response={ resource.response }
+                  title={ path.path }
                   close={ () => setOpen(false) }
                   updateResponse={ _updateResponseOfARoute(path, resource) }
                   deleteResponse={ _removeResponseOfARoute(path, resource) }

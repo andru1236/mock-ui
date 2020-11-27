@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Button, Grid, Label } from "semantic-ui-react";
 import UpdateResponseForm from "../forms/UpdateResponseForm";
-import { IPath, IResource } from "../../../../domain/api";
+import { IParam } from "../../../../domain/api";
 
 interface IViewProps {
-    path: IPath;
-    resource: IResource;
+    currentParam: IParam;
     submitUpdateResponse (response): any;
     deleteParam (): any;
 }
@@ -18,15 +17,15 @@ const ParamActionButtons = (props: IViewProps) => {
               <Label as={ 'a' } color={ 'green' } onClick={ () => setIsOpen(true) }>Response</Label>
               <UpdateResponseForm
                 isOpen={ isOpen }
-                path={ props.path.path }
-                currentResource={ props.resource }
+                title={ props.currentParam.param }
+                response={ props.currentParam.response }
                 updateResponse={ props.submitUpdateResponse }
                 deleteResponse={ props.deleteParam }
                 close={ () => setIsOpen(false) }
               />
               <Button
                 color={ 'red' } floated={ 'right' }
-                circular icon='delete' size='mini'
+                circular icon={ 'delete' } size={ 'mini' }
                 onClick={ props.deleteParam }
               />
           </Grid.Column>
