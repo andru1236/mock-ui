@@ -10,6 +10,7 @@ interface IViewProps {
     updateResponse(response: any): void;
     deleteResponse(): void;
     close(): void;
+    isOpen: boolean;
 }
 
 const UpdateResponseForm = (props: IViewProps) => {
@@ -36,7 +37,7 @@ const UpdateResponseForm = (props: IViewProps) => {
     }
 
     return (
-        <Fragment>
+        <Modal open={props.isOpen}>
             <Modal.Header>
                 {`Resource `}
                 <Label>
@@ -54,7 +55,7 @@ const UpdateResponseForm = (props: IViewProps) => {
                 <Button icon='check' content='Update Response' color={'green'} onClick={submitForm} />
                 <Button content='Close' onClick={props.close} />
             </Modal.Actions>
-        </Fragment>
+        </Modal>
     );
 };
 

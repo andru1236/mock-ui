@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Label, Modal } from 'semantic-ui-react'
 
 // Components
@@ -36,32 +36,25 @@ const MethodButton = ({ path, resource, reloadSelectedApi, selectedApi, updateRo
     const renderMethod = (resource: IResource) => {
         switch (resource.method) {
             case 'GET':
-                return (<Label as={ 'a' } color={ 'green' }>GET</Label>);
+                return (<Label as={ 'a' } color={ 'green' } onClick={ () => setOpen(true) }>GET</Label>);
             case 'POST':
-                return (<Label as={ 'a' } color={ 'blue' }>POST</Label>);
+                return (<Label as={ 'a' } color={ 'blue' } onClick={ () => setOpen(true) }>POST</Label>);
             case 'PUT':
-                return (<Label as={ 'a' } color={ 'violet' }>PUT</Label>);
+                return (<Label as={ 'a' } color={ 'violet' } onClick={ () => setOpen(true) }>PUT</Label>);
             case 'DELETE':
-                return (<Label as={ 'a' } color={ 'red' }>DELETE</Label>);
+                return (<Label as={ 'a' } color={ 'red' } onClick={ () => setOpen(true) }>DELETE</Label>);
             default:
                 return;
         }
     };
 
     return (
-      <Modal
-        open={ open }
-        onOpen={ () => setOpen(true) }
-        onClose={ () => setOpen(false) }
-        size='large'
-        trigger={
-            renderMethod(resource)
-        }
-      >
+      <Fragment>
+          { renderMethod(resource) }
           {
-              resource.method == 'GET' ?
-
+              resource.method === 'GET' ?
                 <QueryParamsFeature
+                  isOpen={open}
                   selectedApi={ { name: '', port: 0 } }
                   reloadApis={ reloadSelectedApi }
                   resource={ resource }
@@ -71,15 +64,19 @@ const MethodButton = ({ path, resource, reloadSelectedApi, selectedApi, updateRo
                 /> :
 
                 <UpdateResponseForm
+                  isOpen={ open }
                   updateResponse={ updateResponseOfARoute(path, resource) }
                   currentResource={ resource }
                   path={ path.path }
                   close={ () => setOpen(false) }
                   deleteResponse={ removeResponseOfARoute(path, resource) }
                 />
+
           }
-      </Modal>
+      </Fragment>
     )
+
+
 }
 
 export default withPathConsumer(MethodButton);
