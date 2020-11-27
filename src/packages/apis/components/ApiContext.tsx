@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 
 import { IApiInstance } from "../../../domain/api";
 import { createApi, removeApi, getApis, updateApi, startApi, stopApi } from "../sources";
+import { handlerError } from "../../common/HandlerError";
 
 // PROPS TO PASS
 export interface ApiContextProps {
@@ -53,12 +54,12 @@ export const ApiProvider = (props: any) => {
         }
     });
 
-    const reloadApis = () => getApis().then(res => setApis(res.data.data.apis));
+    const reloadApis = () => getApis().then(res => setApis(res.apis));
     const selectApi = (apiId) => setSelectedApi(apis.find(api => api._id === apiId));
 
 
     useEffect(() => {
-        getApis().then(res => setApis(res.data.data.apis));
+        getApis().then(res => setApis(res.apis)).catch(error => handlerError(error));
     }, [])
 
     return (

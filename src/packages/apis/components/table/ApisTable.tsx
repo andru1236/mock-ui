@@ -4,9 +4,8 @@ import { Table } from "semantic-ui-react";
 // Api list packages
 import HeaderApiTable from './HeaderApiTable';
 import FooterApiTable from './FooterApiTable';
-import BodyApiListContainer from "./body/BodyApiListContainer";
-import BodyApiList from "./body/BodyApiList";
 import BodyApiListV2 from "./BodyApiListV2";
+
 import { withApiConsumer } from "../ApiContext";
 
 const ApisTable = () => (

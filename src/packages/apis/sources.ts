@@ -1,17 +1,57 @@
 import { apiServiceRest } from "../../services";
 import { IApiInstance } from "../../domain/api";
+import { handlerError } from "../common/HandlerError";
 
-export const getApis = async () => await apiServiceRest.getApis();
+
+const cleanerResponse = (response) => response.data.data;
+
+export const getApis = async () => {
+    try {
+        return cleanerResponse(await apiServiceRest.getApis());
+    } catch (error) {
+        handlerError(error);
+    }
+};
 
 export const getOneApi = async (apiId: string) => await apiServiceRest.getApi(apiId);
 
-export const createApi = async (newApi: IApiInstance) => await apiServiceRest.postApis(newApi);
+export const createApi = async (newApi: IApiInstance) => {
+    try {
+        return cleanerResponse(await apiServiceRest.postApis(newApi));
+    } catch (error) {
+        handlerError(error);
+    }
+}
 
-export const updateApi = async (api: IApiInstance) => await apiServiceRest.putApi(api);
+export const updateApi = async (api: IApiInstance) => {
+    try {
+        return cleanerResponse(await apiServiceRest.putApi(api));
+    } catch (error) {
+        handlerError(error);
+    }
+}
 
-export const removeApi = async (apiId: string) => await apiServiceRest.deleteApi(apiId);
+export const removeApi = async (apiId: string) => {
+    try {
+        return cleanerResponse(await apiServiceRest.deleteApi(apiId));
+    } catch (error) {
+        handlerError(error);
+    }
+}
 
-export const startApi = async (apiId: string) => await apiServiceRest.startApi(apiId);
+export const startApi = async (apiId: string) => {
+    try {
+        return cleanerResponse(await apiServiceRest.startApi(apiId));
+    } catch (error) {
+        handlerError(error);
+    }
+}
 
-export const stopApi = async (apiId: string) => await apiServiceRest.stopApi(apiId);
+export const stopApi = async (apiId: string) => {
+    try {
+        return cleanerResponse(await apiServiceRest.stopApi(apiId));
+    } catch (error) {
+        handlerError(error);
+    }
+}
 

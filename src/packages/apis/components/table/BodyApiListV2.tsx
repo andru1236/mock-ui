@@ -3,16 +3,20 @@ import { Table, Checkbox, Button } from "semantic-ui-react";
 
 // Domain
 import { IApiInstance } from "../../../../domain/api";
+// HOCs
 import { withApiConsumer } from "../ApiContext";
 import { withRouter } from "react-router-dom";
 
 // Components
 import RemoveApiForm from '../forms/RemoveApiForm';
 import ApiForm from '../forms/ApiForm';
+import emmitToastMessage from "../../../common/emmitToastMessage";
 
 interface IViewProps {
     apis: IApiInstance[];
     selectedApi: IApiInstance;
+    startApi (apiId: string): void;
+    stopApi (apiId: string): void;
     selectApi (apiId: string): void;
     removeApi (apiId: string): void;
     updateApi (apiId: string, name: string, port: string): void;
@@ -25,13 +29,25 @@ const BodyApiList = (props: IViewProps) => {
     const [isOpenDeleteApi, setIsOpenDeleteApi] = useState(false);
     const [isOpenUpdateApi, setIsOpenUpdateApi] = useState(false);
 
+    const startOrStopApi = async (isNotRunning, api) => {
+        if ( isNotRunning ) {
+            await props.startApi(api._id);
+            emmitToastMessage.success('Launch Api instance', `Exist new api that is executing on port ${ api.port }`);
+
+        } else {
+            await props.stopApi(api._id);
+            emmitToastMessage.warning('Stop api instance', `The api instance with port ${ api.port } was stopped`);
+        }
+        await props.reloadApis();
+    }
+
     return (
         <Table.Body>
             { props.apis.map((api: IApiInstance) => (
                 <Table.Row key={ api._id }>
                     <Table.Cell collapsing>
                         <Checkbox checked={ api.settings.enabled } slider
-
+                                  onClick={ (event, data) => startOrStopApi(data.checked, api) }
                         />
                     </Table.Cell>
                     <Table.Cell>{ api.name }</Table.Cell>
