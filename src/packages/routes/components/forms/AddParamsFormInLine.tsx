@@ -1,23 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
-import { toast } from 'react-semantic-toasts';
-import { apiServiceRest } from "../../../../services";
-import { HandlerError } from "../../../common/HandlerError";
+import emmitToastMessage from "../../../common/emmitToastMessage";
+import { IParam } from "../../../../domain/api";
 
 interface IViewProps {
-    apiId: string;
-    routeId: string;
-    method: string;
-    reloadApis(): void;
+    addNewParam (param: IParam): void;
 }
 
-interface IViewState {
-    params: string;
-    response: any;
-}
-
-const AddParamsFormInLine = (props: IViewProps) => {
-    const [params, setParams] = useState('');
+const AddParamsFormInLine = ({ addNewParam }: IViewProps) => {
+    const [param, setParams] = useState('');
     const [response, setResponse] = useState({});
 
     const handlerParams = (value: string) => setParams(value);
@@ -34,74 +25,52 @@ const AddParamsFormInLine = (props: IViewProps) => {
         setResponse({});
     };
 
-    const validatedFields = () => {
+    const validFields = () => {
         let isValidPath: boolean = true;
         let isValidResponse: boolean = true;
 
-        if (params.length === 0) {
-            toast({
-                type: 'error',
-                icon: 'bullhorn',
-                title: 'Error on Params',
-                description: `The param can't be empty `,
-                animation: 'bounce',
-                time: 5000,
-            });
+        if ( param.length === 0 ) {
+            emmitToastMessage.error('Error on Params', `The param can't be empty `);
             isValidPath = false;
         }
-        if (response === {}) {
-            toast({
-                type: 'error',
-                icon: 'bullhorn',
-                title: 'Error response',
-                description: `Error on load json file `,
-                animation: 'bounce',
-                time: 5000,
-            });
+        if ( response === {} ) {
+            emmitToastMessage.error('Error response', `Error on load json file `);
             isValidResponse = false;
         }
         return isValidPath && isValidResponse;
     };
 
-    const addNewParam = () => {
-        if (validatedFields()) {
-            apiServiceRest.postParams(props.apiId, props.routeId, props.method, {
-                param: params,
-                response: response
-            })
-                .then(() => {
-                    clearForm();
-                    props.reloadApis();
-                })
-                .catch((error) => {
-                    HandlerError.handler(error);
-                });
+    const submitForm = () => {
+        if ( validFields() ) {
+            const newParam: IParam = { param: param, response: response }
+            addNewParam(newParam);
+            clearForm()
         }
     };
 
     return (
-        <Form size={'tiny'}>
-            <Form.Group widths='equal'>
-                <Form.Input fluid required label='Params' placeholder='page=1&limit=10'
-                    value={params}
-                    onChange={(e) => handlerParams(e.target.value)}
-                />
-                <Form.Input fluid required label='Response' placeholder='Response' type={'file'}
-                    onChange={(event) => handlerResponse(event.target.files[0])}
-                />
-            </Form.Group>
-            <Grid>
-                <Grid.Column textAlign="right">
-                    <Button icon primary circular labelPosition={'left'}
-                        onClick={addNewParam}
-                    >
-                        <Icon name={"add"} />
-                        Add Params
-                    </Button>
-                </Grid.Column>
-            </Grid>
+      <Form size={ 'tiny' }>
+          <Form.Group widths='equal'>
+              <Form.Input fluid required label='Params' placeholder='page=1&limit=10'
+                          value={ param }
+                          onChange={ (e) => handlerParams(e.target.value) }
+              />
+              <Form.Input fluid required label='Response' placeholder='Response' type={ 'file' }
+                          onChange={ (event) => handlerResponse(event.target.files[0]) }
+              />
+          </Form.Group>
+          <Grid>
+              <Grid.Column textAlign="right">
+                  <Button icon primary circular labelPosition={ 'left' }
+                          onClick={ submitForm }
+                  >
+                      <Icon name={ "add" }/>
+                      Add Params
+                  </Button>
+              </Grid.Column>
+          </Grid>
 
-        </Form>
+      </Form>
     );
 }
 
