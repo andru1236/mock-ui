@@ -1,40 +1,36 @@
 import React from 'react';
 import { Button, Header, Modal, Icon } from "semantic-ui-react";
-import { IApiInstance } from "../../../../domain/api";
-import { withApiConsumer } from "../ApiContext";
+import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
-interface IViewProps {
-    selectedApi: IApiInstance
+interface IViewProps extends ApiContextProps {
     isOpenModal: boolean;
-    removeApi (apiId: string): void;
-    reloadApis (): void;
     closeForm (): void;
 }
 
-const RemoveApiForm = (props: IViewProps) => (
-    <Modal open={ props.isOpenModal } basic size='small'>
-        <Header icon='archive' content={ `Are you sure to remove this api ${ props.selectedApi.name }` }/>
+const RemoveApiForm = ({ isOpenModal, closeForm, selectedApi, reloadApis, removeApi }: IViewProps) => (
+  <Modal open={ isOpenModal } basic size='small'>
+      <Header icon='archive' content={ `Are you sure to remove this api ${ selectedApi.name }` }/>
 
-        <Modal.Content>
-            <p>This API has { props.selectedApi.routes.length } paths and run in { props.selectedApi.port }</p>
-        </Modal.Content>
+      <Modal.Content>
+          <p>This API has { selectedApi.routes.length } paths and run in { selectedApi.port }</p>
+      </Modal.Content>
 
-        <Modal.Actions>
-            <Button basic color='red' inverted onClick={ props.closeForm }>
-                <Icon name='remove'/> No
-            </Button>
+      <Modal.Actions>
+          <Button basic color='red' inverted onClick={ closeForm }>
+              <Icon name='remove'/> No
+          </Button>
 
-            <Button color='red' inverted onClick={
-                async () => {
-                    props.closeForm();
-                    await props.removeApi(props.selectedApi._id);
-                    await props.reloadApis();
-                }
-            }>
-                <Icon name='checkmark'/> Yes
-            </Button>
+          <Button color='red' inverted onClick={
+              async () => {
+                  closeForm();
+                  await removeApi(selectedApi._id);
+                  await reloadApis();
+              }
+          }>
+              <Icon name='checkmark'/> Yes
+          </Button>
 
-        </Modal.Actions>
-    </Modal>
+      </Modal.Actions>
+  </Modal>
 );
 export default withApiConsumer(RemoveApiForm);
