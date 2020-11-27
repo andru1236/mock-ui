@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 
 import { IApiInstance } from "../../../domain/api";
 import { createApi, removeApi, getApis, updateApi, startApi, stopApi } from "../sources";
-import { handlerError } from "../../common/HandlerError";
+import { handlerError } from "../../common/handlerError";
 
 // PROPS TO PASS
 export interface ApiContextProps {

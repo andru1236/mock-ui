@@ -11,7 +11,7 @@ import {
     removeParamFromRoute
 } from '../sources';
 
-import { handlerError } from "../../common/HandlerError";
+import { handlerError } from "../../common/handlerError";
 
 
 export interface PathContextProps {
