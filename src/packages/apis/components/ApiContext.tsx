@@ -6,7 +6,7 @@ import { handlerError } from "../../common/HandlerError";
 
 // PROPS TO PASS
 export interface ApiContextProps {
-    apis: IApiInstance[] | any[];
+    apis: IApiInstance[];
     selectedApi: IApiInstance;
 
     selectApi (apiId: string): void;
@@ -20,7 +20,7 @@ export interface ApiContextProps {
 
 // CONTEXT
 const ApiContext = createContext<ApiContextProps>({
-    apis: [],
+    apis: [] as IApiInstance[],
     selectedApi: {
         _id: "",
         name: "",
