@@ -27,27 +27,23 @@ const MethodButton = ({
 
     const [open, setOpen] = useState(false);
 
-    // FOR ROUTES
-    const _updateResponseOfARoute = (_path: IPath, _resource: IResource) => {
-        const currentRoute: IRoute = { path: _path.path, method: _resource.method }
-        return (response: any) => {
-            const currentRouteWithNewResponse: IRoute = { ...currentRoute, response }
-            updateRoute(selectedApi._id, currentRouteWithNewResponse)
-              .then(r => reloadSelectedApi());
-        }
+    const __updateResponseOfARoute = (response: any) => {
+        const currentRoute: IRoute = { path: path.path, method: resource.method }
+        const currentRouteWithNewResponse: IRoute = { ...currentRoute, response }
+        updateRoute(selectedApi._id, currentRouteWithNewResponse)
+          .then(r => reloadSelectedApi());
+    }
+    const __removeResponseOfARoute = () => {
+        removeRoute(selectedApi._id, { path: path.path, method: resource.method })
+          .then(r => reloadSelectedApi())
     }
 
-    const _removeResponseOfARoute = (_path: IPath, _resource: IResource) => {
-        return () => {
-            removeRoute(selectedApi._id, { path: _path.path, method: _resource.method })
-              .then(r => reloadSelectedApi())
-        }
-    }
     // FOR PARAMS
     const _addNewParam = (param: IParam) => {
         addParamToRoute(selectedApi._id, path._id, param)
           .then(r => reloadSelectedApi())
     };
+
     const _updateParam = (param: IParam) => {
         updateParamFromRoute(selectedApi._id, path._id, param)
           .then(r => reloadSelectedApi())
@@ -85,8 +81,8 @@ const MethodButton = ({
                   path={ path }
                   selectedApi={ { name: '', port: 0 } }
                   reloadSelectedApi={ reloadSelectedApi }
-                  submitUpdateResponseOfARoute={ _updateResponseOfARoute(path, resource) }
-                  submitDeleteResponseOfARoute={ _removeResponseOfARoute(path, resource) }
+                  submitUpdateResponseOfARoute={ __updateResponseOfARoute }
+                  submitDeleteResponseOfARoute={ __removeResponseOfARoute }
                   submitAddParamToRoute={ _addNewParam }
                   submitUpdateResponseOfParam={ _updateParam }
                   submitDeleteParam={ _removeParam }
@@ -98,8 +94,8 @@ const MethodButton = ({
                   response={ resource.response }
                   title={ path.path }
                   close={ () => setOpen(false) }
-                  updateResponse={ _updateResponseOfARoute(path, resource) }
-                  deleteResponse={ _removeResponseOfARoute(path, resource) }
+                  updateResponse={ __updateResponseOfARoute }
+                  deleteResponse={ __removeResponseOfARoute }
                 />
 
           }

@@ -9,7 +9,7 @@ interface IViewProps {
     deleteParam (): any;
 }
 
-const ParamActionButtons = (props: IViewProps) => {
+const ParamActionButtons = ({ currentParam, submitUpdateResponse, deleteParam }: IViewProps) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
       <Grid>
@@ -17,16 +17,16 @@ const ParamActionButtons = (props: IViewProps) => {
               <Label as={ 'a' } color={ 'green' } onClick={ () => setIsOpen(true) }>Response</Label>
               <UpdateResponseForm
                 isOpen={ isOpen }
-                title={ props.currentParam.param }
-                response={ props.currentParam.response }
-                updateResponse={ props.submitUpdateResponse }
-                deleteResponse={ props.deleteParam }
+                title={ currentParam.param }
+                response={ currentParam.response }
+                updateResponse={ submitUpdateResponse }
+                deleteResponse={ deleteParam }
                 close={ () => setIsOpen(false) }
               />
               <Button
                 color={ 'red' } floated={ 'right' }
                 circular icon={ 'delete' } size={ 'mini' }
-                onClick={ props.deleteParam }
+                onClick={ deleteParam }
               />
           </Grid.Column>
       </Grid>

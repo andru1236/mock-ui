@@ -16,7 +16,6 @@ const ApiRoutesView = () => (
           <MainHeader section="Routes"/>
           <Divider/>
           <Container textAlign='justified'>
-              {/* <RoutesApi /> */ }
               <GoToApiButton/>
               <ApiRouteFeatureV2/>
           </Container>

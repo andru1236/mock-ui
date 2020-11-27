@@ -10,44 +10,43 @@ interface IViewProps {
     deleteParam (param: IParam): any;
 }
 
-const ParamsTable = (props: IViewProps) => (
-  <Table compact={ 'very' } basic={ 'very' } celled collaping={ 'true' }>
-      <Table.Header>
-          <Table.Row>
-              <Table.HeaderCell>Query Params</Table.HeaderCell>
-              <Table.HeaderCell>Response</Table.HeaderCell>
-          </Table.Row>
-      </Table.Header>
+const ParamsTable = ({ selectedResource, updateResponse, deleteParam }: IViewProps) => {
 
-      <Table.Body>
-          { props.selectedResource.params.map((param: IParam) => {
-              return (
-                <Table.Row verticalAlign='top' key={ param.param }>
+    return (
+      <Table compact={ 'very' } basic={ 'very' } celled collaping={ 'true' }>
+          <Table.Header>
+              <Table.Row>
+                  <Table.HeaderCell>Query Params</Table.HeaderCell>
+                  <Table.HeaderCell>Response</Table.HeaderCell>
+              </Table.Row>
+          </Table.Header>
 
-                    <Table.Cell> { param.param }</Table.Cell>
-                    <Table.Cell>
-                        <ParamActionButtons
-                          currentParam={param}
-                          submitUpdateResponse={ () => {
-                              return (response) =>{
-                                  props.updateResponse({
+          <Table.Body>
+              { selectedResource.params.map((param: IParam) => {
+                  return (
+                    <Table.Row verticalAlign='top' key={ param.param }>
+
+                        <Table.Cell> { param.param }</Table.Cell>
+                        <Table.Cell>
+                            <ParamActionButtons
+                              currentParam={ param }
+                              submitUpdateResponse={ (response) => {
+                                  updateResponse({
                                       param: param.param,
                                       response
                                   })
-                              }
-                          } }
-                          deleteParam={ () => {
-                              return () => {
-                                  props.deleteParam(param);
-                              }
-                          }}
-                        />
-                    </Table.Cell>
-                </Table.Row>
-              );
-          }) }
-      </Table.Body>
-  </Table>
-);
+                              } }
+                              deleteParam={ () => {
+                                  deleteParam(param);
+                              } }
+                            />
+                        </Table.Cell>
+                    </Table.Row>
+                  );
+              }) }
+          </Table.Body>
+      </Table>
+    )
+};
 
 export default ParamsTable

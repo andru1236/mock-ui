@@ -13,8 +13,10 @@ interface IViewProps {
     isOpen: boolean;
     close (): void;
     reloadSelectedApi (): void;
+    // PATHS
     submitUpdateResponseOfARoute (response: any): any;
     submitDeleteResponseOfARoute (): void;
+    // PARAMS
     submitAddParamToRoute (param: IParam): any;
     submitUpdateResponseOfParam (param: IParam): any;
     submitDeleteParam (param: IParam): any;

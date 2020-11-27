@@ -6,7 +6,7 @@ import MethodButton from "./MethodButton";
 import { withPathConsumer, PathContextProps } from "../PathContext";
 
 
-const PathsTable = ({ selectedApi, reloadSelectedApi }: PathContextProps) => (
+const PathsTable = ({ selectedApi }: PathContextProps) => (
   <Table compact={ 'very' } basic={ 'very' } celled collaping={ 'true' }>
 
       <Table.Header>
@@ -17,18 +17,17 @@ const PathsTable = ({ selectedApi, reloadSelectedApi }: PathContextProps) => (
       </Table.Header>
 
       <Table.Body>
-          { selectedApi.routes.map((route) => {
+          { selectedApi.routes.map((path) => {
               return (
-                <Table.Row verticalAlign='top' key={ route.path }>
-                    <Table.Cell> { route.path }</Table.Cell>
+                <Table.Row verticalAlign='top' key={ path.path }>
+                    <Table.Cell> { path.path }</Table.Cell>
                     <Table.Cell>
-                        { route.resources.map((resource) => {
+                        { path.resources.map((resource) => {
                             return (
                               <MethodButton
-                                resource={ resource }
                                 key={ resource.method }
-                                path={ route }
-                                reloadSelectedApi={ reloadSelectedApi }
+                                path={ path }
+                                resource={ resource }
                               />
                             );
                         }) }
