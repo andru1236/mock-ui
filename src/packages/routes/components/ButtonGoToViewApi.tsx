@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-import { Button, Grid } from "semantic-ui-react";
+import { Button, Grid, Message } from "semantic-ui-react";
 import { withPathConsumer, PathContextProps } from "./PathContext";
 
 interface IViewProps extends PathContextProps {
@@ -11,13 +11,16 @@ interface IViewProps extends PathContextProps {
 
 const ButtonGoToViewApi = ({ history, selectedApi }: IViewProps) => {
     return (
-      <Grid>
-          <Grid.Row>
-              <Button labelPosition='left' icon='left chevron' size='mini'
-                      content={ `API: ${ selectedApi.name }   |  PORT:  ${ selectedApi.port }` }
-                      onClick={ () => history.push('/') }
-              />
-          </Grid.Row>
+      <Grid columns={ 'equal' }>
+          <Grid.Column style={ { display: 'flex', alignItems: 'center' } }>
+              <Button size={ 'large' } circular primary icon={ 'arrow left' } onClick={ () => history.push('/') }/>
+          </Grid.Column>
+          <Grid.Column width={ 7 }>
+              <Message size={ 'mini' } color='green' header={ 'API: ' } content={ selectedApi.name }/>
+          </Grid.Column>
+          <Grid.Column width={ 7 }>
+              <Message size={ 'mini' } color='blue' header={ 'Port: ' } content={ selectedApi.port }/>
+          </Grid.Column>
       </Grid>
     )
 }
