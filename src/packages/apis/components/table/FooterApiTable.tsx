@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button } from "semantic-ui-react";
-import ApiForm from '../forms/ApiForm';
+import FormApi from '../forms/FormApi';
 
 
 const FooterApiTable = (props: any) => {
@@ -18,7 +18,8 @@ const FooterApiTable = (props: any) => {
                   >
                       Create new api
                   </Button>
-                  <ApiForm isOpenModal={ isOpen }
+
+                  <FormApi isOpenModal={ isOpen }
                            closeForm={ () => setDisplay(false) }
                            action={ 'Create' }
                   />

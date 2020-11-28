@@ -33,7 +33,6 @@ export const removeRoute = async (apiId: string, route: IRoute) => {
         //TODO: Error with return -> res.data.data, research why
         return apiServiceRest.deleteRoute(apiId, route);
     } catch (error) {
-        console.log(error);
         handlerError(error);
     }
 };

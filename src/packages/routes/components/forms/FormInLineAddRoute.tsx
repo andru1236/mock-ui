@@ -11,7 +11,7 @@ const options = [
     { key: 'DELETE', text: 'DELETE', value: 'DELETE' },
 ];
 
-const AddRouteFormInLine = ({ selectedApi, reloadSelectedApi, addNewRoute }: PathContextProps) => {
+const FormInLineAddRoute = ({ selectedApi, reloadSelectedApi, addNewRoute }: PathContextProps) => {
 
     const [path, setPath] = useState('');
     const [method, setMethod] = useState('');
@@ -114,4 +114,4 @@ const View = (props: IViewProps) => {
     );
 }
 
-export default withPathConsumer(AddRouteFormInLine);
+export default withPathConsumer(FormInLineAddRoute);

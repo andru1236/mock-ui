@@ -12,7 +12,7 @@ interface IViewProps {
     isOpen: boolean;
 }
 
-const UpdateResponseForm = (props: IViewProps) => {
+const FormUpdateResponse = (props: IViewProps) => {
     const [response, setResponse] = useState({});
 
     const handlerResponse = (file: any) => {
@@ -58,4 +58,4 @@ const UpdateResponseForm = (props: IViewProps) => {
     );
 };
 
-export default UpdateResponseForm;
+export default FormUpdateResponse;

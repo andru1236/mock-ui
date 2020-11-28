@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Form, Button, Modal, Divider, Label } from 'semantic-ui-react'
+import { IApiInstance, IParam, IPath, IResource } from "../../../../domain/api";
+
 // Components
-import UpdateResponseForm from './forms/UpdateResponseForm';
-import AddParamsFormInLine from './forms/AddParamsFormInLine';
-import { IApiInstance, IParam, IPath, IResource } from "../../../domain/api";
-import ParamsTable from "./table/ParamsTable";
+import FormUpdateResponse from '../forms/FormUpdateResponse';
+import FormInLineAddParams from './FormInLineAddParams';
+import TableParams from "./TableParams";
 
 interface IViewProps {
     selectedApi: IApiInstance
@@ -22,7 +23,7 @@ interface IViewProps {
     submitDeleteParam (param: IParam): any;
 }
 
-const QueryParamsFeature = (props: IViewProps) => {
+const FormQueryParamsFeature = (props: IViewProps) => {
     const [open, setOpen] = useState(false);
     return (
       <Modal open={ props.isOpen }>
@@ -33,7 +34,7 @@ const QueryParamsFeature = (props: IViewProps) => {
                   <Form.Group>
                       <div>{ `Method ${ props.resource.method }` }</div>
                       <Label as={ 'a' } color={ 'grey' } onClick={ () => setOpen(true) }> Response </Label>
-                      <UpdateResponseForm
+                      <FormUpdateResponse
                         isOpen={ open }
                         title={ props.path.path }
                         response={ props.resource.response }
@@ -47,10 +48,10 @@ const QueryParamsFeature = (props: IViewProps) => {
 
               <h3>{ `Add Query Params` } </h3>
               <Divider/>
-              <AddParamsFormInLine addNewParam={ props.submitAddParamToRoute }/>
+              <FormInLineAddParams addNewParam={ props.submitAddParamToRoute }/>
               <Divider/>
 
-              <ParamsTable
+              <TableParams
                 route={ props.path }
                 selectedResource={ props.resource }
                 updateResponse={ props.submitUpdateResponseOfParam }
@@ -60,7 +61,10 @@ const QueryParamsFeature = (props: IViewProps) => {
           </Modal.Content>
           <Modal.Actions>
               <Button content='Delete route' color={ 'red' } floated={ 'left' }
-                      onClick={ props.submitDeleteResponseOfARoute }/>
+                      onClick={ () => {
+                          props.submitDeleteResponseOfARoute();
+                          props.close();
+                      } }/>
               <Button content='Close' onClick={ props.close }/>
           </Modal.Actions>
       </Modal>
@@ -69,4 +73,4 @@ const QueryParamsFeature = (props: IViewProps) => {
       ;
 };
 
-export default QueryParamsFeature;
+export default FormQueryParamsFeature;

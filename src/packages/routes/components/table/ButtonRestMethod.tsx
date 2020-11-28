@@ -1,11 +1,12 @@
 import React, { useState, Fragment } from 'react'
 import { Label } from 'semantic-ui-react'
 
-// Components
-import UpdateResponseForm from '../forms/UpdateResponseForm'
-import QueryParamsFeature from '../QueryParamsFeature';
 import { IParam, IPath, IResource, IRoute } from "../../../../domain/api";
 import { withPathConsumer, PathContextProps } from "../PathContext";
+
+// Components
+import FormUpdateResponse from '../forms/FormUpdateResponse'
+import FormQueryParamsFeature from '../feat_query_params/FormQueryParamsFeature';
 
 
 interface IMethodButtonProps extends PathContextProps {
@@ -13,7 +14,7 @@ interface IMethodButtonProps extends PathContextProps {
     resource: IResource;
 }
 
-const MethodButton = ({
+const ButtonRestMethod = ({
                           path,
                           resource,
                           reloadSelectedApi,
@@ -75,7 +76,7 @@ const MethodButton = ({
           { renderMethod(resource) }
           {
               resource.method === 'GET' ?
-                <QueryParamsFeature
+                <FormQueryParamsFeature
                   isOpen={ open }
                   resource={ resource }
                   path={ path }
@@ -89,7 +90,7 @@ const MethodButton = ({
                   close={ () => setOpen(false) }
                 /> :
 
-                <UpdateResponseForm
+                <FormUpdateResponse
                   isOpen={ open }
                   response={ resource.response }
                   title={ path.path }
@@ -105,4 +106,4 @@ const MethodButton = ({
 
 }
 
-export default withPathConsumer(MethodButton);
+export default withPathConsumer(ButtonRestMethod);

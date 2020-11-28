@@ -1,7 +1,7 @@
 import React from 'react';
 import { IParam, IPath, IResource } from "../../../../domain/api";
 import { Table } from 'semantic-ui-react';
-import ParamActionButtons from "./ParamActionButtons";
+import ButtonParamAction from "./ButtonParamAction";
 
 interface IViewProps {
     selectedResource: IResource;
@@ -10,7 +10,7 @@ interface IViewProps {
     deleteParam (param: IParam): any;
 }
 
-const ParamsTable = ({ selectedResource, updateResponse, deleteParam }: IViewProps) => {
+const TableParams = ({ selectedResource, updateResponse, deleteParam }: IViewProps) => {
 
     return (
       <Table compact={ 'very' } basic={ 'very' } celled collaping={ 'true' }>
@@ -28,7 +28,7 @@ const ParamsTable = ({ selectedResource, updateResponse, deleteParam }: IViewPro
 
                         <Table.Cell> { param.param }</Table.Cell>
                         <Table.Cell>
-                            <ParamActionButtons
+                            <ButtonParamAction
                               currentParam={ param }
                               submitUpdateResponse={ (response) => {
                                   updateResponse({
@@ -49,4 +49,4 @@ const ParamsTable = ({ selectedResource, updateResponse, deleteParam }: IViewPro
     )
 };
 
-export default ParamsTable
+export default TableParams

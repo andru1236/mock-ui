@@ -7,7 +7,7 @@ interface IViewProps {
     addNewParam (param: IParam): void;
 }
 
-const AddParamsFormInLine = ({ addNewParam }: IViewProps) => {
+const FormInLineAddParams = ({ addNewParam }: IViewProps) => {
     const [param, setParams] = useState('');
     const [response, setResponse] = useState({});
 
@@ -40,11 +40,12 @@ const AddParamsFormInLine = ({ addNewParam }: IViewProps) => {
         return isValidPath && isValidResponse;
     };
 
-    const submitForm = () => {
+    const submitForm = (event: any) => {
+        event.preventDefault();
         if ( validFields() ) {
             const newParam: IParam = { param: param, response: response }
             addNewParam(newParam);
-            clearForm()
+            clearForm();
         }
     };
 
@@ -75,4 +76,4 @@ const AddParamsFormInLine = ({ addNewParam }: IViewProps) => {
 }
 
 
-export default AddParamsFormInLine;
+export default FormInLineAddParams;
