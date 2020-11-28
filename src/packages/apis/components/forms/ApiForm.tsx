@@ -4,13 +4,13 @@ import { Modal, Form, Button } from "semantic-ui-react";
 import emmitToastMessage from '../../../common/emmitToastMessage';
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
-interface IViewProps extends ApiContextProps{
+interface IViewProps extends ApiContextProps {
     isOpenModal: boolean;
     action?: string;
     closeForm (): void;
 }
 
-const ApiForm = ({isOpenModal, action, closeForm, reloadApis, createApi, updateApi, selectedApi}: IViewProps) => {
+const ApiForm = ({ isOpenModal, action, closeForm, reloadApis, createApi, updateApi, selectedApi }: IViewProps) => {
     const [name, setName] = useState("");
     const [port, setPort] = useState(0);
 
@@ -57,44 +57,44 @@ const ApiForm = ({isOpenModal, action, closeForm, reloadApis, createApi, updateA
     }, [selectedApi]);
 
     return (
-        <Modal
-            open={ isOpenModal }
-        >
-            <Modal.Header>Create new api</Modal.Header>
-            <Modal.Content>
-                <Form>
-                    <Form.Field>
-                        <label>Name</label>
-                        <input
-                            placeholder='Name'
-                            onChange={ handlerName }
-                            value={ name }
-                        />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Port</label>
-                        <input
-                            placeholder='Port'
-                            type='number'
-                            onChange={ handlerPort }
-                            value={ port }
-                        />
-                    </Form.Field>
-                </Form>
-            </Modal.Content>
-            <Modal.Actions>
-                <Button onClick={ closeForm } negative>
-                    Close
-                </Button>
-                <Button
-                    onClick={ submitForm }
-                    positive
-                    labelPosition='right'
-                    icon='checkmark'
-                    content={ action || 'Create/Update' }
-                />
-            </Modal.Actions>
-        </Modal>);
+      <Modal
+        open={ isOpenModal }
+      >
+          <Modal.Header>Create new api</Modal.Header>
+          <Modal.Content>
+              <Form>
+                  <Form.Field>
+                      <label>Name</label>
+                      <input
+                        placeholder='Name'
+                        onChange={ handlerName }
+                        value={ name }
+                      />
+                  </Form.Field>
+                  <Form.Field>
+                      <label>Port</label>
+                      <input
+                        placeholder='Port'
+                        type='number'
+                        onChange={ handlerPort }
+                        value={ port }
+                      />
+                  </Form.Field>
+              </Form>
+          </Modal.Content>
+          <Modal.Actions>
+              <Button onClick={ closeForm } negative>
+                  Close
+              </Button>
+              <Button
+                onClick={ submitForm }
+                positive
+                labelPosition='right'
+                icon='checkmark'
+                content={ action || 'Create/Update' }
+              />
+          </Modal.Actions>
+      </Modal>);
 };
 
 export default withApiConsumer(ApiForm);

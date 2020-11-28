@@ -7,11 +7,11 @@ import PathsTable from "./table/PathsTable";
 
 const ApiRouteFeatureV2 = () => {
     return (
-        <Fragment>
-            <Header as={ "h3" }> Add route </Header>
-            <AddPathFormInLine />
-            <PathsTable />
-        </Fragment>
+      <Fragment>
+          <Header as={ "h3" }> Add route </Header>
+          <AddPathFormInLine/>
+          <PathsTable/>
+      </Fragment>
     );
 }
 

@@ -9,11 +9,11 @@ import BodyApiListV2 from "./BodyApiListV2";
 import { withApiConsumer } from "../ApiContext";
 
 const ApisTable = () => (
-    <Table compact celled definition>
-        <HeaderApiTable/>
-        <BodyApiListV2/>
-        <FooterApiTable/>
-    </Table>
+  <Table compact celled definition>
+      <HeaderApiTable/>
+      <BodyApiListV2/>
+      <FooterApiTable/>
+  </Table>
 );
 
 export default withApiConsumer(ApisTable);

@@ -59,14 +59,14 @@ const AddRouteFormInLine = ({ selectedApi, reloadSelectedApi, addNewRoute }: Pat
         }
     }
     return (
-        <View
-            method={ method }
-            path={ path }
-            handlerMethod={ handlerMethod }
-            handlerPath={ handlerPath }
-            handlerResponse={ handlerResponse }
-            submitForm={ SubmitAddNewRoute }
-        />
+      <View
+        method={ method }
+        path={ path }
+        handlerMethod={ handlerMethod }
+        handlerPath={ handlerPath }
+        handlerResponse={ handlerResponse }
+        submitForm={ SubmitAddNewRoute }
+      />
     );
 
 };
@@ -83,34 +83,34 @@ interface IViewProps {
 
 const View = (props: IViewProps) => {
     return (
-        <Form size={ 'tiny' }>
-            <Form.Group widths='equal'>
-                <Form.Select required fluid label='Method' placeholder='Http method'
-                             options={ options }
-                             value={ props.method }
-                             onChange={ (e, { value }) => props.handlerMethod(value) }
-                />
-                <Form.Input fluid required label='Path' placeholder='/path'
-                            value={ props.path }
-                            onChange={ (e) => props.handlerPath(e.target.value) }
-                />
-                {/* To DO */ }
-                <Form.Input fluid required label='Response' placeholder='Response' type={ 'file' }
-                            onChange={ (event) => props.handlerResponse(event.target.files[0]) }
-                />
-            </Form.Group>
-            <Grid>
-                <Grid.Column textAlign="right">
-                    <Button icon primary circular labelPosition={ 'left' }
-                            onClick={ props.submitForm }
-                    >
-                        <Icon name={ "add" }/>
-                        Add new route
-                    </Button>
-                </Grid.Column>
-            </Grid>
+      <Form size={ 'tiny' }>
+          <Form.Group widths='equal'>
+              <Form.Select required fluid label='Method' placeholder='Http method'
+                           options={ options }
+                           value={ props.method }
+                           onChange={ (e, { value }) => props.handlerMethod(value) }
+              />
+              <Form.Input fluid required label='Path' placeholder='/path'
+                          value={ props.path }
+                          onChange={ (e) => props.handlerPath(e.target.value) }
+              />
+              {/* To DO */ }
+              <Form.Input fluid required label='Response' placeholder='Response' type={ 'file' }
+                          onChange={ (event) => props.handlerResponse(event.target.files[0]) }
+              />
+          </Form.Group>
+          <Grid>
+              <Grid.Column textAlign="right">
+                  <Button icon primary circular labelPosition={ 'left' }
+                          onClick={ props.submitForm }
+                  >
+                      <Icon name={ "add" }/>
+                      Add new route
+                  </Button>
+              </Grid.Column>
+          </Grid>
 
-        </Form>
+      </Form>
     );
 }
 

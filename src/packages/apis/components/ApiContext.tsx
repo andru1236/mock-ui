@@ -63,21 +63,21 @@ export const ApiProvider = (props: any) => {
     }, [])
 
     return (
-        <ApiContext.Provider
-            value={ {
-                apis,
-                selectedApi,
-                reloadApis,
-                selectApi,
-                createApi,
-                updateApi,
-                removeApi,
-                startApi,
-                stopApi
-            } }
-        >
-            { props.children }
-        </ApiContext.Provider>
+      <ApiContext.Provider
+        value={ {
+            apis,
+            selectedApi,
+            reloadApis,
+            selectApi,
+            createApi,
+            updateApi,
+            removeApi,
+            startApi,
+            stopApi
+        } }
+      >
+          { props.children }
+      </ApiContext.Provider>
     )
 }
 
@@ -85,8 +85,8 @@ export const ApiConsumer = ApiContext.Consumer;
 
 export const withApiConsumer = WrappedComponent => props => {
     return (
-        <ApiConsumer>
-            { context => <WrappedComponent { ...props } { ...context }/> }
-        </ApiConsumer>
+      <ApiConsumer>
+          { context => <WrappedComponent { ...props } { ...context }/> }
+      </ApiConsumer>
     )
 }

@@ -69,21 +69,21 @@ const _PathProvider = ({ match, children }: any) => {
     }, [])
 
     return (
-        <PathContext.Provider
-            value={ {
-                selectedApi,
-                reloadSelectedApi,
-                getOneApi,
-                addNewRoute,
-                updateRoute,
-                removeRoute,
-                addParamToRoute,
-                updateParamFromRoute,
-                removeParamFromRoute
-            } }
-        >
-            { children }
-        </PathContext.Provider>
+      <PathContext.Provider
+        value={ {
+            selectedApi,
+            reloadSelectedApi,
+            getOneApi,
+            addNewRoute,
+            updateRoute,
+            removeRoute,
+            addParamToRoute,
+            updateParamFromRoute,
+            removeParamFromRoute
+        } }
+      >
+          { children }
+      </PathContext.Provider>
     )
 };
 
@@ -93,9 +93,9 @@ export const PathConsumer = PathContext.Consumer;
 
 export const withPathConsumer = WrappedComponent => props => {
     return (
-        <PathConsumer>
-            { context => <WrappedComponent { ...props } { ...context }/> }
-        </PathConsumer>
+      <PathConsumer>
+          { context => <WrappedComponent { ...props } { ...context }/> }
+      </PathConsumer>
     )
 };
 

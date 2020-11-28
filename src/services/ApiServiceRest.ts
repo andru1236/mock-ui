@@ -95,11 +95,11 @@ export class ApiServiceRest implements RestAPI {
 
     deleteParams (apiId: string, routeId: string, method: string, params: string) {
         return this.axiosInstance.delete(`${ this.END_POINT }/${ apiId }/routes/${ routeId }/params`,
-            {
-                data: {
-                    params: params,
-                    method: method
-                }
-            });
+          {
+              data: {
+                  params: params,
+                  method: method
+              }
+          });
     }
 }

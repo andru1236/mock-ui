@@ -9,16 +9,16 @@ import { ApiProvider } from "./ApiContext";
 
 
 const MainView = () => (
-    <div className="App">
-        <MainHeader/>
-        <Divider/>
-        <Container textAlign='justified'>
-            <ApiProvider>
-                <ApisTable/>
-            </ApiProvider>
-        </Container>
-        <SemanticToastContainer/>
-    </div>
+  <div className="App">
+      <MainHeader/>
+      <Divider/>
+      <Container textAlign='justified'>
+          <ApiProvider>
+              <ApisTable/>
+          </ApiProvider>
+      </Container>
+      <SemanticToastContainer/>
+  </div>
 );
 
 export default MainView;
