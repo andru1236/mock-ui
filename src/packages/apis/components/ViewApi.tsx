@@ -3,22 +3,22 @@ import { Container, Divider } from "semantic-ui-react";
 // Toast
 import { SemanticToastContainer } from 'react-semantic-toasts';
 // Components
-import MainHeader from "../../common/MainHeader";
-import ApisTable from "./table/ApisTable";
+import HeaderMain from "../../common/HeaderMain";
+import TableApis from "./table/TableApis";
 import { ApiProvider } from "./ApiContext";
 
 
-const MainView = () => (
+const ViewApi = () => (
   <div className="App">
-      <MainHeader/>
+      <HeaderMain/>
       <Divider/>
       <Container textAlign='justified'>
           <ApiProvider>
-              <ApisTable/>
+              <TableApis/>
           </ApiProvider>
       </Container>
       <SemanticToastContainer/>
   </div>
 );
 
-export default MainView;
+export default ViewApi;

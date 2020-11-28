@@ -7,7 +7,7 @@ interface IViewProps extends ApiContextProps {
     closeForm (): void;
 }
 
-const RemoveApiForm = ({ isOpenModal, closeForm, selectedApi, reloadApis, removeApi }: IViewProps) => (
+const ConfirmRemoveApi = ({ isOpenModal, closeForm, selectedApi, reloadApis, removeApi }: IViewProps) => (
   <Modal open={ isOpenModal } basic size='small'>
       <Header icon='archive' content={ `Are you sure to remove this api ${ selectedApi.name }` }/>
 
@@ -33,4 +33,4 @@ const RemoveApiForm = ({ isOpenModal, closeForm, selectedApi, reloadApis, remove
       </Modal.Actions>
   </Modal>
 );
-export default withApiConsumer(RemoveApiForm);
+export default withApiConsumer(ConfirmRemoveApi);

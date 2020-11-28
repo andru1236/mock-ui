@@ -10,7 +10,7 @@ interface IViewProps extends ApiContextProps {
     closeForm (): void;
 }
 
-const ApiForm = ({ isOpenModal, action, closeForm, reloadApis, createApi, updateApi, selectedApi }: IViewProps) => {
+const FormApi = ({ isOpenModal, action, closeForm, reloadApis, createApi, updateApi, selectedApi }: IViewProps) => {
     const [name, setName] = useState("");
     const [port, setPort] = useState(0);
 
@@ -46,14 +46,18 @@ const ApiForm = ({ isOpenModal, action, closeForm, reloadApis, createApi, update
                     emmitToastMessage.error('UI error', 'Something wrong happened, call to Developers to fix it')
             }
             cleanFields();
-            closeForm();
             reloadApis();
+            closeForm();
         }
     };
 
     useEffect(() => {
-        setName(selectedApi.name);
-        setPort(selectedApi.port);
+        if (action.toUpperCase() === 'CREATE'){
+            cleanFields();
+        } else {
+            setName(selectedApi.name);
+            setPort(selectedApi.port);
+        }
     }, [selectedApi]);
 
     return (
@@ -97,4 +101,4 @@ const ApiForm = ({ isOpenModal, action, closeForm, reloadApis, createApi, update
       </Modal>);
 };
 
-export default withApiConsumer(ApiForm);
+export default withApiConsumer(FormApi);

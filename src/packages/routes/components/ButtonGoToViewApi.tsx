@@ -9,7 +9,7 @@ interface IViewProps extends PathContextProps {
     match: any;
 }
 
-const GoToApiButton = ({ history, selectedApi }: IViewProps) => {
+const ButtonGoToViewApi = ({ history, selectedApi }: IViewProps) => {
     return (
       <Grid>
           <Grid.Row>
@@ -22,4 +22,4 @@ const GoToApiButton = ({ history, selectedApi }: IViewProps) => {
     )
 }
 
-export default withRouter(withPathConsumer(GoToApiButton));
+export default withRouter(withPathConsumer(ButtonGoToViewApi));

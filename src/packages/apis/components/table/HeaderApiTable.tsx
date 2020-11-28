@@ -5,10 +5,10 @@ const HeaderApiTable = () => (
   <Table.Header>
       <Table.Row>
           <Table.HeaderCell/>
-          <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell>Port</Table.HeaderCell>
-          <Table.HeaderCell>Number of paths</Table.HeaderCell>
-          <Table.HeaderCell>Api actions</Table.HeaderCell>
+          <Table.HeaderCell>NAME</Table.HeaderCell>
+          <Table.HeaderCell>PORT</Table.HeaderCell>
+          <Table.HeaderCell>NUMBER OR ROUTES</Table.HeaderCell>
+          <Table.HeaderCell>API ACTIONS</Table.HeaderCell>
       </Table.Row>
   </Table.Header>
 );

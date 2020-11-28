@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Grid, Label } from "semantic-ui-react";
-import UpdateResponseForm from "../forms/UpdateResponseForm";
+import FormUpdateResponse from "../forms/FormUpdateResponse";
 import { IParam } from "../../../../domain/api";
 
 interface IViewProps {
@@ -9,13 +9,13 @@ interface IViewProps {
     deleteParam (): any;
 }
 
-const ParamActionButtons = ({ currentParam, submitUpdateResponse, deleteParam }: IViewProps) => {
+const ButtonParamAction = ({ currentParam, submitUpdateResponse, deleteParam }: IViewProps) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
       <Grid>
           <Grid.Column textAlign="left">
               <Label as={ 'a' } color={ 'green' } onClick={ () => setIsOpen(true) }>Response</Label>
-              <UpdateResponseForm
+              <FormUpdateResponse
                 isOpen={ isOpen }
                 title={ currentParam.param }
                 response={ currentParam.response }
@@ -33,5 +33,5 @@ const ParamActionButtons = ({ currentParam, submitUpdateResponse, deleteParam }:
     )
 }
 
-export default ParamActionButtons;
+export default ButtonParamAction;
 

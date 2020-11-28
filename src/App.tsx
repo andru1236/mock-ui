@@ -5,8 +5,8 @@ import {
     Route
 } from "react-router-dom";
 
-import MainView from "./packages/apis/components/MainView";
-import ApiRoutesView from "./packages/routes/components/ApiRoutesView";
+import ViewApi from "./packages/apis/components/ViewApi";
+import ViewRoutes from "./packages/routes/components/ViewRoutes";
 
 const App: React.FC = () => {
     return (
@@ -15,11 +15,11 @@ const App: React.FC = () => {
               <Switch>
 
                   <Route path="/apis/:apiId/routes">
-                      <ApiRoutesView/>
+                      <ViewRoutes/>
                   </Route>
 
                   <Route path="/">
-                      <MainView/>
+                      <ViewApi/>
                   </Route>
 
               </Switch>

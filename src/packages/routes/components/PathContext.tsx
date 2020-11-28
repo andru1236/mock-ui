@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, Fragment, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { IApiInstance, IParam, IRoute } from "../../../domain/api";
+import { Dimmer, Loader } from "semantic-ui-react";
 import {
     getOneApi,
     addNewRoute,
@@ -15,6 +16,7 @@ import { handlerError } from "../../common/handlerError";
 
 
 export interface PathContextProps {
+    isLoading: boolean;
     selectedApi: IApiInstance | any;
     getOneApi (apiId: string): void;
     addNewRoute (apiId: string, route: IRoute): any;
@@ -27,6 +29,7 @@ export interface PathContextProps {
 }
 
 const PathContext = createContext<PathContextProps>({
+    isLoading: false,
     selectedApi: {
         _id: "",
         name: "",
@@ -48,7 +51,7 @@ const PathContext = createContext<PathContextProps>({
 });
 
 const _PathProvider = ({ match, children }: any) => {
-
+    const [isLoading, setIsLoading] = useState(true)
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -61,7 +64,13 @@ const _PathProvider = ({ match, children }: any) => {
     });
 
     const reloadSelectedApi = () => {
-        getOneApi(match.params.apiId).then(res => setSelectedApi(res)).catch(error => handlerError(error));
+        setIsLoading(true);
+        getOneApi(match.params.apiId)
+          .then(res => {
+              setSelectedApi(res);
+              setIsLoading(false);
+          })
+          .catch(error => handlerError(error));
     };
 
     useEffect(() => {
@@ -71,6 +80,7 @@ const _PathProvider = ({ match, children }: any) => {
     return (
       <PathContext.Provider
         value={ {
+            isLoading,
             selectedApi,
             reloadSelectedApi,
             getOneApi,
@@ -94,7 +104,16 @@ export const PathConsumer = PathContext.Consumer;
 export const withPathConsumer = WrappedComponent => props => {
     return (
       <PathConsumer>
-          { context => <WrappedComponent { ...props } { ...context }/> }
+          { context => {
+              return (
+                <Fragment>
+                    <Dimmer active={ context.isLoading } inverted={ true }>
+                        <Loader inverted={ true }>Loading</Loader>
+                    </Dimmer>
+                    <WrappedComponent { ...props } { ...context }/>
+                </Fragment>
+              )
+          } }
       </PathConsumer>
     )
 };

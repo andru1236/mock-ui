@@ -6,9 +6,7 @@ import HeaderApiTable from './HeaderApiTable';
 import FooterApiTable from './FooterApiTable';
 import BodyApiListV2 from "./BodyApiListV2";
 
-import { withApiConsumer } from "../ApiContext";
-
-const ApisTable = () => (
+const TableApis = () => (
   <Table compact celled definition>
       <HeaderApiTable/>
       <BodyApiListV2/>
@@ -16,4 +14,4 @@ const ApisTable = () => (
   </Table>
 );
 
-export default withApiConsumer(ApisTable);
+export default TableApis;
