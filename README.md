@@ -19,6 +19,6 @@ docker-compose up
 ``` 
 
 ## Author
-_Andres Gutierrez P.__
+_Andres Gutierrez P__
 
-**andres.gutierrez@jalasoft.com**
+**andru1236@gmail.com**
