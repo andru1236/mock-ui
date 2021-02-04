@@ -7,6 +7,8 @@ import {
 
 import ViewApi from "./packages/apis/components/ViewApi";
 import ViewRoutes from "./packages/routes/components/ViewRoutes";
+import ViewResponse from "./packages/response/ViewResponse";
+
 
 const App: React.FC = () => {
     return (
@@ -16,6 +18,11 @@ const App: React.FC = () => {
 
                   <Route path="/apis/:apiId/routes">
                       <ViewRoutes/>
+                  </Route>
+
+                  <Route path="/responses">
+                      <ViewResponse/>
+
                   </Route>
 
                   <Route path="/">
