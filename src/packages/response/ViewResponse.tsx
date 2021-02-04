@@ -15,13 +15,13 @@ const ViewResponse = () => {
           <Grid.Column width={3}>
             <TableResponses />
           </Grid.Column>
-          <Grid.Column width={8}>
+          <Grid.Column width={7}>
             <EditorResponse />
           </Grid.Column>
-          <Grid.Column width={2} style={{ display: "flex", alignItems: "center" }}>
+          <Grid.Column width={1} style={{ display: "flex", alignItems: "center" }}>
             <Button icon={"arrow right"} size={"huge"} circular color={'red'}/>
           </Grid.Column>
-          <Grid.Column width={3}>
+          <Grid.Column width={5}>
             <TableApis />
           </Grid.Column>
         </Grid>

@@ -1,16 +1,33 @@
 import React from "react";
-import { Table } from "semantic-ui-react";
+import { Input, Segment, Table } from "semantic-ui-react";
 
 const TableResponse = (params) => {
   return (
-    <Table basic="very" celled collapsing>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Employee</Table.HeaderCell>
-          <Table.HeaderCell>Correct Guesses</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-    </Table>
+    <Segment>
+      <Input icon='search' placeholder='Search...' />
+      <Table selectable celled>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Responses</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+            <Table.Row><Table.Cell>Testing</Table.Cell></Table.Row>
+        </Table.Body>
+      </Table>
+    </Segment>
   );
 };
 

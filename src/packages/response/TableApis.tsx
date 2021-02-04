@@ -1,16 +1,31 @@
 import React from "react";
-import { Table } from "semantic-ui-react";
+import { Breadcrumb, Input, Segment, Table } from "semantic-ui-react";
 
 const TableApis = (params) => {
+  const sections = [
+    { key: "api", content: "Api", link: true },
+    { key: "route", content: "Route", link: true },
+    { key: "resource", content: "Resource", active: true },
+  ];
   return (
-    <Table basic="very" celled collapsing>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Employee</Table.HeaderCell>
-          <Table.HeaderCell>Correct Guesses</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-    </Table>
+    <Segment.Group>
+      <Segment>
+        <Breadcrumb icon="right angle" sections={sections} />
+      </Segment>
+      <Segment>
+        <Input icon="search" placeholder="Search..." />
+      </Segment>
+      <Table celled selectable>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>Employee</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Employee</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    </Segment.Group>
   );
 };
 

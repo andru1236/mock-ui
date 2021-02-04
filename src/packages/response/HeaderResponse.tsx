@@ -27,11 +27,9 @@ const HeaderResponse = ({ history }) => {
                 onClick={() => history.push("/")}
               />
             </Grid.Column>
-            <Grid.Column width={8}>{" Response / API"}</Grid.Column>
+            <Grid.Column width={8}>{" Response Editor / API"}</Grid.Column>
             <Grid.Column width={4}>
-              <Button size={"huge"} style={{ padding: "1rem" }} secondary>
-                Save
-              </Button>
+              
             </Grid.Column>
           </Grid>
         </Header>
