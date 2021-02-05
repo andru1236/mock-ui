@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Breadcrumb, Input, Segment, Table } from "semantic-ui-react";
-import { withResponseConsumer, ResponseContextProps } from "./ResponseContext";
+import { withResponseConsumer, ResponseContextProps } from "../ResponseContext";
 
 const TableApis = ({ apis }: ResponseContextProps) => {
   const [foundApis, filterApis] = useState([]);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input, Segment, Table } from "semantic-ui-react";
-import { withResponseConsumer, ResponseContextProps } from './ResponseContext'
+import { withResponseConsumer, ResponseContextProps } from '../ResponseContext'
+
 
 
 const TableResponse = ({ responses }: ResponseContextProps) => {

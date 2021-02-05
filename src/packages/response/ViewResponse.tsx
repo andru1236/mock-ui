@@ -1,11 +1,11 @@
 import React from "react";
 import { Button, Container, Grid } from "semantic-ui-react";
-
-import HeaderResponse from "./HeaderResponse";
-import EditorResponse from "./EditorResponse";
-import TableResponses from "./TableResponses";
-import TableApis from "./TableApis";
 import { ResponseProvider } from './ResponseContext'
+import HeaderResponse from "./components/HeaderResponse";
+import EditorResponse from "./components/EditorResponse";
+import TableResponses from "./components/TableResponses";
+import TableApis from "./components/TableApis";
+
 
 const ViewResponse = () => {
   return (
