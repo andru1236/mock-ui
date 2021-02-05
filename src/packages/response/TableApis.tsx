@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Breadcrumb, Input, Segment, Table } from "semantic-ui-react";
+import { withResponseConsumer } from "./ResponseContext";
+import { getApis } from "./sources";
 
-const TableApis = (params) => {
+const TableApis = ({apis}) => {
+  // const [apis, setApis] = useState([]);
+
   const sections = [
     { key: "api", content: "Api", link: true },
     { key: "route", content: "Route", link: true },
@@ -17,16 +21,15 @@ const TableApis = (params) => {
       </Segment>
       <Table celled selectable>
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>Employee</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Employee</Table.Cell>
-          </Table.Row>
+          {apis.map((api) => (
+            <Table.Row key={api._id}>
+              <Table.Cell>{api.name}</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table>
     </Segment.Group>
   );
 };
 
-export default TableApis;
+export default withResponseConsumer(TableApis);
