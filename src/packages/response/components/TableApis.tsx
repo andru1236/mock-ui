@@ -22,7 +22,6 @@ const TableApis = ({ apis }: ResponseContextProps) => {
     } else {
       filterApis(apis.filter(api => api.name.includes(search)))
     }
-
   }, [apis, search]);
 
 

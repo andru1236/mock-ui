@@ -4,7 +4,7 @@ import { withResponseConsumer, ResponseContextProps } from '../ResponseContext'
 
 
 
-const TableResponse = ({ responses }: ResponseContextProps) => {
+const TableResponse = ({ responses, selectResponse }: ResponseContextProps) => {
   const [foundResponses, filterResponses] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -34,7 +34,7 @@ const TableResponse = ({ responses }: ResponseContextProps) => {
           {
             foundResponses.map((response) => (
               <Table.Row key={response._id}>
-                <Table.Cell>{response.name}</Table.Cell>
+                <Table.Cell onClick={() => selectResponse(response._id)}>{response.name}</Table.Cell>
               </Table.Row>
             ))
           }

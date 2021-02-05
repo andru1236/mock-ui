@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Container, Grid } from "semantic-ui-react";
 import { ResponseProvider } from './ResponseContext'
+import { SemanticToastContainer } from 'react-semantic-toasts';
 import HeaderResponse from "./components/HeaderResponse";
 import EditorResponse from "./components/EditorResponse";
 import TableResponses from "./components/TableResponses";
@@ -33,6 +34,7 @@ const ViewResponse = () => {
 
           </Grid>
         </Container>
+        <SemanticToastContainer/>
       </ResponseProvider>
     </div>
   );

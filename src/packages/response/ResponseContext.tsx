@@ -3,15 +3,18 @@ import { IApiInstance } from "../../domain/api";
 import { IResponse } from "../../domain/response";
 import { getApis, getResponses, removeAResponse } from './sources';
 import { handlerError } from '../common/handlerError'
+import { Dimmer, Loader } from "semantic-ui-react";
 import emmitToastMessage from "../common/emmitToastMessage";
 
 export interface ResponseContextProps {
+    isLoading?: boolean;
     apis: IApiInstance[];
     responses: IResponse[];
     selectedApi: any;
     selectedResponse: any;
     selectApi?(apiId: string): void;
     selectResponse?(responseId: string): void;
+    unSelectResponse?(): void;
     reloadApis?(): void;
     reloadResponses?(): void;
     removeResponse?(): void;
@@ -33,6 +36,7 @@ const ResponseContext = createContext<ResponseContextProps>({
 });
 
 export const ResponseProvider = (props: any) => {
+    const [isLoading, setIsLoading] = useState(true)
     const [apis, setApis] = useState([]);
     const [responses, setResponses] = useState([]);
     const [selectedApi, setSelectedApi] = useState({
@@ -47,25 +51,59 @@ export const ResponseProvider = (props: any) => {
     })
 
     const selectApi = apiId => setSelectedApi(apis.find(api => api._id === apiId));
-    const removeResponse = () => selectedApi._id !== "" ? removeAResponse(selectedApi._id): emmitToastMessage.error('Response no exists', 'First Save the response');
+    const removeResponse = () => {
+        selectedResponse._id !== "" ?
+            removeAResponse(selectedResponse._id)
+            : emmitToastMessage.error('Response no exists', 'First Save the response');
+        // WHY double render??
+        reloadResponses();
+        reloadResponses();
+    };
     const selectResponse = responseId => setSelectedResponse(responses.find(response => response._id === responseId));
-    const reloadApis = () => getApis().then(res => setApis(res.apis)).catch(error => handlerError(error));
-    const reloadResponses = () => getResponses().then(res => setResponses(res.responses)).catch(error => handlerError(error));
+    const unSelectResponse = () => setSelectedResponse({ _id: "", name: "", response: {} })
+
+    const reloadApis = () => {
+        setIsLoading(true);
+        getApis()
+            .then(res => {
+                setApis(res.apis);
+                setIsLoading(false);
+            })
+            .catch(error => handlerError(error))
+    };
+
+    const reloadResponses = () => {
+        setIsLoading(true);
+        getResponses()
+            .then(res => {
+                setResponses(res.responses);
+                setIsLoading(false);
+            })
+            .catch(error => handlerError(error))
+    };
 
     useEffect(() => {
+        setIsLoading(true);
         getResponses().then(res => setResponses(res.responses)).catch(error => handlerError(error));
-        getApis().then(res => setApis(res.apis)).catch(error => handlerError(error));
+        getApis()
+            .then(res => {
+                setApis(res.apis);
+                setIsLoading(false);
+            })
+            .catch(error => handlerError(error));
     }, []);
 
     return (
         <ResponseContext.Provider
             value={{
+                isLoading,
                 apis,
                 responses,
                 selectedApi,
                 selectedResponse,
                 selectApi,
                 selectResponse,
+                unSelectResponse,
                 removeResponse,
                 reloadApis,
                 reloadResponses
@@ -84,7 +122,12 @@ export const withResponseConsumer = WrappedComponent => props => {
         <ResponseConsumer>
             {context => {
                 return (
-                    <WrappedComponent {...props} {...context} />
+                    <>
+                        <Dimmer active={context.isLoading} inverted={true}>
+                            <Loader inverted={true}>Loading</Loader>
+                        </Dimmer>
+                        <WrappedComponent {...props} {...context} />
+                    </>
                 )
             }}
         </ResponseConsumer>
