@@ -50,7 +50,7 @@ const BodyApiList = ({ apis, startApi, stopApi, reloadApis, selectApi, history }
                             selectApi(api._id);
                             history.push(`/apis/${ api._id }/routes`);
                         } }>
-                            { "Rotes" }
+                            { "Routes" }
                         </Button>
                         <Button basic size={ 'tiny' } color={ 'blue' } onClick={ () => {
                             selectApi(api._id);
