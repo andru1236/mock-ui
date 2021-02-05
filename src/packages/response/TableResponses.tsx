@@ -15,7 +15,7 @@ const TableResponse = ({ responses }: ResponseContextProps) => {
     if (search === "") {
       filterResponses(responses);
     } else {
-      filterResponses(responses.filter(res => res.name.startsWith(search)))
+      filterResponses(responses.filter(res => res.name.includes(search)))
     }
 
   }, [responses, search])
