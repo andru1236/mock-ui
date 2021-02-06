@@ -13,6 +13,7 @@ export interface ResponseContextProps {
     selectedApi: any;
     selectedResponse: any;
     selectApi?(apiId: string): void;
+    unSelectApi?(): void;
     selectResponse?(responseId: string): void;
     unSelectResponse?(): void;
     reloadApis?(): void;
@@ -51,6 +52,12 @@ export const ResponseProvider = (props: any) => {
     })
 
     const selectApi = apiId => setSelectedApi(apis.find(api => api._id === apiId));
+    const unSelectApi = () => setSelectedApi({
+        _id: "",
+        name: "",
+        routes: [],
+    });
+
     const removeResponse = () => {
         selectedResponse._id !== "" ?
             removeAResponse(selectedResponse._id)
@@ -102,6 +109,7 @@ export const ResponseProvider = (props: any) => {
                 selectedApi,
                 selectedResponse,
                 selectApi,
+                unSelectApi,
                 selectResponse,
                 unSelectResponse,
                 removeResponse,
