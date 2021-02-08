@@ -1,4 +1,5 @@
 import { apiServiceRest } from "../../services";
+import emmitToastMessage from "../common/emmitToastMessage";
 import { handlerError } from "../common/handlerError";
 
 const cleanerResponse = (response) => response.data.data;
@@ -43,9 +44,13 @@ export const removeAResponse = async (responseId) => {
     }
 }
 
-export const aasignResponseToApi = async (responseId, apiId, path, method) => {
+export const assignResponseToApi = async (responseId, apiId, path, method, success_message = false) => {
     try {
-        return cleanerResponse(await apiServiceRest.assignResponseToApi(responseId, apiId, path, method));
+        const result = cleanerResponse(await apiServiceRest.assignResponseToApi(responseId, apiId, path, method));
+        if(success_message !== false){
+            emmitToastMessage.success('Succesful', 'Response was assigned properly');
+        }
+        
     } catch (error) {
         handlerError(error);
     }

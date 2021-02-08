@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { IApiInstance } from "../../domain/api";
+import { IApiInstance, IRoute } from "../../domain/api";
 import { IResponse } from "../../domain/response";
 import { getApis, getResponses, removeAResponse } from './sources';
 import { handlerError } from '../common/handlerError'
@@ -12,6 +12,8 @@ export interface ResponseContextProps {
     responses: IResponse[];
     selectedApi: any;
     selectedResponse: any;
+    selectedRouteToUpdate?: IRoute;
+    selectRouteToUpdate?(route: IRoute): any;
     selectApi?(apiId: string): void;
     unSelectApi?(): void;
     selectResponse?(responseId: string): void;
@@ -50,6 +52,8 @@ export const ResponseProvider = (props: any) => {
         name: "",
         response: {},
     })
+
+    const [selectedRouteToUpdate, selectRouteToUpdate] = useState({path:"", method: ""});
 
     const selectApi = apiId => setSelectedApi(apis.find(api => api._id === apiId));
     const unSelectApi = () => setSelectedApi({
@@ -108,10 +112,12 @@ export const ResponseProvider = (props: any) => {
                 responses,
                 selectedApi,
                 selectedResponse,
+                selectedRouteToUpdate,
                 selectApi,
                 unSelectApi,
                 selectResponse,
                 unSelectResponse,
+                selectRouteToUpdate,
                 removeResponse,
                 reloadApis,
                 reloadResponses

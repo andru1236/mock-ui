@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Input, Segment, Table, BreadcrumbDividerProps } from "semantic-ui-react";
+import { Breadcrumb, Input, Segment, Table } from "semantic-ui-react";
+import { IPath } from "../../../domain/api";
 import { withResponseConsumer, ResponseContextProps } from "../ResponseContext";
 
-const TableApis = ({ apis, selectedApi, selectApi, unSelectApi }: ResponseContextProps) => {
+const SPECIFIC_ROUTE_DEFAULT: IPath = { path: "", resources: [] };
+
+const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToUpdate, selectRouteToUpdate }: ResponseContextProps) => {
   const [foundApis, filterApis] = useState([]);
   const [foundRoutes, filterRoutes] = useState([]);
-  const [specificRoute, setSpecificRoute] = useState({resources: []});
+  const [specificRoute, setSpecificRoute] = useState(SPECIFIC_ROUTE_DEFAULT);
   const [search, setSearch] = useState("");
 
   const [apiActive, setApiActive] = useState(true);
@@ -38,6 +41,17 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi }: ResponseContex
 
   }, [selectedApi, search]);
 
+  // TODO: refactor
+  useEffect(() => {
+    if (resourceActive) {
+      if (selectedApi._id === "") {
+        setApiActive(true);
+        setRouteActive(false);
+        selectRouteToUpdate({ path: "", method: "" });
+      }
+    }
+  }, [selectedApi]);
+
   const renderMiniTabs = () => {
     if (apiActive) {
       return (<Breadcrumb icon="right angle" sections={[{ key: "api", content: "Api", active: true }]} />)
@@ -53,10 +67,25 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi }: ResponseContex
       return (
         <Breadcrumb icon="right angle" sections={
           [
-            { key: "api", content: "Api", link: true, 
-              onClick: () => { unSelectApi(); setApiActive(true); setRouteActive(false) } },
-            { key: "route", content: "Route", link: true, 
-              onClick: () => { setSpecificRoute({resources: []}); setApiActive(false); setRouteActive(true); setResourceActive(false);}},
+            {
+              key: "api", content: "Api", link: true,
+              onClick: () => {
+                unSelectApi();
+                setApiActive(true);
+                setRouteActive(false);
+                selectRouteToUpdate({ path: "", method: "" });
+              }
+            },
+            {
+              key: "route", content: "Route", link: true,
+              onClick: () => {
+                setSpecificRoute(SPECIFIC_ROUTE_DEFAULT);
+                setApiActive(false);
+                setRouteActive(true);
+                setResourceActive(false);
+                selectRouteToUpdate({ path: "", method: "" })
+              }
+            },
             { key: "resource", content: "Resource", active: true }
           ]
         } />
@@ -87,7 +116,7 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi }: ResponseContex
       return foundRoutes.map((route) => (
         <Table.Row key={route._id}>
           <Table.Cell
-            onClick = { () => {
+            onClick={() => {
               setSpecificRoute(route);
               setApiActive(false);
               setRouteActive(false);
@@ -105,9 +134,20 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi }: ResponseContex
     if (resourceActive) {
       return specificRoute.resources.map((resource) => (
         <Table.Row key={resource.method}>
-          <Table.Cell>
-            {resource.method}
-          </Table.Cell>
+          {
+            resource.method === selectedRouteToUpdate.method && specificRoute.path === selectedRouteToUpdate.path
+              ?
+              <Table.Cell positive>
+                {resource.method}
+              </Table.Cell>
+              :
+              <Table.Cell
+                onClick={() => { selectRouteToUpdate({ path: specificRoute.path, method: resource.method }) }}
+              >
+                {resource.method}
+              </Table.Cell>
+          }
+
         </Table.Row>
       ))
     }

@@ -21,7 +21,7 @@ export interface IResource {
 }
 
 export interface IPath {
-    _id: string;
+    _id?: string;
     path: string;
     resources: IResource[];
 }

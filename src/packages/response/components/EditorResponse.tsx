@@ -78,6 +78,9 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
     if (selectedResponse._id !== "") {
       setEditorValue(selectedResponse.response);
       setName(selectedResponse.name);
+    } else {
+      setName("");
+      setEditorValue(exampleJson);
     }
   }, [selectedResponse]);
 
