@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Container, Grid } from "semantic-ui-react";
+import { Container, Grid } from "semantic-ui-react";
 import { ResponseProvider } from './ResponseContext'
 import { SemanticToastContainer } from 'react-semantic-toasts';
 import HeaderResponse from "./components/HeaderResponse";
 import EditorResponse from "./components/EditorResponse";
 import TableResponses from "./components/TableResponses";
+import ButtonAssignRoute from './components/ButtonAssignRoute';
 import TableApis from "./components/TableApis";
 
 
@@ -25,7 +26,7 @@ const ViewResponse = () => {
             </Grid.Column>
 
             <Grid.Column width={1} style={{ display: "flex", alignItems: "center" }}>
-              <Button icon={"arrow right"} size={"huge"} circular color={"red"} />
+              <ButtonAssignRoute/>
             </Grid.Column>
 
             <Grid.Column width={5}>
