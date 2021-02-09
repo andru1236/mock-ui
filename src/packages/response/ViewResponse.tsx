@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid } from "semantic-ui-react";
+import { Container, Grid, Header, Segment } from "semantic-ui-react";
 import { ResponseProvider } from './ResponseContext'
 import { SemanticToastContainer } from 'react-semantic-toasts';
 import HeaderResponse from "./components/HeaderResponse";
@@ -25,8 +25,11 @@ const ViewResponse = () => {
               <EditorResponse />
             </Grid.Column>
 
-            <Grid.Column width={1} style={{ display: "flex", alignItems: "center" }}>
-              <ButtonAssignRoute/>
+            <Grid.Column width={1} style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+              <Header as={'h2'}>
+                Assign
+                </Header>
+              <ButtonAssignRoute />
             </Grid.Column>
 
             <Grid.Column width={5}>
@@ -35,7 +38,7 @@ const ViewResponse = () => {
 
           </Grid>
         </Container>
-        <SemanticToastContainer/>
+        <SemanticToastContainer />
       </ResponseProvider>
     </div>
   );
