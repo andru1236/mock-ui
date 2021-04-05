@@ -8,9 +8,10 @@ const getApiById = gql`
       port
       settings {
         enabled
-        created_on
+        createdOn
       }
       routes {
+        id
         path
         resources {
           method
