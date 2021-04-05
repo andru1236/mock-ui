@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { IApiInstance, IRoute } from "../../domain/api";
 import { IResponse } from "../../domain/response";
-import { getApis, getResponses, removeAResponse } from './sources';
+import { getApis, getResponses, removeAResponse } from './gqlSources';
 import { handlerError } from '../common/handlerError'
 import { Dimmer, Loader } from "semantic-ui-react";
 import emmitToastMessage from "../common/emmitToastMessage";
@@ -95,7 +95,11 @@ export const ResponseProvider = (props: any) => {
 
     useEffect(() => {
         setIsLoading(true);
-        getResponses().then(res => setResponses(res.responses)).catch(error => handlerError(error));
+        getResponses()
+            .then(res => {
+                setResponses(res.responses)
+            })
+            .catch(error => handlerError(error));
         getApis()
             .then(res => {
                 setApis(res.apis);

@@ -1,7 +1,7 @@
 import React, { createContext, Fragment, useEffect, useState } from "react";
 
 import { IApiInstance } from "../../../domain/api";
-import { createApi, removeApi, getApis, updateApi, startApi, stopApi } from "../sources";
+import { createApi, removeApi, getApis, updateApi, startApi, stopApi } from "../gqlSources";
 import { handlerError } from "../../common/handlerError";
 import { Dimmer, Loader } from "semantic-ui-react";
 
