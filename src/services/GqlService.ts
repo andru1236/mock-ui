@@ -8,7 +8,11 @@ const gqlClient = new ApolloClient({
 });
 
 // execute GQL Query
-const executeQuery = async (options: any, successCallback: any = null, errorCallback: any = null) => {
+const executeQuery = async (options: any, successCallback: any = null, errorCallback: any = null, withCache: boolean = false) => {
+  if (!withCache) {
+    options.fetchPolicy = "no-cache";
+  }
+
   return await gqlClient.query(options)
     .then(res => {
       if (successCallback) {

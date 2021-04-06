@@ -63,7 +63,8 @@ export const ApiProvider = (props: any) => {
         getApis().then(res => {
             setApis(res.apis);
             setIsLoading(false);
-        });
+        })
+        .catch(error => handlerError(error));
     };
     const selectApi = (apiId) => setSelectedApi(apis.find(api => api._id === apiId));
 
