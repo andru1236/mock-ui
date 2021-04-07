@@ -1,7 +1,7 @@
 import React, { createContext, Fragment, useEffect, useState } from "react";
 
 import { IApiInstance } from "../../../domain/api";
-import { createApi, removeApi, getApis, updateApi, startApi, stopApi } from "../gqlSources";
+import { createApi, removeApi, getApis, updateApi, startApi, stopApi, getApisLength } from "../gqlSources";
 import { handlerError } from "../../common/handlerError";
 import { Dimmer, Loader } from "semantic-ui-react";
 
@@ -20,6 +20,7 @@ export interface ApiContextProps {
     stopApi (apiId): void;
     setConfigPage(config): void;
     configPage: any;
+    apisLength: any;
 }
 
 // CONTEXT
@@ -44,13 +45,15 @@ const ApiContext = createContext<ApiContextProps>({
     startApi,
     stopApi,
     setConfigPage: (config) => {},
-    configPage: { active:0, next:0 }
+    configPage: { active:0, next:0 },
+    apisLength: 0
 });
 
 // COMPONENTS
 export const ApiProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apis, setApis] = useState([]);
+    const [apisLength, setApisLength] = useState(0);
     const [configPage, setConfigPage] = useState({ active:1, next:0 });
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
@@ -81,6 +84,12 @@ export const ApiProvider = (props: any) => {
               setIsLoading(false);
           })
           .catch(error => handlerError(error));
+        getApisLength()
+          .then(res => {
+              console.log(res.length);
+              setApisLength(res.length);
+          })
+          .catch(error => handlerError(error));
     }, [])
 
     return (
@@ -97,7 +106,8 @@ export const ApiProvider = (props: any) => {
             startApi,
             stopApi,
             setConfigPage,
-            configPage
+            configPage,
+            apisLength
         } }
       >
           { props.children }

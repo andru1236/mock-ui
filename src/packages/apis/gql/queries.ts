@@ -26,6 +26,16 @@ const getApis = gql`
   }
 `;
 
+const listApis = gql`
+  query listApis {
+    apis {
+      id
+      name
+    }
+  }
+`;
+
 export const queries = {
-  getApis
+  getApis,
+  listApis
 };

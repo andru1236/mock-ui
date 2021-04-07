@@ -25,6 +25,22 @@ export const getApis = async (next:any) => {
   }
 };
 
+export const getApisLength = async () => {
+  try {
+    const queryOptions = {
+      query: queries.listApis
+    };
+    const callback = (res: any) => {
+      const data = (res?.data?.apis) ? res.data.apis : [];
+      return { length: data.length };
+    };
+
+    return await gqlService.executeQuery(queryOptions, callback);
+  } catch (error) {
+    handlerError(error);
+  }
+};
+
 export const createApi = async (newApi: IApiInstance) => {
   try {
     const mutationOptions = {

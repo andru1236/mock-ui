@@ -11,9 +11,10 @@ interface IViewProps extends ApiContextProps {
     history: any;
 }
 
-const FooterApiTable = ({ reloadApis, configPage, setConfigPage, history }: IViewProps) => {
+const FooterApiTable = ({ reloadApis, configPage, apisLength, setConfigPage, history }: IViewProps) => {
     const [isOpen, setDisplay] = useState(false);
     const [lastActivePage, setLastActivePage] = useState(configPage.active);
+    const [numberPages, setNumberPages] = useState(configPage.active);
 
     const onPageChange = (e, pageInfo) => {
         e.preventDefault();
@@ -34,7 +35,13 @@ const FooterApiTable = ({ reloadApis, configPage, setConfigPage, history }: IVie
         return configPage.active;
     }
 
-    useEffect(getActivePage);
+    useEffect(() => {
+        let numPages = ((apisLength % PAGE_LIMIT) == 0) ? 
+            apisLength / PAGE_LIMIT : 
+            Math.round(apisLength / PAGE_LIMIT) + 1;
+        setNumberPages(numPages);
+        getActivePage();
+    });
 
     return (
         <Table.Footer fullWidth>
@@ -44,7 +51,7 @@ const FooterApiTable = ({ reloadApis, configPage, setConfigPage, history }: IVie
                 <Pagination 
                     activePage={getActivePage()}
                     onPageChange={onPageChange}
-                    totalPages={5}
+                    totalPages={numberPages}
                     ellipsisItem={null}
                 />
                 </Table.HeaderCell>
