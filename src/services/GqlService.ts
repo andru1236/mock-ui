@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-const { REACT_GQL_SERVER_URL } = process.env;
+const { REACT_APP_GQL_SERVER_URL } = process.env;
 
 const gqlClient = new ApolloClient({
-  uri: `http://localhost:4000/graphql`,
+  uri: `${REACT_APP_GQL_SERVER_URL}`,
   cache: new InMemoryCache()
 });
 
