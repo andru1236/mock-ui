@@ -18,6 +18,8 @@ export interface ApiContextProps {
     removeApi (apiId): void;
     startApi (apiId): void;
     stopApi (apiId): void;
+    setConfigPage(config): void;
+    configPage: any;
 }
 
 // CONTEXT
@@ -40,13 +42,16 @@ const ApiContext = createContext<ApiContextProps>({
     updateApi,
     removeApi,
     startApi,
-    stopApi
+    stopApi,
+    setConfigPage: (config) => {},
+    configPage: { active:0, next:0 }
 });
 
 // COMPONENTS
 export const ApiProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apis, setApis] = useState([]);
+    const [configPage, setConfigPage] = useState({ active:1, next:0 });
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -60,7 +65,7 @@ export const ApiProvider = (props: any) => {
 
     const reloadApis = () => {
         setIsLoading(true)
-        getApis().then(res => {
+        getApis(configPage.next).then(res => {
             setApis(res.apis);
             setIsLoading(false);
         })
@@ -70,7 +75,7 @@ export const ApiProvider = (props: any) => {
 
     useEffect(() => {
         setIsLoading(true);
-        getApis()
+        getApis(configPage.next)
           .then(res => {
               setApis(res.apis);
               setIsLoading(false);
@@ -90,7 +95,9 @@ export const ApiProvider = (props: any) => {
             updateApi,
             removeApi,
             startApi,
-            stopApi
+            stopApi,
+            setConfigPage,
+            configPage
         } }
       >
           { props.children }
