@@ -3,11 +3,16 @@ import { queries, mutations } from "./gql";
 import { handlerError } from "../common/handlerError";
 import { IApiInstance } from "../../domain/api";
 import { apisBuilder } from "../common/builder";
+const { REACT_APP_PAGE_LIMIT } = process.env;
 
-export const getApis = async () => {
+export const getApis = async (next:any) => {
   try {
     const queryOptions = {
-      query: queries.getApis
+      query: queries.getApis,
+      variables: {
+        limit: parseInt(REACT_APP_PAGE_LIMIT),
+        next: next
+      }
     };
     const callback = (res: any) => {
       const data = (res?.data?.apis) ? apisBuilder(res.data.apis) : [];
