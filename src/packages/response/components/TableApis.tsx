@@ -35,7 +35,6 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
 
   const getActivePage = () => {
     if (lastActivePage != configPage.active) {
-        console.log(configPage);
         setLastActivePage(configPage.active);
         reloadApis();
     }

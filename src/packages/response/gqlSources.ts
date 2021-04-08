@@ -67,7 +67,7 @@ export const getResponsesLength = async () => {
       query: queries.listResponses
     };
     const callback = (res: any) => {
-      const data = (res?.data?.apis) ? res.data.apis : [];
+      const data = (res?.data?.responses) ? res.data.responses : [];
       return { length: data.length };
     };
 

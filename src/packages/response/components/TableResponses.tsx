@@ -26,7 +26,6 @@ const TableResponse = ({ responses, selectResponse, reloadResponses, configPage,
 
   const getActivePage = () => {
     if (lastActivePage != configPage.active) {
-        console.log(configPage);
         setLastActivePage(configPage.active);
         reloadResponses();
     }
