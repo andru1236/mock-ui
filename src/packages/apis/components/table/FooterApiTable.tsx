@@ -42,18 +42,27 @@ const FooterApiTable = ({ reloadApis, configPage, apisLength, setConfigPage, his
         getActivePage();
     });
 
+    const renderPaginationContent = () => {
+        if (numberPages > 0) {
+          return (
+            <Table.Row>
+                <Table.HeaderCell colSpan='5' style={{textAlign:"center"}}>
+                    <Pagination 
+                        activePage={getActivePage()}
+                        onPageChange={onPageChange}
+                        totalPages={numberPages}
+                        ellipsisItem={null}
+                    />
+                </Table.HeaderCell>
+            </Table.Row>
+          );
+        }
+      };
+
     return (
         <Table.Footer fullWidth>
             <Table.Row>
                 <Table.HeaderCell />
-                <Table.HeaderCell colSpan='3'>
-                <Pagination 
-                    activePage={getActivePage()}
-                    onPageChange={onPageChange}
-                    totalPages={numberPages}
-                    ellipsisItem={null}
-                />
-                </Table.HeaderCell>
                 <Table.HeaderCell colSpan='4'>
                     <Button
                         floated='right'
@@ -74,6 +83,7 @@ const FooterApiTable = ({ reloadApis, configPage, apisLength, setConfigPage, his
                     />
                 </Table.HeaderCell>
             </Table.Row>
+            {renderPaginationContent()}
         </Table.Footer>
     )
 };
