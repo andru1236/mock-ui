@@ -3,15 +3,19 @@ import { queries, mutations } from "./gql";
 import { handlerError } from "../common/handlerError";
 import { IResponse } from "../../domain/response";
 import { apisBuilder, responsesBuilder } from "../common/builder";
+const { REACT_APP_PAGE_LIMIT } = process.env;
 
-export const getApis = async () => {
+export const getApis = async (next:any) => {
   try {
     const queryOptions = {
-      query: queries.getApis
+      query: queries.getApis,
+      variables: {
+        limit: parseInt(REACT_APP_PAGE_LIMIT),
+        next: next
+      }
     };
     const callback = (res: any) => {
       const data = (res?.data?.apis) ? apisBuilder(res.data.apis) : [];
-      console.log(data);
       return { apis: data };
     };
 
@@ -21,14 +25,17 @@ export const getApis = async () => {
   }
 };
 
-export const getResponses = async () => {
+export const getResponses = async (next:any) => {
   try {
     const queryOptions = {
-      query: queries.getResponses
+      query: queries.getResponses,
+      variables: {
+        limit: parseInt(REACT_APP_PAGE_LIMIT),
+        next: next
+      }
     };
     const callback = (res: any) => {
       const data = (res?.data?.responses) ? responsesBuilder(res.data.responses) : [];
-      console.log(data);
       return { responses: data };
     };
 
@@ -37,6 +44,38 @@ export const getResponses = async () => {
     handlerError(error);
   }
 }
+
+export const getApisLength = async () => {
+  try {
+    const queryOptions = {
+      query: queries.listApis
+    };
+    const callback = (res: any) => {
+      const data = (res?.data?.apis) ? res.data.apis : [];
+      return { length: data.length };
+    };
+
+    return await gqlService.executeQuery(queryOptions, callback);
+  } catch (error) {
+    handlerError(error);
+  }
+};
+
+export const getResponsesLength = async () => {
+  try {
+    const queryOptions = {
+      query: queries.listResponses
+    };
+    const callback = (res: any) => {
+      const data = (res?.data?.apis) ? res.data.apis : [];
+      return { length: data.length };
+    };
+
+    return await gqlService.executeQuery(queryOptions, callback);
+  } catch (error) {
+    handlerError(error);
+  }
+};
 
 export const createAResponse = async (response: IResponse) => {
   try {

@@ -14,7 +14,6 @@ export const getOneApi = async (apiId: string) => {
     };
     const callback = (res: any) => {
       const data = (res?.data?.api) ? apisBuilder([res.data.api]) : [];
-      console.log(data[0]);
       return data[0];
     };
 

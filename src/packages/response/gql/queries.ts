@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const getApis = gql`
-  query getApis {
-    apis {
+  query getApis($limit: Int, $next: Int) {
+    apis(limit: $limit, next: $next) {
       id
       name
       port
@@ -27,8 +27,8 @@ const getApis = gql`
 `;
 
 const getResponses = gql`
-  query getResponses {
-    responses {
+  query getResponses($limit: Int, $next: Int) {
+    responses(limit: $limit, next: $next) {
       id
       name
       createdOn
@@ -42,7 +42,27 @@ const getResponses = gql`
   }
 `;
 
+const listApis = gql`
+  query listApis {
+    apis {
+      id
+      name
+    }
+  }
+`;
+
+const listResponses = gql`
+  query listResponses {
+    responses {
+      id
+      name
+    }
+  }
+`;
+
 export const queries = {
   getApis,
-  getResponses
+  getResponses,
+  listApis,
+  listResponses
 };
