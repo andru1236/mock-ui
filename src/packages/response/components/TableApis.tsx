@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Input, Segment, Table } from "semantic-ui-react";
+import { Breadcrumb, Input, Segment, Table, Pagination } from "semantic-ui-react";
 import { IPath } from "../../../domain/api";
 import { withResponseConsumer, ResponseContextProps } from "../ResponseContext";
 
 const SPECIFIC_ROUTE_DEFAULT: IPath = { path: "", resources: [] };
+const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
+const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
+const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
 
-const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToUpdate, selectRouteToUpdate }: ResponseContextProps) => {
+const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToUpdate, selectRouteToUpdate, reloadApis, configPage, apisLength, setConfigPage }: ResponseContextProps) => {
   const [foundApis, filterApis] = useState([]);
   const [foundRoutes, filterRoutes] = useState([]);
   const [specificRoute, setSpecificRoute] = useState(SPECIFIC_ROUTE_DEFAULT);
@@ -14,11 +17,39 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
   const [apiActive, setApiActive] = useState(true);
   const [routeAtive, setRouteActive] = useState(false);
   const [resourceActive, setResourceActive] = useState(false);
-
+  const [lastActivePage, setLastActivePage] = useState(configPage.active);
+  const [numberPages, setNumberPages] = useState(configPage.active);
 
   const searchHandler = (event: any) => {
     setSearch(event.target.value);
   };
+
+  const onPageChange = (e, pageInfo) => {
+    e.preventDefault();
+    if (typeof(pageInfo.activePage) === "number") {
+      let next = ((pageInfo.activePage - 1) * PAGE_LIMIT);
+      next = (next >= 0 && next < MAX_NUM_LIMIT) ? next : configPage.next;
+      setConfigPage({ active:pageInfo.activePage, next:next });
+    }
+  };
+
+  const getActivePage = () => {
+    if (lastActivePage != configPage.active) {
+        console.log(configPage);
+        setLastActivePage(configPage.active);
+        reloadApis();
+    }
+
+    return configPage.active;
+  }
+
+  useEffect(() => {
+      let numPages = ((apisLength % PAGE_LIMIT) == 0) ? 
+          apisLength / PAGE_LIMIT : 
+          Math.round(apisLength / PAGE_LIMIT) + 1;
+      setNumberPages(numPages);
+      getActivePage();
+  });
 
   useEffect(() => {
     if (apiActive) {
@@ -154,12 +185,29 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
 
   };
 
+  const renderPaginationContent = () => {
+    if (numberPages > 0) {
+      return (
+        <Segment style={{display:"flex", justifyContent:"center"}}>
+          <Pagination 
+            defaultActivePage={getActivePage()}
+            onPageChange={onPageChange}
+            firstItem={null}
+            lastItem={null}
+            secundary
+            totalPages={numberPages}
+          />
+        </Segment>
+      );
+    }
+  };
+
   return (
     <Segment.Group>
       <Segment>
         {renderMiniTabs()}
       </Segment>
-      <Segment>
+      <Segment style={{display:"flex", justifyContent:"center"}}>
         <Input icon="search" placeholder="Search..." value={search} onChange={searchHandler} />
       </Segment>
       <Table celled selectable>
@@ -167,6 +215,7 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
           {renderTableContent()}
         </Table.Body>
       </Table>
+      {renderPaginationContent()}
     </Segment.Group>
   );
 };
