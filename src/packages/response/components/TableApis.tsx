@@ -186,7 +186,7 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
   };
 
   const renderPaginationContent = () => {
-    if (numberPages > 0) {
+    if (numberPages > 1) {
       return (
         <Segment style={{display:"flex", justifyContent:"center"}}>
           <Pagination 

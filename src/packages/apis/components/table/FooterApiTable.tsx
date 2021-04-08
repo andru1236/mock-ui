@@ -43,7 +43,7 @@ const FooterApiTable = ({ reloadApis, configPage, apisLength, setConfigPage, his
     });
 
     const renderPaginationContent = () => {
-        if (numberPages > 0) {
+        if (numberPages > 1) {
           return (
             <Table.Row>
                 <Table.HeaderCell colSpan='5' style={{textAlign:"center"}}>

@@ -52,7 +52,7 @@ const TableResponse = ({ responses, selectResponse, reloadResponses, configPage,
   }, [responses, search]);
 
   const renderPaginationContent = () => {
-    if (numberPages > 0) {
+    if (numberPages > 1) {
       return (
         <Segment style={{display:"flex", justifyContent:"center"}}>
           <Pagination 
