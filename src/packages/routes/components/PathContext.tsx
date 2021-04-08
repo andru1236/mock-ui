@@ -26,6 +26,9 @@ export interface PathContextProps {
     updateParamFromRoute (apiId: string, routeId: string, param: IParam): any;
     removeParamFromRoute (apiId: string, routeId: string, param: string): any;
     reloadSelectedApi (): any
+    setConfigPage(config): void;
+    configPage: any;
+    routesLength: any;
 }
 
 const PathContext = createContext<PathContextProps>({
@@ -47,11 +50,16 @@ const PathContext = createContext<PathContextProps>({
     addParamToRoute,
     updateParamFromRoute,
     removeParamFromRoute,
-    reloadSelectedApi: () => {}
+    reloadSelectedApi: () => {},
+    setConfigPage: (config) => {},
+    configPage: { active:0, next:0 },
+    routesLength: 0,
 });
 
 const _PathProvider = ({ match, children }: any) => {
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
+    const [routesLength, setRoutesLength] = useState(0);
+    const [configPage, setConfigPage] = useState({ active:1, next:0 });
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -68,6 +76,7 @@ const _PathProvider = ({ match, children }: any) => {
         getOneApi(match.params.apiId)
           .then(res => {
               setSelectedApi(res);
+              setRoutesLength(res.routes.length);
               setIsLoading(false);
           })
           .catch(error => handlerError(error));
@@ -89,7 +98,10 @@ const _PathProvider = ({ match, children }: any) => {
             removeRoute,
             addParamToRoute,
             updateParamFromRoute,
-            removeParamFromRoute
+            removeParamFromRoute,
+            setConfigPage,
+            configPage,
+            routesLength,
         } }
       >
           { children }
