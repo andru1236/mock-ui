@@ -86,7 +86,6 @@ export const ApiProvider = (props: any) => {
           .catch(error => handlerError(error));
         getApisLength()
           .then(res => {
-              console.log(res.length);
               setApisLength(res.length);
           })
           .catch(error => handlerError(error));

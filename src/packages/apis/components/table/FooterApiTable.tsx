@@ -27,7 +27,6 @@ const FooterApiTable = ({ reloadApis, configPage, apisLength, setConfigPage, his
 
     const getActivePage = () => {
         if (lastActivePage != configPage.active) {
-            console.log(configPage);
             setLastActivePage(configPage.active);
             reloadApis();
         }
