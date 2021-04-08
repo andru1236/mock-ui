@@ -21,7 +21,9 @@ export interface ResponseContextProps {
     reloadApis?(): void;
     reloadResponses?(): void;
     removeResponse?(): void;
+    setApiPage(config): void;
     setConfigPage(config): void;
+    configApiPage: any;
     configPage: any;
     apisLength: any;
     responsesLength: any;
@@ -40,7 +42,9 @@ const ResponseContext = createContext<ResponseContextProps>({
         name: "",
         response: {},
     },
+    setApiPage: (config) => {},
     setConfigPage: (config) => {},
+    configApiPage: { active:0, next:0 },
     configPage: { active:0, next:0 },
     apisLength: 0,
     responsesLength: 0,
@@ -53,6 +57,7 @@ export const ResponseProvider = (props: any) => {
     const [apisLength, setApisLength] = useState(0);
     const [responsesLength, setResponseLength] = useState(0);
     const [configPage, setConfigPage] = useState({ active:1, next:0 });
+    const [configApiPage, setApiPage] = useState({ active:1, next:0 });
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -86,7 +91,7 @@ export const ResponseProvider = (props: any) => {
 
     const reloadApis = () => {
         setIsLoading(true);
-        getApis(configPage.next)
+        getApis(configApiPage.next)
             .then(res => {
                 setApis(res.apis);
                 setIsLoading(false);
@@ -111,7 +116,7 @@ export const ResponseProvider = (props: any) => {
                 setResponses(res.responses)
             })
             .catch(error => handlerError(error));
-        getApis(configPage.next)
+        getApis(configApiPage.next)
             .then(res => {
                 setApis(res.apis);
                 setIsLoading(false);
@@ -146,7 +151,9 @@ export const ResponseProvider = (props: any) => {
                 removeResponse,
                 reloadApis,
                 reloadResponses,
+                setApiPage,
                 setConfigPage,
+                configApiPage,
                 configPage,
                 apisLength,
                 responsesLength

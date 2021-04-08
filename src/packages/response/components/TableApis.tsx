@@ -8,7 +8,7 @@ const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
 const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
 const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
 
-const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToUpdate, selectRouteToUpdate, reloadApis, configPage, apisLength, setConfigPage }: ResponseContextProps) => {
+const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToUpdate, selectRouteToUpdate, reloadApis, configApiPage, apisLength, setApiPage }: ResponseContextProps) => {
   const [foundApis, filterApis] = useState([]);
   const [foundRoutes, filterRoutes] = useState([]);
   const [specificRoute, setSpecificRoute] = useState(SPECIFIC_ROUTE_DEFAULT);
@@ -17,8 +17,8 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
   const [apiActive, setApiActive] = useState(true);
   const [routeAtive, setRouteActive] = useState(false);
   const [resourceActive, setResourceActive] = useState(false);
-  const [lastActivePage, setLastActivePage] = useState(configPage.active);
-  const [numberPages, setNumberPages] = useState(configPage.active);
+  const [lastActivePage, setLastActivePage] = useState(configApiPage.active);
+  const [numberPages, setNumberPages] = useState(configApiPage.active);
 
   const searchHandler = (event: any) => {
     setSearch(event.target.value);
@@ -28,18 +28,18 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
     e.preventDefault();
     if (typeof(pageInfo.activePage) === "number") {
       let next = ((pageInfo.activePage - 1) * PAGE_LIMIT);
-      next = (next >= 0 && next < MAX_NUM_LIMIT) ? next : configPage.next;
-      setConfigPage({ active:pageInfo.activePage, next:next });
+      next = (next >= 0 && next < MAX_NUM_LIMIT) ? next : configApiPage.next;
+      setApiPage({ active:pageInfo.activePage, next:next });
     }
   };
 
   const getActivePage = () => {
-    if (lastActivePage != configPage.active) {
-        setLastActivePage(configPage.active);
+    if (lastActivePage != configApiPage.active) {
+        setLastActivePage(configApiPage.active);
         reloadApis();
     }
 
-    return configPage.active;
+    return configApiPage.active;
   }
 
   useEffect(() => {
