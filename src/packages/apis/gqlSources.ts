@@ -3,15 +3,36 @@ import { queries, mutations } from "./gql";
 import { handlerError } from "../common/handlerError";
 import { IApiInstance } from "../../domain/api";
 import { apisBuilder } from "../common/builder";
+const { REACT_APP_PAGE_LIMIT } = process.env;
 
-export const getApis = async () => {
+export const getApis = async (next:any) => {
   try {
     const queryOptions = {
-      query: queries.getApis
+      query: queries.getApis,
+      variables: {
+        limit: parseInt(REACT_APP_PAGE_LIMIT),
+        next: next
+      }
     };
     const callback = (res: any) => {
       const data = (res?.data?.apis) ? apisBuilder(res.data.apis) : [];
       return { apis: data };
+    };
+
+    return await gqlService.executeQuery(queryOptions, callback);
+  } catch (error) {
+    handlerError(error);
+  }
+};
+
+export const getApisLength = async () => {
+  try {
+    const queryOptions = {
+      query: queries.listApis
+    };
+    const callback = (res: any) => {
+      const data = (res?.data?.apis) ? res.data.apis : [];
+      return { length: data.length };
     };
 
     return await gqlService.executeQuery(queryOptions, callback);
