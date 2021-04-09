@@ -31,11 +31,17 @@ const getResponses = gql`
     responses(limit: $limit, next: $next) {
       id
       name
+      response
       createdOn
       trackingAssignation {
         api {
           id
           name
+        }
+        routes {
+          path
+          method
+          date
         }
       }
     }

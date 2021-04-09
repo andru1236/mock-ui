@@ -24,10 +24,16 @@ const assignResponseToApi = gql`
   }
 `;
 
+const exportResponseAsJson = gql`
+  mutation exportResponseAsJson($fileName: String!, $response: JSON!) {
+    exportResponseJSON(fileName: $fileName, response: $response)
+  }
+`;
 
 export const mutations = {
   createResponse,
   updateResponse,
   removeResponse,
-  assignResponseToApi
+  assignResponseToApi,
+  exportResponseAsJson
 };
