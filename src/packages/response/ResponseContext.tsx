@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { IApiInstance, IRoute } from "../../domain/api";
 import { IResponse } from "../../domain/response";
-import { getApis, getResponses, removeAResponse, getApisLength, getResponsesLength } from './gqlSources';
+import { getApis, getResponses, removeAResponse, getApisLength, getResponsesLength, exportResponseAsJson } from './gqlSources';
 import { handlerError } from '../common/handlerError'
 import { Dimmer, Loader } from "semantic-ui-react";
 import emmitToastMessage from "../common/emmitToastMessage";
@@ -21,6 +21,7 @@ export interface ResponseContextProps {
     reloadApis?(): void;
     reloadResponses?(): void;
     removeResponse?(): void;
+    exportResponseAsJson?(fileName:any, response:any): void;
     setApiPage(config): void;
     setConfigPage(config): void;
     configApiPage: any;
@@ -149,6 +150,7 @@ export const ResponseProvider = (props: any) => {
                 unSelectResponse,
                 selectRouteToUpdate,
                 removeResponse,
+                exportResponseAsJson,
                 reloadApis,
                 reloadResponses,
                 setApiPage,
