@@ -1,7 +1,7 @@
 import React, { createContext, Fragment, useEffect, useState } from "react";
 
 import { IApiInstance } from "../../../domain/api";
-import { createApi, removeApi, getApis, updateApi, startApi, stopApi } from "../sources";
+import { createApi, removeApi, getApis, updateApi, startApi, stopApi, getApisLength } from "../gqlSources";
 import { handlerError } from "../../common/handlerError";
 import { Dimmer, Loader } from "semantic-ui-react";
 
@@ -18,6 +18,9 @@ export interface ApiContextProps {
     removeApi (apiId): void;
     startApi (apiId): void;
     stopApi (apiId): void;
+    setConfigPage(config): void;
+    configPage: any;
+    apisLength: any;
 }
 
 // CONTEXT
@@ -40,13 +43,18 @@ const ApiContext = createContext<ApiContextProps>({
     updateApi,
     removeApi,
     startApi,
-    stopApi
+    stopApi,
+    setConfigPage: (config) => {},
+    configPage: { active:0, next:0 },
+    apisLength: 0
 });
 
 // COMPONENTS
 export const ApiProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apis, setApis] = useState([]);
+    const [apisLength, setApisLength] = useState(0);
+    const [configPage, setConfigPage] = useState({ active:1, next:0 });
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -60,19 +68,25 @@ export const ApiProvider = (props: any) => {
 
     const reloadApis = () => {
         setIsLoading(true)
-        getApis().then(res => {
+        getApis(configPage.next).then(res => {
             setApis(res.apis);
             setIsLoading(false);
-        });
+        })
+        .catch(error => handlerError(error));
     };
     const selectApi = (apiId) => setSelectedApi(apis.find(api => api._id === apiId));
 
     useEffect(() => {
         setIsLoading(true);
-        getApis()
+        getApis(configPage.next)
           .then(res => {
               setApis(res.apis);
               setIsLoading(false);
+          })
+          .catch(error => handlerError(error));
+        getApisLength()
+          .then(res => {
+              setApisLength(res.length);
           })
           .catch(error => handlerError(error));
     }, [])
@@ -89,7 +103,10 @@ export const ApiProvider = (props: any) => {
             updateApi,
             removeApi,
             startApi,
-            stopApi
+            stopApi,
+            setConfigPage,
+            configPage,
+            apisLength
         } }
       >
           { props.children }

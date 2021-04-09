@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { IApiInstance, IRoute } from "../../domain/api";
 import { IResponse } from "../../domain/response";
-import { getApis, getResponses, removeAResponse } from './sources';
+import { getApis, getResponses, removeAResponse, getApisLength, getResponsesLength } from './gqlSources';
 import { handlerError } from '../common/handlerError'
 import { Dimmer, Loader } from "semantic-ui-react";
 import emmitToastMessage from "../common/emmitToastMessage";
@@ -21,6 +21,12 @@ export interface ResponseContextProps {
     reloadApis?(): void;
     reloadResponses?(): void;
     removeResponse?(): void;
+    setApiPage(config): void;
+    setConfigPage(config): void;
+    configApiPage: any;
+    configPage: any;
+    apisLength: any;
+    responsesLength: any;
 }
 
 const ResponseContext = createContext<ResponseContextProps>({
@@ -36,12 +42,22 @@ const ResponseContext = createContext<ResponseContextProps>({
         name: "",
         response: {},
     },
+    setApiPage: (config) => {},
+    setConfigPage: (config) => {},
+    configApiPage: { active:0, next:0 },
+    configPage: { active:0, next:0 },
+    apisLength: 0,
+    responsesLength: 0,
 });
 
 export const ResponseProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apis, setApis] = useState([]);
     const [responses, setResponses] = useState([]);
+    const [apisLength, setApisLength] = useState(0);
+    const [responsesLength, setResponseLength] = useState(0);
+    const [configPage, setConfigPage] = useState({ active:1, next:0 });
+    const [configApiPage, setApiPage] = useState({ active:1, next:0 });
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -75,7 +91,7 @@ export const ResponseProvider = (props: any) => {
 
     const reloadApis = () => {
         setIsLoading(true);
-        getApis()
+        getApis(configApiPage.next)
             .then(res => {
                 setApis(res.apis);
                 setIsLoading(false);
@@ -85,7 +101,7 @@ export const ResponseProvider = (props: any) => {
 
     const reloadResponses = () => {
         setIsLoading(true);
-        getResponses()
+        getResponses(configPage.next)
             .then(res => {
                 setResponses(res.responses);
                 setIsLoading(false);
@@ -95,11 +111,25 @@ export const ResponseProvider = (props: any) => {
 
     useEffect(() => {
         setIsLoading(true);
-        getResponses().then(res => setResponses(res.responses)).catch(error => handlerError(error));
-        getApis()
+        getResponses(configPage.next)
+            .then(res => {
+                setResponses(res.responses)
+            })
+            .catch(error => handlerError(error));
+        getApis(configApiPage.next)
             .then(res => {
                 setApis(res.apis);
                 setIsLoading(false);
+            })
+            .catch(error => handlerError(error));
+        getApisLength()
+            .then(res => {
+                setApisLength(res.length);
+            })
+            .catch(error => handlerError(error));
+        getResponsesLength()
+            .then(res => {
+                setResponseLength(res.length);
             })
             .catch(error => handlerError(error));
     }, []);
@@ -120,7 +150,13 @@ export const ResponseProvider = (props: any) => {
                 selectRouteToUpdate,
                 removeResponse,
                 reloadApis,
-                reloadResponses
+                reloadResponses,
+                setApiPage,
+                setConfigPage,
+                configApiPage,
+                configPage,
+                apisLength,
+                responsesLength
             }}
         >
             {props.children}
