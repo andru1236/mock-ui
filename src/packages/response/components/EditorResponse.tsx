@@ -3,6 +3,8 @@ import { Input, Form, Button, Grid, Segment } from "semantic-ui-react";
 // Third library
 import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
+import FormExportResponseJson from "./forms/FormExportResponseJson"
+//import writeJsonFile from "write-json-file";
 
 import { createAResponse, updateResponse } from '../sources';
 import emmitToastMessage from "../../common/emmitToastMessage";
@@ -16,11 +18,11 @@ const exampleJson = {
   object_1: { field_2: 'field_2' }
 };
 
-const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, reloadResponses }: ResponseContextProps) => {
+const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, reloadResponses, exportResponseAsJson }: ResponseContextProps) => {
   const [editorValue, setEditorValue] = useState(exampleJson);
   const [name, setName] = useState("");
-
   const [openRemoveResponse, setOpenRevemoResponse] = useState(false);
+  const [openExport, setOpenExportJson] = useState(false);
 
   const editorHandler = (value) => {
     // const { plainText, json, jsObject } = value;
@@ -74,6 +76,18 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
     }
   }
 
+  const exportResponseJson = async (fileName:any) => {
+    if (_validationFields() && selectedResponse._id !== "") {
+      exportResponseAsJson(fileName, editorValue);
+      emmitToastMessage.success('Export JSON', 'Export response as JSON file successfully.');
+    } else {
+      emmitToastMessage.warning(
+        'No exists the response',
+        'The response should be exist to export as JSON.'
+      )
+    }
+  };
+
   useEffect(() => {
     if (selectedResponse._id !== "") {
       setEditorValue(selectedResponse.response);
@@ -95,28 +109,30 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
 
         <Form.Field>
           <label>Json editor</label>
-          <JSONInput
-            id={"unique"}
-            theme={"light_mitsuketa_tribute"}
-            locale={locale}
-            height={"450px"}
-            width={"470px"}
-            onChange={editorHandler}
-            placeholder={editorValue}
-          />
+          <div style={{width: "100%", border:"solid 1px #DDD", borderRadius:"3px"}}>
+            <JSONInput
+              id={"unique"}
+              theme={"light_mitsuketa_tribute"}
+              locale={locale}
+              height={"450px"}
+              onChange={editorHandler}
+              placeholder={editorValue}
+            />
+          </div>
         </Form.Field>
 
         {/* Action Buttons */}
-        <Grid>
+        <Grid style={{ width: "100%" }}>
 
-          <Grid.Column textAlign={"left"} width={8}>
+          <Grid.Column textAlign={"left"} style={{ width: "45%" }}>
             <Button negative onClick={() => setOpenRevemoResponse(true)}> Remove </Button>
             <Button color={'orange'} onClick={() => _reset()}> Reset </Button>
           </Grid.Column>
 
-          <Grid.Column textAlign={"right"} width={8}>
+          <Grid.Column textAlign={"right"} style={{ width: "55%" }}>
             <Button primary onClick={() => save()}> Save </Button>
             <Button primary onClick={() => saveAs()}> Save as </Button>
+            <Button color={'green'} onClick={ () => setOpenExportJson(true) }> Export JSON </Button>
           </Grid.Column>
 
         </Grid>
@@ -128,6 +144,14 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
         open={openRemoveResponse}
         title={'Delete response'}
         content={'The action will be remove the response and you will not able to restore the Response'}
+      />
+
+      <FormExportResponseJson
+        isOpen={ openExport }
+        response={ editorValue }
+        title={ selectedResponse.name }
+        close={ () => setOpenExportJson(false) }
+        exportResponseAsJson={ exportResponseJson }
       />
     </Segment>
   );

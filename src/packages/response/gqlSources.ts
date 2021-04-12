@@ -158,3 +158,23 @@ export const assignResponseToApi = async (responseId: any, apiId: any, path: any
     handlerError(error);
   }
 }
+
+export const exportResponseAsJson = async (fileName:any, response:any) => {
+  try {
+    const mutationOptions = {
+      mutation: mutations.exportResponseAsJson,
+      variables: {
+        fileName: fileName,
+        response: response
+      }
+    };
+    const callback = (res: any) => {
+      const data = res.data ? res.data : null;
+      return data;
+    };
+
+    return await gqlService.executeMutation(mutationOptions, callback);
+  } catch (error) {
+    handlerError(error);
+  }
+}

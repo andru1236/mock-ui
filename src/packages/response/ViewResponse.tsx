@@ -14,25 +14,25 @@ const ViewResponse = () => {
     <div className="App">
       <ResponseProvider>
         <HeaderResponse />
-        <Container textAlign="justified" fluid style={{ width: "95%" }}>
+        <Container textAlign="justified" fluid style={{ width: "90%" }}>
           <Grid>
 
-            <Grid.Column width={3}>
+            <Grid.Column style={{width:"20%"}}>
               <TableResponses />
             </Grid.Column>
 
-            <Grid.Column width={7}>
+            <Grid.Column style={{width:"50%"}}>
               <EditorResponse />
             </Grid.Column>
 
-            <Grid.Column width={1} style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            <Grid.Column style={{ width:"5%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
               <Header as={'h2'}>
                 Assign
                 </Header>
               <ButtonAssignRoute />
             </Grid.Column>
 
-            <Grid.Column width={5}>
+            <Grid.Column style={{width:"25%"}}>
               <TableApis />
             </Grid.Column>
 
