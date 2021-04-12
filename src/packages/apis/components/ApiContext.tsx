@@ -1,7 +1,7 @@
 import React, { createContext, Fragment, useEffect, useState } from "react";
 
 import { IApiInstance } from "../../../domain/api";
-import { createApi, removeApi, getApis, updateApi, startApi, stopApi, getApisLength } from "../gqlSources";
+import { createApi, removeApi, getApis, updateApi, startApi, stopApi, getApisLength, cloneApi } from "../gqlSources";
 import { handlerError } from "../../common/handlerError";
 import { Dimmer, Loader } from "semantic-ui-react";
 
@@ -18,6 +18,7 @@ export interface ApiContextProps {
     removeApi (apiId): void;
     startApi (apiId): void;
     stopApi (apiId): void;
+    cloneApi (api): void;
     setConfigPage(config): void;
     configPage: any;
     apisLength: any;
@@ -44,6 +45,7 @@ const ApiContext = createContext<ApiContextProps>({
     removeApi,
     startApi,
     stopApi,
+    cloneApi,
     setConfigPage: (config) => {},
     configPage: { active:0, next:0 },
     apisLength: 0
@@ -104,6 +106,7 @@ export const ApiProvider = (props: any) => {
             removeApi,
             startApi,
             stopApi,
+            cloneApi,
             setConfigPage,
             configPage,
             apisLength
