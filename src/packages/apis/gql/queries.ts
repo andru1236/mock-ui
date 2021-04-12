@@ -31,6 +31,19 @@ const listApis = gql`
     apis {
       id
       name
+      port
+      routes {
+        id
+        path
+        resources {
+          method
+          response
+          params {
+            param
+            response
+          }
+        }
+      }
     }
   }
 `;
