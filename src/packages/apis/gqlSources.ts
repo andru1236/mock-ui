@@ -89,10 +89,10 @@ export const cloneApi = async (api: IApiInstance) => {
             const clonRoute = { path: route.path, method: resource.method, response: resource.response };
 
             return await addNewRoute(clonApi.id, clonRoute)
-              .then(res => {
+              .then(async (res) => {
                 // clone route params
                 if (resource.params.length > 0) {
-                  getApisLength()
+                  await getApisLength()
                     .then(res => {
                       const oneApi = res.apis.filter((x) => {return x.id == clonApi.id;})[0];
                       if (oneApi.routes) {
