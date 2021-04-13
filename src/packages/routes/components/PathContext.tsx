@@ -75,8 +75,10 @@ const _PathProvider = ({ match, children }: any) => {
         setIsLoading(true);
         getOneApi(match.params.apiId)
           .then(res => {
-              setSelectedApi(res);
-              setRoutesLength(res.routes.length);
+              if (res.routes) {
+                setSelectedApi(res);
+                setRoutesLength(res.routes.length);
+              }
               setIsLoading(false);
           })
           .catch(error => handlerError(error));

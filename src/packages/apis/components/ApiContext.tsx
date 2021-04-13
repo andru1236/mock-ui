@@ -13,6 +13,7 @@ export interface ApiContextProps {
 
     selectApi (apiId: string): void;
     reloadApis (): void;
+    reloadApisWithFilter (filter): void;
     createApi (newApi): void;
     updateApi (api): void;
     removeApi (apiId): void;
@@ -40,6 +41,7 @@ const ApiContext = createContext<ApiContextProps>({
     },
     selectApi: (apiId: string) => apiId,
     reloadApis: () => {},
+    reloadApisWithFilter: (filter) => {},
     createApi,
     updateApi,
     removeApi,
@@ -68,8 +70,19 @@ export const ApiProvider = (props: any) => {
         }
     });
 
+    const reloadApisWithFilter = (filter) => {
+        if (filter.length > 0) {
+            setIsLoading(true);
+            setApis(filter);
+            setIsLoading(false);
+        }
+        else {
+            reloadApis();
+        }
+    };
+
     const reloadApis = () => {
-        setIsLoading(true)
+        setIsLoading(true);
         getApis(configPage.next).then(res => {
             setApis(res.apis);
             setIsLoading(false);
@@ -109,7 +122,8 @@ export const ApiProvider = (props: any) => {
             cloneApi,
             setConfigPage,
             configPage,
-            apisLength
+            apisLength,
+            reloadApisWithFilter
         } }
       >
           { props.children }
