@@ -195,6 +195,7 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
             lastItem={null}
             secundary
             totalPages={numberPages}
+            className="pagination"
           />
         </Segment>
       );

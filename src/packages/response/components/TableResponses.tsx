@@ -61,6 +61,7 @@ const TableResponse = ({ responses, selectResponse, reloadResponses, configPage,
             lastItem={null}
             secundary
             totalPages={numberPages}
+            className="pagination"
           />
         </Segment>
       );

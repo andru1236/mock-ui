@@ -8,31 +8,30 @@ import TableResponses from "./components/TableResponses";
 import ButtonAssignRoute from './components/ButtonAssignRoute';
 import TableApis from "./components/TableApis";
 
-
 const ViewResponse = () => {
   return (
     <div className="App">
       <ResponseProvider>
         <HeaderResponse />
-        <Container textAlign="justified" fluid style={{ width: "90%" }}>
+        <Container textAlign="justified" fluid className="response-content">
           <Grid>
 
-            <Grid.Column style={{width:"20%"}}>
+            <Grid.Column className="responses-table">
               <TableResponses />
             </Grid.Column>
 
-            <Grid.Column style={{width:"50%"}}>
+            <Grid.Column className="response-editor">
               <EditorResponse />
             </Grid.Column>
 
-            <Grid.Column style={{ width:"5%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            <Grid.Column className="response-assign-api">
               <Header as={'h2'}>
                 Assign
                 </Header>
               <ButtonAssignRoute />
             </Grid.Column>
 
-            <Grid.Column style={{width:"25%"}}>
+            <Grid.Column className="apis-table">
               <TableApis />
             </Grid.Column>
 
