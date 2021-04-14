@@ -11,10 +11,18 @@ interface IViewProps extends ApiContextProps {
     history: any;
 }
 
-const FooterApiTable = ({ reloadApis, configPage, apisLength, setConfigPage, history }: IViewProps) => {
+const FooterApiTable = ({ 
+    reloadApis,
+    setNumberPages, 
+    setConfigPage,
+    configPage, 
+    apisLength, 
+    numberPages, 
+    isSearchMode, 
+    history 
+}: IViewProps) => {
     const [isOpen, setDisplay] = useState(false);
     const [lastActivePage, setLastActivePage] = useState(configPage.active);
-    const [numberPages, setNumberPages] = useState(configPage.active);
 
     const onPageChange = (e, pageInfo) => {
         e.preventDefault();
@@ -43,7 +51,7 @@ const FooterApiTable = ({ reloadApis, configPage, apisLength, setConfigPage, his
     });
 
     const renderPaginationContent = () => {
-        if (numberPages > 1) {
+        if (!isSearchMode && numberPages > 1) {
           return (
             <Table.Row>
                 <Table.HeaderCell colSpan='5' style={{textAlign:"center"}}>

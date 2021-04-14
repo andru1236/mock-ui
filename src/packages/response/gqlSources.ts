@@ -52,7 +52,7 @@ export const getApisLength = async () => {
     };
     const callback = (res: any) => {
       const data = (res?.data?.apis) ? res.data.apis : [];
-      return { length: data.length };
+      return { length: data.length, apis:data };
     };
 
     return await gqlService.executeQuery(queryOptions, callback);
@@ -68,7 +68,7 @@ export const getResponsesLength = async () => {
     };
     const callback = (res: any) => {
       const data = (res?.data?.responses) ? res.data.responses : [];
-      return { length: data.length };
+      return { length: data.length, responses: data };
     };
 
     return await gqlService.executeQuery(queryOptions, callback);

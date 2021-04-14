@@ -4,6 +4,8 @@ import { IApiInstance } from "../../../domain/api";
 import { createApi, removeApi, getApis, updateApi, startApi, stopApi, getApisLength, cloneApi } from "../gqlSources";
 import { handlerError } from "../../common/handlerError";
 import { Dimmer, Loader } from "semantic-ui-react";
+const { REACT_APP_PAGE_LIMIT } = process.env;
+const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
 
 // PROPS TO PASS
 export interface ApiContextProps {
@@ -19,10 +21,13 @@ export interface ApiContextProps {
     removeApi (apiId): void;
     startApi (apiId): void;
     stopApi (apiId): void;
-    cloneApi (api): void;
+    cloneSelectedApi (api): void;
     setConfigPage(config): void;
+    setNumberPages(flag): void;
     configPage: any;
+    numberPages: any;
     apisLength: any;
+    isSearchMode: boolean;
 }
 
 // CONTEXT
@@ -47,10 +52,13 @@ const ApiContext = createContext<ApiContextProps>({
     removeApi,
     startApi,
     stopApi,
-    cloneApi,
+    cloneSelectedApi: (api) => {},
     setConfigPage: (config) => {},
+    setNumberPages: (flag) => {},
     configPage: { active:0, next:0 },
-    apisLength: 0
+    numberPages:0,
+    apisLength: 0,
+    isSearchMode: false
 });
 
 // COMPONENTS
@@ -59,6 +67,8 @@ export const ApiProvider = (props: any) => {
     const [apis, setApis] = useState([]);
     const [apisLength, setApisLength] = useState(0);
     const [configPage, setConfigPage] = useState({ active:1, next:0 });
+    const [numberPages, setNumberPages] = useState(configPage.active);
+    const [isSearchMode, setSearchMode] = useState(false);
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -74,6 +84,7 @@ export const ApiProvider = (props: any) => {
         if (filter.length > 0) {
             setIsLoading(true);
             setApis(filter);
+            setSearchMode(true);
             setIsLoading(false);
         }
         else {
@@ -81,10 +92,29 @@ export const ApiProvider = (props: any) => {
         }
     };
 
+    const cloneSelectedApi = async (api:any) => {
+        await cloneApi(api);
+        setIsLoading(true);
+        reloadApis();
+    }
+
+    const reloadApisLength = () => {
+        getApisLength().then(res => {
+            setApisLength(res.length);
+            let numPages = ((apisLength % PAGE_LIMIT) == 0) ? 
+                apisLength / PAGE_LIMIT : 
+                (apisLength / PAGE_LIMIT) - ((apisLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
+            setNumberPages(numPages)
+        })
+        .catch(error => handlerError(error));
+    }
+
     const reloadApis = () => {
         setIsLoading(true);
+        setSearchMode(false);
         getApis(configPage.next).then(res => {
             setApis(res.apis);
+            reloadApisLength();
             setIsLoading(false);
         })
         .catch(error => handlerError(error));
@@ -119,10 +149,13 @@ export const ApiProvider = (props: any) => {
             removeApi,
             startApi,
             stopApi,
-            cloneApi,
+            cloneSelectedApi,
             setConfigPage,
+            setNumberPages,
             configPage,
+            numberPages,
             apisLength,
+            isSearchMode,
             reloadApisWithFilter
         } }
       >

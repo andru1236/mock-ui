@@ -38,10 +38,6 @@ const listApis = gql`
         resources {
           method
           response
-          params {
-            param
-            response
-          }
         }
       }
     }
