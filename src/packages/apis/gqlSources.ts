@@ -65,7 +65,7 @@ export const createApi = async (newApi: IApiInstance) => {
 
 export const cloneApi = async (api: IApiInstance) => {
   try {
-    const apiName = `Cloned_${api.name}`;
+    const apiName = await generateUniqueCloneName(api.name);
     const mutationOptions = {
       mutation: mutations.createAPI,
       variables: {
@@ -83,42 +83,11 @@ export const cloneApi = async (api: IApiInstance) => {
         //clone routes
         if (dataApi.length === 1) {
           const clonApi = dataApi[0];
-
-          api.routes.map(async (route:IPath) => {
-            const resource = route.resources[0];
-            const clonRoute = { path: route.path, method: resource.method, response: resource.response };
-
-            return await addNewRoute(clonApi.id, clonRoute)
-              .then(async (res) => {
-                // clone route params
-                if (resource.params.length > 0) {
-                  await getApisLength()
-                    .then(res => {
-                      const oneApi = res.apis.filter((x) => {return x.id == clonApi.id;})[0];
-                      if (oneApi.routes) {
-                        const dataRoute = oneApi.routes.filter((ro) => {
-                          const roResource = ro.resources[0];
-                          return JSON.stringify(resource.response) === JSON.stringify(roResource.response)
-                        })[0];
-                        if (dataRoute) {
-                          resource.params.map(async (param) => {
-                            const cloneParam: IParam = {
-                              param: param.param,
-                              response: param.response
-                            };
-
-                            await addParamToRoute(clonApi.id, dataRoute.id, cloneParam);
-                          });
-                        }
-                      }
-                      result = "Cloned Api, routes and params success.";
-                    })
-                    .catch(error => handlerError(error));
-                }
-                result = "Cloned Api and routes success.";
-              })
-              .catch(error => handlerError(error));
-          });
+          if (clonApi) {
+            api.routes.map(async (route:IPath) => {
+              return await cloneApiRoute(clonApi.id, route);
+            });
+          }
         }
       }
 
@@ -129,6 +98,58 @@ export const cloneApi = async (api: IApiInstance) => {
   } catch (error) {
       handlerError(error);
   }
+}
+
+const cloneApiRoute = async (clonApiId:string, route:IPath) => {
+  const resource = route.resources[0];
+  const clonRoute = { path: route.path, method: resource.method, response: resource.response };
+
+  return await addNewRoute(clonApiId, clonRoute).then(async (o) => {
+      if (resource.params.length > 0) {
+        return await getApisLength()
+          .then(res => {
+            const oneApi = res.apis.filter((x) => {return x.id == clonApiId;})[0];
+            if (oneApi.routes) {
+              const dataRoute = oneApi.routes.filter((ro) => {
+                const roResource = ro.resources[0];
+                return JSON.stringify(resource.response) === JSON.stringify(roResource.response)
+              })[0];
+
+              // clone route params
+              if (dataRoute) {
+                resource.params.map(async (param) => {
+                  const cloneParam: IParam = {
+                    param: param.param,
+                    response: param.response
+                  };
+
+                  return await addParamToRoute(clonApiId, dataRoute.id, cloneParam);
+                });
+              }
+            }
+          })
+          .catch(error => {
+            handlerError(error);
+            throw error;
+          });
+      }
+    })
+    .catch(error => {
+      handlerError(error);
+      throw error;
+    });
+}
+
+const generateUniqueCloneName = async (name: string) => {
+  let cloneName = `Cloned_${name}`;
+  const data = await getApisLength();
+  const existsApi = data.apis.filter((o) => { return o.name.toString() === cloneName; })[0];
+
+  if (existsApi) {
+    cloneName = await generateUniqueCloneName(cloneName);
+  }
+
+  return cloneName;
 }
 
 export const updateApi = async (api: IApiInstance) => {

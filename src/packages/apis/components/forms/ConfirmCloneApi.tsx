@@ -8,10 +8,9 @@ interface IViewProps extends ApiContextProps {
   closeForm (): void;
 }
 
-const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, reloadApis, cloneApi }: IViewProps) => {
-  const onCloneApi = async () => {
-    await cloneApi(selectedApi);
-    await reloadApis();
+const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, cloneSelectedApi }: IViewProps) => {
+  const onCloneApi = () => {
+    cloneSelectedApi(selectedApi);
     closeForm();
     emmitToastMessage.success('Clone Api', `Clone Api ${selectedApi.name} successfully.`);
   };
