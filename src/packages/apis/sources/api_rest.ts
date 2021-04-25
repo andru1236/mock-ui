@@ -1,6 +1,8 @@
-import { apiServiceRest } from "../../services";
-import { IApiInstance } from "../../domain/api";
-import { handlerError } from "../common/handlerError";
+// DEPRECATED
+
+import { apiServiceRest } from "../../../services";
+import { IApiInstance } from "../../../domain/api";
+import { handlerError } from "../../common/handlerError";
 
 
 const cleanerResponse = (response) => response.data.data;

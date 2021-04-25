@@ -1,4 +1,4 @@
-import { gqlService } from "../../services";
+import { gql_client } from "../../services";
 import { queries, mutations } from "./gql";
 import { handlerError } from "../common/handlerError";
 import { apisBuilder } from "../common/builder";
@@ -17,7 +17,7 @@ export const getOneApi = async (apiId: string): Promise<IApiInstance> => {
       return data[0];
     };
 
-    return await gqlService.executeQuery(queryOptions, callback);
+    return await gql_client.executeQuery(queryOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -39,7 +39,7 @@ export const addNewRoute = async (apiId: string, route: IRoute) => {
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -61,7 +61,7 @@ export const updateRoute = async (apiId: string, route: IRoute) => {
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -82,7 +82,7 @@ export const removeRoute = async (apiId: string, route: IRoute) => {
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -105,7 +105,7 @@ export const addParamToRoute = async (apiId: string, routeId: string, param: IPa
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -128,7 +128,7 @@ export const updateParamFromRoute = async (apiId: string, routeId: string, param
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -150,7 +150,7 @@ export const removeParamFromRoute = async (apiId: string, routeId: string, param
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Input, Segment, Table, Pagination } from "semantic-ui-react";
 import { withResponseConsumer, ResponseContextProps } from '../ResponseContext'
+
 const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
+
+
 const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
 const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
 

@@ -1,4 +1,4 @@
-import { gqlService } from "../../services";
+import { gql_client } from "../../services";
 import { queries, mutations } from "./gql";
 import { handlerError } from "../common/handlerError";
 import { IResponse } from "../../domain/response";
@@ -20,7 +20,7 @@ export const getApis = async (next:any) => {
       return { apis: data };
     };
 
-    return await gqlService.executeQuery(queryOptions, callback);
+    return await gql_client.executeQuery(queryOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -40,7 +40,7 @@ export const getResponses = async (next:any) => {
       return { responses: data };
     };
 
-    return await gqlService.executeQuery(queryOptions, callback);
+    return await gql_client.executeQuery(queryOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -56,7 +56,7 @@ export const getApisLength = async () => {
       return { length: data.length, apis:data };
     };
 
-    return await gqlService.executeQuery(queryOptions, callback);
+    return await gql_client.executeQuery(queryOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -72,7 +72,7 @@ export const getResponsesLength = async () => {
       return { length: data.length, responses: data };
     };
 
-    return await gqlService.executeQuery(queryOptions, callback);
+    return await gql_client.executeQuery(queryOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -92,7 +92,7 @@ export const createAResponse = async (response: IResponse) => {
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -113,7 +113,7 @@ export const updateResponse = async (response: IResponse) => {
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -132,7 +132,7 @@ export const removeAResponse = async (responseId: any) => {
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -154,7 +154,7 @@ export const assignResponseToApi = async (responseId: any, apiId: any, path: any
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }
@@ -174,7 +174,7 @@ export const exportResponseAsJson = async (fileName:any, response:any) => {
       return data;
     };
 
-    return await gqlService.executeMutation(mutationOptions, callback);
+    return await gql_client.executeMutation(mutationOptions, callback);
   } catch (error) {
     handlerError(error);
   }

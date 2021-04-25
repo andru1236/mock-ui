@@ -47,7 +47,7 @@ const executeMutation = async (options: any, successCallback: any = null, errorC
     });
 };
 
-export const gqlService = {
+export const gql_client = {
   executeQuery,
   executeMutation
 };
