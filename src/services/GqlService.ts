@@ -7,7 +7,6 @@ const gqlClient = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-// execute GQL Query
 const executeQuery = async (options: any, successCallback: any = null, errorCallback: any = null, withCache: boolean = false) => {
   if (!withCache) {
     options.fetchPolicy = "no-cache";
@@ -30,7 +29,6 @@ const executeQuery = async (options: any, successCallback: any = null, errorCall
     });
 };
 
-// execute GQL Mutation
 const executeMutation = async (options: any, successCallback: any = null, errorCallback: any = null) => {
   return await gqlClient.mutate(options)
     .then(res => {

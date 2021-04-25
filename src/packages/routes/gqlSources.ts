@@ -2,9 +2,9 @@ import { gqlService } from "../../services";
 import { queries, mutations } from "./gql";
 import { handlerError } from "../common/handlerError";
 import { apisBuilder } from "../common/builder";
-import { IParam, IRoute } from "../../domain/api";
+import {IApiInstance, IParam, IRoute} from "../../domain/api";
 
-export const getOneApi = async (apiId: string) => {
+export const getOneApi = async (apiId: string): Promise<IApiInstance> => {
   try {
     const queryOptions = {
       query: queries.getApiById,

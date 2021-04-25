@@ -14,6 +14,16 @@ import {
 
 import { handlerError } from "../../common/handlerError";
 
+const defaultApi: IApiInstance = {
+    _id: "",
+    name: "",
+    port: 0,
+    routes: [],
+    settings: {
+        enabled: false,
+        createdOn: '',
+    }
+};
 
 export interface PathContextProps {
     isLoading: boolean;
@@ -33,16 +43,7 @@ export interface PathContextProps {
 
 const PathContext = createContext<PathContextProps>({
     isLoading: false,
-    selectedApi: {
-        _id: "",
-        name: "",
-        port: 0,
-        routes: [],
-        settings: {
-            enabled: false,
-            createdOn: '',
-        }
-    },
+    selectedApi: defaultApi,
     getOneApi,
     addNewRoute,
     updateRoute,
@@ -60,16 +61,7 @@ const _PathProvider = ({ match, children }: any) => {
     const [isLoading, setIsLoading] = useState(true);
     const [routesLength, setRoutesLength] = useState(0);
     const [configPage, setConfigPage] = useState({ active:1, next:0 });
-    const [selectedApi, setSelectedApi] = useState({
-        _id: "",
-        name: "",
-        port: 0,
-        routes: [],
-        settings: {
-            enabled: false,
-            createdOn: '',
-        }
-    });
+    const [selectedApi, setSelectedApi] = useState(defaultApi);
 
     const reloadSelectedApi = () => {
         setIsLoading(true);

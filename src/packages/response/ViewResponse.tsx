@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid, Header, Segment } from "semantic-ui-react";
+import { Container, Grid, Header } from "semantic-ui-react";
 import { ResponseProvider } from './ResponseContext'
 import { SemanticToastContainer } from 'react-semantic-toasts';
 import HeaderResponse from "./components/HeaderResponse";

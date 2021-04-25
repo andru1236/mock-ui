@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Pagination } from 'semantic-ui-react'
-import ButtonRestMethod from "./ButtonRestMethod";
+
+// HOCs
 import { withPathConsumer, PathContextProps } from "../PathContext";
+
+// Components
+import ButtonRestMethod from "./ButtonRestMethod";
+
+
+// Env vars
 const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
 const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
 const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
+
 
 const TableRoutes = ({ selectedApi, reloadSelectedApi, configPage, routesLength, setConfigPage }: PathContextProps) => {
   const [lastActivePage, setLastActivePage] = useState(configPage.active);
@@ -61,7 +69,7 @@ const TableRoutes = ({ selectedApi, reloadSelectedApi, configPage, routesLength,
       <Table.Header>
           <Table.Row>
               <Table.HeaderCell>Path</Table.HeaderCell>
-              <Table.HeaderCell>methods</Table.HeaderCell>
+              <Table.HeaderCell>Methods</Table.HeaderCell>
           </Table.Row>
       </Table.Header>
 
