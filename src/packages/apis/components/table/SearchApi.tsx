@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Segment, Input } from "semantic-ui-react";
+import { Input } from "semantic-ui-react";
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
 const SearchApis = ({ apis, reloadApisWithFilter }: ApiContextProps) => {

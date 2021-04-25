@@ -5,7 +5,7 @@ import { gql_client } from "../../../../services";
 import { handlerError } from "../../../common/handlerError";
 import { apisBuilder } from "../../../common/builder";
 import { IApiInstance, IParam, IPath } from "../../../../domain/api";
-import { addNewRoute, addParamToRoute } from "../../../routes/gqlSources";
+import { addNewRoute, addParamToRoute } from "../../../routes/sources/gql";
 
 
 const { REACT_APP_PAGE_LIMIT } = process.env;

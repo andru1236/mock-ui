@@ -10,7 +10,7 @@ import {
     addParamToRoute,
     updateParamFromRoute,
     removeParamFromRoute
-} from '../gqlSources';
+} from '../sources/gql';
 
 import { handlerError } from "../../common/handlerError";
 

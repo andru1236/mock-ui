@@ -6,7 +6,7 @@ import locale from "react-json-editor-ajrm/locale/en";
 import FormExportResponseJson from "./forms/FormExportResponseJson"
 //import writeJsonFile from "write-json-file";
 
-import { createAResponse, updateResponse } from '../sources';
+import { createAResponse, updateResponse } from '../sources/api_rest';
 import emmitToastMessage from "../../common/emmitToastMessage";
 import { withResponseConsumer, ResponseContextProps } from '../ResponseContext'
 import AlertConfirmation from './AlertConfirmation';

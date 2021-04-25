@@ -7,6 +7,7 @@ import { withApiConsumer, ApiContextProps } from "../ApiContext";
 const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
 const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
 const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
+
 interface IViewProps extends ApiContextProps {
     history: any;
 }

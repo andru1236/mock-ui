@@ -1,6 +1,6 @@
-import { apiServiceRest } from "../../services";
-import { handlerError } from "../common/handlerError";
-import { IParam, IRoute } from "../../domain/api";
+import { apiServiceRest } from "../../../services";
+import { handlerError } from "../../common/handlerError";
+import { IParam, IRoute } from "../../../domain/api";
 
 const cleanerResponse = (response) => response.data.data;
 
