@@ -31,7 +31,7 @@ const TableRoutes = ({ selectedApi, reloadSelectedApi, configPage, routesLength,
   useEffect(() => {
       let numPages = ((routesLength % PAGE_LIMIT) == 0) ? 
           routesLength / PAGE_LIMIT : 
-          Math.round(routesLength / PAGE_LIMIT) + 1;
+          (routesLength / PAGE_LIMIT) - ((routesLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
       setNumberPages(numPages);
       getActivePage();
   });

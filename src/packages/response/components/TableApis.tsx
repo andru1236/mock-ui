@@ -45,7 +45,7 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
   useEffect(() => {
       let numPages = ((apisLength % PAGE_LIMIT) == 0) ? 
           apisLength / PAGE_LIMIT : 
-          Math.round(apisLength / PAGE_LIMIT) + 1;
+          (apisLength / PAGE_LIMIT) - ((apisLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
       setNumberPages(numPages);
       getActivePage();
   });
@@ -195,6 +195,7 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
             lastItem={null}
             secundary
             totalPages={numberPages}
+            className="pagination"
           />
         </Segment>
       );

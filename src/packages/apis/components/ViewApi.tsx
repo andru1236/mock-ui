@@ -6,7 +6,7 @@ import { SemanticToastContainer } from 'react-semantic-toasts';
 import HeaderMain from "../../common/HeaderMain";
 import TableApis from "./table/TableApis";
 import { ApiProvider } from "./ApiContext";
-
+import SearchApis from "./table/SearchApi";
 
 const ViewApi = () => (
   <div className="App">
@@ -14,6 +14,7 @@ const ViewApi = () => (
       <Divider/>
       <Container textAlign='justified'>
           <ApiProvider>
+              <SearchApis/>
               <TableApis/>
           </ApiProvider>
       </Container>

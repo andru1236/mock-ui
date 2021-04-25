@@ -107,9 +107,9 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
           <Input placeholder={"User 1"} value={name} onChange={handlerName} />
         </Form.Field>
 
-        <Form.Field>
+        <Form.Field className="editor-content">
           <label>Json editor</label>
-          <div style={{width: "100%", border:"solid 1px #DDD", borderRadius:"3px"}}>
+          <div className="json-editor">
             <JSONInput
               id={"unique"}
               theme={"light_mitsuketa_tribute"}
@@ -122,14 +122,14 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
         </Form.Field>
 
         {/* Action Buttons */}
-        <Grid style={{ width: "100%" }}>
+        <Grid className="btn-editor-content">
 
-          <Grid.Column textAlign={"left"} style={{ width: "45%" }}>
+          <Grid.Column className="left-buttons">
             <Button negative onClick={() => setOpenRevemoResponse(true)}> Remove </Button>
             <Button color={'orange'} onClick={() => _reset()}> Reset </Button>
           </Grid.Column>
 
-          <Grid.Column textAlign={"right"} style={{ width: "55%" }}>
+          <Grid.Column className="right-buttons">
             <Button primary onClick={() => save()}> Save </Button>
             <Button primary onClick={() => saveAs()}> Save as </Button>
             <Button color={'green'} onClick={ () => setOpenExportJson(true) }> Export JSON </Button>

@@ -36,7 +36,7 @@ const TableResponse = ({ responses, selectResponse, reloadResponses, configPage,
   useEffect(() => {
       let numPages = ((responsesLength % PAGE_LIMIT) == 0) ? 
           responsesLength / PAGE_LIMIT : 
-          Math.round(responsesLength / PAGE_LIMIT) + 1;
+          (responsesLength / PAGE_LIMIT) - ((responsesLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
       setNumberPages(numPages);
       getActivePage();
   });
@@ -61,6 +61,7 @@ const TableResponse = ({ responses, selectResponse, reloadResponses, configPage,
             lastItem={null}
             secundary
             totalPages={numberPages}
+            className="pagination"
           />
         </Segment>
       );

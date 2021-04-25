@@ -1,0 +1,123 @@
+/* CSS Styles definition */
+.response-content {
+  width: 90% !important;
+}
+
+.response-content .grid .responses-table {
+  width: 20% !important;
+}
+.response-content .grid .apis-table {
+  width: 25% !important;
+}
+.response-content .grid .response-editor {
+  width: 50% !important;
+}
+.response-content .grid .response-assign-api {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: column !important;
+  width: 5% !important;
+}
+
+.response-content .grid .response-editor
+form.ui .editor-content .json-editor {
+  border: solid 1px #DDD !important;
+  border-radius: 3px;
+  width: 100% !important;
+}
+
+.response-content .grid .response-editor
+form.ui .btn-editor-content {
+  width: 105% !important;
+}
+.response-content .grid .response-editor
+form.ui .btn-editor-content .left-buttons {
+  padding: 0px;
+  height: 40px;
+  margin: 10px 0px 10px 15px;
+  width: 35%;
+  text-align: left;
+}
+.response-content .grid .response-editor
+form.ui .btn-editor-content .right-buttons {
+  padding: 0px;
+  height: 40px;
+  margin: 10px 0px;
+  width: 60%;
+  text-align: right;
+}
+
+@media (max-width: 1219px) {
+  .response-content .grid .responses-table,
+  .response-content .grid .apis-table {
+    padding: 0 !important;
+  }
+  .response-content .grid .responses-table .segments .segment,
+  .response-content .grid .apis-table .segments .segment {
+    font-size: 12px !important;
+  }
+  .response-content .grid .responses-table .segments .segment table.ui.table,
+  .response-content .grid .apis-table .segments .segment table.ui.table {
+    font-size: 13px !important;
+  }
+  .response-content .grid .responses-table .segments .segment .pagination,
+  .response-content .grid .apis-table .segments .segment .pagination {
+    font-size: 11px !important;
+  }
+
+  .response-content .grid .response-editor {
+    padding: 0px 10px !important;
+  }
+  .response-content .grid .response-editor form.ui .field,
+  .response-content .grid .response-editor form.ui .field input {
+    font-size: 12px !important;
+  }
+  .response-content .grid .response-editor form.ui .editor-content .json-editor #unique-outer-box {
+    width: 100% !important;
+  }
+  .response-content .grid .response-editor form.ui .btn-editor-content .left-buttons button,
+  .response-content .grid .response-editor form.ui .btn-editor-content .right-buttons button {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 1048px) {
+  .response-content .grid .apis-table {
+    width: 40% !important;
+  }
+  .response-content .grid .response-editor {
+    width: 80% !important;
+  }
+  .response-content .grid .response-assign-api {
+    display: inline-flex !important;
+    justify-content: right !important;
+    text-align: left;
+    margin: 40px;
+    width: 12% !important;
+  }
+}
+
+@media (max-width: 950px) {
+  .response-content .grid .responses-table {
+    padding: 0px 10px !important;
+    width: 100% !important;
+  }
+  .response-content .grid .apis-table {
+    width: 75% !important;
+  }
+  .response-content .grid .response-editor {
+    width: 100% !important;
+  }
+  .response-content .grid .response-assign-api {
+    display: inline-flex !important;
+    justify-content: right !important;
+    text-align: left;
+    margin: 25px;
+    width: 12% !important;
+  }
+  .response-content .grid .responses-table .segments .segment,
+  .response-content .grid .apis-table .segments .segment {
+    font-size: 13px !important;
+  }
+}

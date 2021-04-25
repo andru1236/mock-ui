@@ -11,6 +11,7 @@ import emmitToastMessage from "../../../common/emmitToastMessage";
 // Components
 import ConfirmRemoveApi from '../forms/ConfirmRemoveApi';
 import FormApi from '../forms/FormApi';
+import ConfirmCloneApi from '../forms/ConfirmCloneApi';
 
 interface IViewProps extends ApiContextProps {
     history: any;
@@ -20,6 +21,7 @@ interface IViewProps extends ApiContextProps {
 const BodyApiList = ({ apis, startApi, stopApi, reloadApis, selectApi, history }: IViewProps) => {
     const [isOpenDeleteApi, setIsOpenDeleteApi] = useState(false);
     const [isOpenUpdateApi, setIsOpenUpdateApi] = useState(false);
+    const [isOpenCloneApi, setIsOpenCloneApi] = useState(false);
 
     const startOrStopApi = async (isNotRunning, api) => {
         if ( isNotRunning ) {
@@ -64,7 +66,12 @@ const BodyApiList = ({ apis, startApi, stopApi, reloadApis, selectApi, history }
                         } }>
                             { "Remove" }
                         </Button>
-
+                        <Button basic size={ 'tiny' } color={ 'orange' } onClick={ () => {
+                            selectApi(api._id);
+                            setIsOpenCloneApi(true);
+                        } }>
+                            { "Clone Api" }
+                        </Button>
                     </Table.Cell>
                 </Table.Row>
               )) }
@@ -80,6 +87,11 @@ const BodyApiList = ({ apis, startApi, stopApi, reloadApis, selectApi, history }
             isOpenModal={ isOpenUpdateApi }
             closeForm={ () => setIsOpenUpdateApi(false) }
             action={ 'Update' }
+          />
+
+          <ConfirmCloneApi
+            isOpenModal={ isOpenCloneApi }
+            closeForm={ () => setIsOpenCloneApi(false) }
           />
       </Fragment>
 
