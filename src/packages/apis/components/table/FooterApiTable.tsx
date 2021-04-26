@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
 import {Table, Button, Pagination, Label} from "semantic-ui-react";
-import FormApi from '../forms/FormApi';
+
+// Utils
+import { calculatePageNumber, getStartAndEndIndex } from "../../../common/pagination_utils";
+
+// HOCs
+import { withRouter } from "react-router-dom";
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
+
+// Components
+import FormApi from '../forms/FormApi';
 
 
 interface IViewProps extends ApiContextProps {
@@ -17,37 +24,8 @@ const FooterApiTable = ({
 }: IViewProps) => {
     const [isOpen, setDisplay] = useState(false);
     const [totalApis, setTotalApis] = useState(0);
-    const [pagesNumber, setPageNumber] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [activePage, setActivePage] = useState(1);
-
-    const getStartAndEndIndex = (_activePage, _numberOfApisToShow) => {
-        // Special case
-        if (_activePage === 1) {
-            return [0, _numberOfApisToShow];
-        }
-        const startIndex = (_numberOfApisToShow * (_activePage -1));
-        const endIndex = startIndex  + _numberOfApisToShow;
-        return [startIndex, endIndex];
-    }
-
-    const calculatePageNumber = (apis, numberOfApisToShow) => {
-        const totalApis = apis.length;
-        const numberOfPages: number = parseInt(totalApis) / parseInt(numberOfApisToShow);
-
-        // @ts-ignore
-        if (parseInt(numberOfPages) === 0) {
-            return 1;
-        }
-
-        // @ts-ignore
-        if (parseInt(numberOfPages) < numberOfPages){
-            // @ts-ignore
-            return parseInt(numberOfPages) + 1;
-        }
-
-        // @ts-ignore
-        return parseInt(numberOfPages);
-    };
 
     const onPageChange = (e, pageInfo) => {
         e.preventDefault();
@@ -59,9 +37,7 @@ const FooterApiTable = ({
     };
 
     useEffect(() => {
-        setPageNumber(
-            calculatePageNumber(apis, numberOfApisToShow)
-        );
+        setTotalPages(calculatePageNumber(apis.length, numberOfApisToShow));
     }, [apis, numberOfApisToShow]);
 
     useEffect(() =>{
@@ -77,7 +53,7 @@ const FooterApiTable = ({
                 <Pagination
                     activePage={activePage}
                     onPageChange={onPageChange}
-                    totalPages={pagesNumber}
+                    totalPages={totalPages}
                     ellipsisItem={null}
                 />
             </Table.HeaderCell>

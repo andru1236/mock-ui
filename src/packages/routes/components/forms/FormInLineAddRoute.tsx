@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Form, Grid, Icon } from "semantic-ui-react";
 import emmitToastMessage from "../../../common/emmitToastMessage";
+// sources
+import { addNewRoute } from "../../sources/gql";
+
 import { withPathConsumer, PathContextProps } from "../PathContext";
 import { IRoute } from "../../../../domain/api";
 
@@ -11,7 +14,7 @@ const options = [
     { key: 'DELETE', text: 'DELETE', value: 'DELETE' },
 ];
 
-const FormInLineAddRoute = ({ selectedApi, reloadSelectedApi, addNewRoute }: PathContextProps) => {
+const FormInLineAddRoute = ({ selectedApi, reloadSelectedApi }: PathContextProps) => {
 
     const [path, setPath] = useState('');
     const [method, setMethod] = useState('');

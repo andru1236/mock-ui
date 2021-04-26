@@ -4,6 +4,9 @@ import { Label } from 'semantic-ui-react'
 import { IParam, IPath, IResource, IRoute } from "../../../../domain/api";
 import { withPathConsumer, PathContextProps } from "../PathContext";
 
+// Sources
+import { updateRoute, removeRoute, addParamToRoute, updateParamFromRoute, removeParamFromRoute } from "../../sources/gql";
+
 // Components
 import FormUpdateResponse from '../forms/FormUpdateResponse'
 import FormQueryParamsFeature from '../feat_query_params/FormQueryParamsFeature';
@@ -14,17 +17,7 @@ interface IMethodButtonProps extends PathContextProps {
     resource: IResource;
 }
 
-const ButtonRestMethod = ({
-                          path,
-                          resource,
-                          reloadSelectedApi,
-                          selectedApi,
-                          updateRoute,
-                          removeRoute,
-                          addParamToRoute,
-                          updateParamFromRoute,
-                          removeParamFromRoute
-                      }: IMethodButtonProps) => {
+const ButtonRestMethod = ({path, resource, reloadSelectedApi, selectedApi }: IMethodButtonProps) => {
 
     const [open, setOpen] = useState(false);
 

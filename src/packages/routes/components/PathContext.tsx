@@ -1,17 +1,8 @@
 import React, { createContext, Fragment, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { IApiInstance, IParam, IRoute } from "../../../domain/api";
+import {IApiInstance, IPath } from "../../../domain/api";
 import { Dimmer, Loader } from "semantic-ui-react";
-import {
-    getOneApi,
-    addNewRoute,
-    updateRoute,
-    removeRoute,
-    addParamToRoute,
-    updateParamFromRoute,
-    removeParamFromRoute
-} from '../sources/gql';
-
+import { getOneApi } from '../sources/gql';
 import { handlerError } from "../../common/handlerError";
 
 const defaultApi: IApiInstance = {
@@ -29,46 +20,36 @@ export interface PathContextProps {
     isLoading: boolean;
     selectedApi: IApiInstance | any;
     getOneApi (apiId: string): void;
-    addNewRoute (apiId: string, route: IRoute): any;
-    updateRoute (apiId: string, route: IRoute): any;
-    removeRoute (apiId: string, route: IRoute): any;
-    addParamToRoute (apiId: string, routeId: string, param: IParam): any;
-    updateParamFromRoute (apiId: string, routeId: string, param: IParam): any;
-    removeParamFromRoute (apiId: string, routeId: string, param: string): any;
     reloadSelectedApi (): any
-    setConfigPage(config): void;
-    configPage: any;
-    routesLength: any;
+    routesToDisplay: IPath[] | any;
+    setRoutesToDisplay(routes): any;
+    numberOfRoutesToDisplay: number;
+    setNumberOfRoutesToDisplay(num): void;
 }
 
 const PathContext = createContext<PathContextProps>({
     isLoading: false,
     selectedApi: defaultApi,
     getOneApi,
-    addNewRoute,
-    updateRoute,
-    removeRoute,
-    addParamToRoute,
-    updateParamFromRoute,
-    removeParamFromRoute,
     reloadSelectedApi: () => {},
-    setConfigPage: (config) => {},
-    configPage: { active:0, next:0 },
-    routesLength: 0,
+    routesToDisplay: [],
+    setRoutesToDisplay: (routes) => {},
+    numberOfRoutesToDisplay: 10,
+    setNumberOfRoutesToDisplay: (num) => {},
 });
 
 const _PathProvider = ({ match, children }: any) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [routesLength, setRoutesLength] = useState(0);
-    const [configPage, setConfigPage] = useState({ active:1, next:0 });
     const [selectedApi, setSelectedApi] = useState(defaultApi);
+    const [routesToDisplay, setRoutesToDisplay] = useState([]);
+    const [numberOfRoutesToDisplay, setNumberOfRoutesToDisplay] = useState(3);
 
     const reloadSelectedApi = () => {
         setIsLoading(true);
         getOneApi(match.params.apiId)
           .then(res => {
               setSelectedApi(res);
-              setRoutesLength(res.routes.length);
+              setRoutesToDisplay(res.routes.slice(0, numberOfRoutesToDisplay))
               setIsLoading(false);
           })
           .catch(error => handlerError(error));
@@ -85,15 +66,10 @@ const _PathProvider = ({ match, children }: any) => {
             selectedApi,
             reloadSelectedApi,
             getOneApi,
-            addNewRoute,
-            updateRoute,
-            removeRoute,
-            addParamToRoute,
-            updateParamFromRoute,
-            removeParamFromRoute,
-            setConfigPage,
-            configPage,
-            routesLength,
+            routesToDisplay,
+            setRoutesToDisplay,
+            numberOfRoutesToDisplay,
+            setNumberOfRoutesToDisplay
         } }
       >
           { children }
