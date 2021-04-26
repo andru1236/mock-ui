@@ -3,81 +3,93 @@ import { withRouter } from "react-router-dom";
 import {Table, Button, Pagination, Label} from "semantic-ui-react";
 import FormApi from '../forms/FormApi';
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
-import { countAllApis as countApis } from "../../sources/gql"
 
-const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
-const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
-const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
 
 interface IViewProps extends ApiContextProps {
     history: any;
 }
 
 const FooterApiTable = ({ 
-    reloadApis,
-    setNumberPages, 
-    setConfigPage,
-    configPage, 
-    apisLength, 
-    numberPages, 
+    apis,
+    numberOfApisToShow,
+    setApisToDisplay,
     history,
 }: IViewProps) => {
     const [isOpen, setDisplay] = useState(false);
-    const [lastActivePage, setLastActivePage] = useState(configPage.active);
     const [totalApis, setTotalApis] = useState(0);
+    const [pagesNumber, setPageNumber] = useState(1);
+    const [activePage, setActivePage] = useState(1);
+
+    const getStartAndEndIndex = (_activePage, _numberOfApisToShow) => {
+        // Special case
+        if (_activePage === 1) {
+            return [0, _numberOfApisToShow];
+        }
+        const startIndex = (_numberOfApisToShow * (_activePage -1));
+        const endIndex = startIndex  + _numberOfApisToShow;
+        return [startIndex, endIndex];
+    }
+
+    const calculatePageNumber = (apis, numberOfApisToShow) => {
+        const totalApis = apis.length;
+        const numberOfPages: number = parseInt(totalApis) / parseInt(numberOfApisToShow);
+
+        // @ts-ignore
+        if (parseInt(numberOfPages) === 0) {
+            return 1;
+        }
+
+        // @ts-ignore
+        if (parseInt(numberOfPages) < numberOfPages){
+            // @ts-ignore
+            return parseInt(numberOfPages) + 1;
+        }
+
+        // @ts-ignore
+        return parseInt(numberOfPages);
+    };
 
     const onPageChange = (e, pageInfo) => {
         e.preventDefault();
         if (typeof(pageInfo.activePage) === "number") {
-            let next = ((pageInfo.activePage - 1) * PAGE_LIMIT);
-            next = (next >= 0 && next < MAX_NUM_LIMIT) ? next : configPage.next;
-            setConfigPage({ active:pageInfo.activePage, next:next });
+            setActivePage(pageInfo.activePage);
+            const [start, end] = getStartAndEndIndex(pageInfo.activePage, numberOfApisToShow);
+            setApisToDisplay(apis.slice(start, end));
         }
     };
 
-    const getActivePage = () => {
-        if (lastActivePage != configPage.active) {
-            setLastActivePage(configPage.active);
-            reloadApis();
-        }
-
-        return configPage.active;
-    }
-
     useEffect(() => {
-        let numPages = ((apisLength % PAGE_LIMIT) == 0) ? 
-            apisLength / PAGE_LIMIT : 
-            (apisLength / PAGE_LIMIT) - ((apisLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
-        setNumberPages(numPages);
-        getActivePage();
-    },[numberPages]);
+        setPageNumber(
+            calculatePageNumber(apis, numberOfApisToShow)
+        );
+    }, [apis, numberOfApisToShow]);
 
     useEffect(() =>{
-        countApis().then(res => setTotalApis(res));
-    }, [apisLength])
+        setTotalApis(apis.length);
+        const [start, end] = getStartAndEndIndex(activePage, numberOfApisToShow);
+        setApisToDisplay(apis.slice(start, end));
+    }, [apis])
 
     const renderPaginationContent = () => {
-        if (numberPages > 1) {
-          return (
-            <Table.Row>
-                <Table.HeaderCell colSpan='5' style={{textAlign:"center"}}>
-                    <Pagination 
-                        activePage={getActivePage()}
-                        onPageChange={onPageChange}
-                        totalPages={numberPages}
-                        ellipsisItem={null}
-                    />
-                </Table.HeaderCell>
-            </Table.Row>
-          );
-        }
-      };
+      return (
+        <Table.Row>
+            <Table.HeaderCell colSpan='5' style={{textAlign:"center"}}>
+                <Pagination
+                    activePage={activePage}
+                    onPageChange={onPageChange}
+                    totalPages={pagesNumber}
+                    ellipsisItem={null}
+                />
+            </Table.HeaderCell>
+        </Table.Row>
+      )};
 
     return (
         <Table.Footer fullWidth>
             <Table.Row>
                 <Table.HeaderCell />
                 <Table.HeaderCell colSpan='4'>
+                    <Label circular={true} color={'green'}> Total </Label>
                     <Label circular={true} color={'green'}>{totalApis}</Label>
                     <Button
                         floated='right'

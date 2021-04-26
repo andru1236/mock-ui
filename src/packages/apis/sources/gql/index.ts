@@ -8,15 +8,12 @@ import { IApiInstance, IParam, IPath } from "../../../../domain/api";
 import { addNewRoute, addParamToRoute } from "../../../routes/sources/gql";
 
 
-const { REACT_APP_PAGE_LIMIT } = process.env;
-
-
-export const getApis = async (next:any) => {
+export const getApis = async (limit = null, next = null) => {
     try {
         const queryOptions = {
             query: queries.getApis,
             variables: {
-                limit: parseInt(REACT_APP_PAGE_LIMIT),
+                limit: limit,
                 next: next
             }
         };
@@ -65,6 +62,7 @@ export const createApi = async (newApi: IApiInstance) => {
 }
 
 
+// TODO: Refactor does not work
 export const cloneApi = async (api: IApiInstance) => {
     try {
         const apiName = await generateUniqueCloneName(api.name);
@@ -226,7 +224,7 @@ export const stopApi = async (apiId: string) => {
     }
 }
 
-export const countAllApis = async () => {
+export const countApis = async () => {
     try {
         const opts = {
             query: queries.countAllApis,

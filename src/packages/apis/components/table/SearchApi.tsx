@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Input } from "semantic-ui-react";
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
-const SearchApis = ({ apis, setApis, reloadApis }: ApiContextProps) => {
+const SearchApis = ({ apis, setApis, setApisToDisplay, reloadApis }: ApiContextProps) => {
   const [search, setSearch] = useState("");
 
   const searchHandler = () => {
     if (search === "") {
       reloadApis();
     } else {
-      setApis(apis.filter(api => api.name.includes(search)));
+      const filteredApis = apis.filter(api => api.name.includes(search));
+      setApis(filteredApis);
+      setApisToDisplay(filteredApis);
     }
   };
 

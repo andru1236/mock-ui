@@ -21,7 +21,7 @@ interface IViewProps extends ApiContextProps {
 }
 
 
-const BodyApiList = ({ apis, reloadApis, selectApi, history }: IViewProps) => {
+const BodyApiList = ({ apisToDisplay, reloadApis, selectApi, history }: IViewProps) => {
     const [isOpenDeleteApi, setIsOpenDeleteApi] = useState(false);
     const [isOpenUpdateApi, setIsOpenUpdateApi] = useState(false);
     const [isOpenCloneApi, setIsOpenCloneApi] = useState(false);
@@ -39,7 +39,7 @@ const BodyApiList = ({ apis, reloadApis, selectApi, history }: IViewProps) => {
     return (
       <Fragment>
           <Table.Body>
-              { apis.map((api: IApiInstance) => (
+              { apisToDisplay.map((api: IApiInstance) => (
                 <Table.Row key={ api._id } positive={ api.settings.enabled } negative={ api.routes.length === 0 }>
                     <Table.Cell collapsing>
                         <Checkbox checked={ api.settings.enabled } slider

@@ -2,12 +2,8 @@ import React, { createContext, Fragment, useEffect, useState } from "react";
 import { Dimmer, Loader } from "semantic-ui-react";
 
 import { IApiInstance } from "../../../domain/api";
-import { getApis, getApisLength } from "../sources/gql";
+import { getApis } from "../sources/gql";
 import { handlerError } from "../../common/handlerError";
-
-
-const { REACT_APP_PAGE_LIMIT } = process.env;
-const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
 
 
 // PROPS TO PASS
@@ -18,11 +14,10 @@ export interface ApiContextProps {
     selectedApi: IApiInstance;
     selectApi (apiId: string): void;
     reloadApis (): void;
-    setConfigPage(config): void;
-    setNumberPages(flag): void;
-    configPage: any;
-    numberPages: any;
-    apisLength: any;
+    apisToDisplay: IApiInstance[];
+    setApisToDisplay(apis: IApiInstance[]): void;
+    numberOfApisToShow: number;
+    setNumberOfApisToShow(num: number): void;
 }
 
 // CONTEXT
@@ -42,17 +37,18 @@ const ApiContext = createContext<ApiContextProps>({
     },
     selectApi: (apiId: string) => apiId,
     reloadApis: () => {},
-    setConfigPage: (config) => {},
-    setNumberPages: (flag) => {},
-    configPage: { active:0, next:0 },
-    numberPages:0,
-    apisLength: 0,
+    apisToDisplay: [] as IApiInstance[],
+    setApisToDisplay: (apis: IApiInstance[]) => {},
+    numberOfApisToShow: 15,
+    setNumberOfApisToShow: (num) => {},
 });
 
 // COMPONENTS
 export const ApiProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apis, setApis] = useState([]);
+    const [apisToDisplay, setApisToDisplay] = useState([]);
+    const [numberOfApisToShow, setNumberOfApisToShow] = useState(5);
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",
@@ -64,43 +60,25 @@ export const ApiProvider = (props: any) => {
         }
     });
 
-    const [apisLength, setApisLength] = useState(0);
-    const [configPage, setConfigPage] = useState({ active:1, next:0 });
-    const [numberPages, setNumberPages] = useState(configPage.active);
-
-    const reloadApisLength = () => {
-        getApisLength().then(res => {
-            setApisLength(res.length);
-            let numPages = ((apisLength % PAGE_LIMIT) == 0) ? 
-                apisLength / PAGE_LIMIT : 
-                (apisLength / PAGE_LIMIT) - ((apisLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
-            setNumberPages(numPages)
-        })
-        .catch(error => handlerError(error));
-    }
-
     const reloadApis = () => {
         setIsLoading(true);
-        getApis(configPage.next).then(res => {
+        getApis().then(res => {
             setApis(res.apis);
-            reloadApisLength();
+            setApisToDisplay(res.apis.slice(0, numberOfApisToShow));
             setIsLoading(false);
         })
         .catch(error => handlerError(error));
     };
+
     const selectApi = (apiId) => setSelectedApi(apis.find(api => api._id === apiId));
 
     useEffect(() => {
         setIsLoading(true);
-        getApis(configPage.next)
+        getApis()
           .then(res => {
               setApis(res.apis);
+              setApisToDisplay(res.apis.slice(0, numberOfApisToShow));
               setIsLoading(false);
-          })
-          .catch(error => handlerError(error));
-        getApisLength()
-          .then(res => {
-              setApisLength(res.length);
           })
           .catch(error => handlerError(error));
     }, [])
@@ -112,13 +90,12 @@ export const ApiProvider = (props: any) => {
             apis,
             setApis,
             selectedApi,
-            reloadApis,
             selectApi,
-            setConfigPage,
-            setNumberPages,
-            configPage,
-            numberPages,
-            apisLength,
+            reloadApis,
+            apisToDisplay,
+            setApisToDisplay,
+            numberOfApisToShow,
+            setNumberOfApisToShow,
         } }
       >
           { props.children }
