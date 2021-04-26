@@ -20,8 +20,7 @@ const FooterApiTable = ({
     configPage, 
     apisLength, 
     numberPages, 
-    isSearchMode, 
-    history 
+    history,
 }: IViewProps) => {
     const [isOpen, setDisplay] = useState(false);
     const [lastActivePage, setLastActivePage] = useState(configPage.active);
@@ -58,7 +57,7 @@ const FooterApiTable = ({
     }, [apisLength])
 
     const renderPaginationContent = () => {
-        if (!isSearchMode && numberPages > 1) {
+        if (numberPages > 1) {
           return (
             <Table.Row>
                 <Table.HeaderCell colSpan='5' style={{textAlign:"center"}}>

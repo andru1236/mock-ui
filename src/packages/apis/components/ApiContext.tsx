@@ -14,22 +14,22 @@ const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
 export interface ApiContextProps {
     isLoading: boolean;
     apis: IApiInstance[];
+    setApis(apis: IApiInstance[]): void;
     selectedApi: IApiInstance;
     selectApi (apiId: string): void;
     reloadApis (): void;
-    reloadApisWithFilter (filter): void;
     setConfigPage(config): void;
     setNumberPages(flag): void;
     configPage: any;
     numberPages: any;
     apisLength: any;
-    isSearchMode: boolean;
 }
 
 // CONTEXT
 const ApiContext = createContext<ApiContextProps>({
     isLoading: false,
     apis: [] as IApiInstance[],
+    setApis: (apis: IApiInstance[]) => {},
     selectedApi: {
         _id: "",
         name: "",
@@ -42,13 +42,11 @@ const ApiContext = createContext<ApiContextProps>({
     },
     selectApi: (apiId: string) => apiId,
     reloadApis: () => {},
-    reloadApisWithFilter: (filter) => {},
     setConfigPage: (config) => {},
     setNumberPages: (flag) => {},
     configPage: { active:0, next:0 },
     numberPages:0,
     apisLength: 0,
-    isSearchMode: false
 });
 
 // COMPONENTS
@@ -69,19 +67,6 @@ export const ApiProvider = (props: any) => {
     const [apisLength, setApisLength] = useState(0);
     const [configPage, setConfigPage] = useState({ active:1, next:0 });
     const [numberPages, setNumberPages] = useState(configPage.active);
-    const [isSearchMode, setSearchMode] = useState(false);
-
-    const reloadApisWithFilter = (filter) => {
-        if (filter.length > 0) {
-            setIsLoading(true);
-            setApis(filter);
-            setSearchMode(true);
-            setIsLoading(false);
-        }
-        else {
-            reloadApis();
-        }
-    };
 
     const reloadApisLength = () => {
         getApisLength().then(res => {
@@ -96,7 +81,6 @@ export const ApiProvider = (props: any) => {
 
     const reloadApis = () => {
         setIsLoading(true);
-        setSearchMode(false);
         getApis(configPage.next).then(res => {
             setApis(res.apis);
             reloadApisLength();
@@ -126,6 +110,7 @@ export const ApiProvider = (props: any) => {
         value={ {
             isLoading,
             apis,
+            setApis,
             selectedApi,
             reloadApis,
             selectApi,
@@ -134,8 +119,6 @@ export const ApiProvider = (props: any) => {
             configPage,
             numberPages,
             apisLength,
-            isSearchMode,
-            reloadApisWithFilter
         } }
       >
           { props.children }

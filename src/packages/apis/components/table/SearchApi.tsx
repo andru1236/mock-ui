@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Input } from "semantic-ui-react";
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
-const SearchApis = ({ apis, reloadApisWithFilter }: ApiContextProps) => {
-  const [searchApis, filterApis] = useState([]);
+const SearchApis = ({ apis, setApis, reloadApis }: ApiContextProps) => {
   const [search, setSearch] = useState("");
-  
+
   const searchHandler = () => {
     if (search === "") {
-      filterApis([]);
-      reloadApisWithFilter([]);
+      reloadApis();
     } else {
-      filterApis(apis.filter(api => api.name.includes(search)));
-      reloadApisWithFilter(searchApis);
+      setApis(apis.filter(api => api.name.includes(search)));
     }
   };
 
@@ -36,12 +33,6 @@ const SearchApis = ({ apis, reloadApisWithFilter }: ApiContextProps) => {
     ev.preventDefault();
     setSearch(data.value);
   };
-
-  useEffect(() => {
-    if (searchApis.length > 0) {
-      reloadApisWithFilter(searchApis);
-    }
-  }, [apis, search]);
 
   return (
     <div style={{display:"flex", justifyContent:"center", margin: "10px 0px"}}>
