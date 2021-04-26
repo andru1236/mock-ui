@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Input, Segment, Table, Pagination } from "semantic-ui-react";
+import { Input, Segment, Table, Pagination, Label } from "semantic-ui-react";
+import { calculatePageNumber, getStartAndEndIndex } from "../../common/pagination_utils";
 import { withResponseConsumer, ResponseContextProps } from '../ResponseContext'
 
-const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
 
-
-const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
-const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
-
-const TableResponse = ({ responses, selectResponse, reloadResponses, configPage, responsesLength, setConfigPage }: ResponseContextProps) => {
-  const [foundResponses, filterResponses] = useState([]);
+const TableResponse = ({ responses, selectResponse, numberItemsToShow, responsesToDisplay, setResponsesToDisplay, reloadResponses, setResponses }: ResponseContextProps) => {
   const [search, setSearch] = useState("");
-  const [lastActivePage, setLastActivePage] = useState(configPage.active);
-  const [numberPages, setNumberPages] = useState(configPage.active);
+  const [activePage, setActivePage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const searchHandler = (event: any) => {
     setSearch(event.target.value);
@@ -21,54 +16,43 @@ const TableResponse = ({ responses, selectResponse, reloadResponses, configPage,
   const onPageChange = (e, pageInfo) => {
     e.preventDefault();
     if (typeof(pageInfo.activePage) === "number") {
-      let next = ((pageInfo.activePage - 1) * PAGE_LIMIT);
-      next = (next >= 0 && next < MAX_NUM_LIMIT) ? next : configPage.next;
-      setConfigPage({ active:pageInfo.activePage, next:next });
+      setActivePage(pageInfo.activePage);
+      const [start, end] = getStartAndEndIndex(pageInfo.activePage, numberItemsToShow);
+      setResponsesToDisplay(responses.slice(start, end));
     }
   };
 
-  const getActivePage = () => {
-    if (lastActivePage != configPage.active) {
-        setLastActivePage(configPage.active);
-        reloadResponses();
-    }
-
-    return configPage.active;
-  }
+  useEffect(() =>{
+    setTotalPages(calculatePageNumber(responses.length, numberItemsToShow));
+  }, [responses]);
 
   useEffect(() => {
-      let numPages = ((responsesLength % PAGE_LIMIT) == 0) ? 
-          responsesLength / PAGE_LIMIT : 
-          (responsesLength / PAGE_LIMIT) - ((responsesLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
-      setNumberPages(numPages);
-      getActivePage();
-  });
-
-  useEffect(() => {
+    const [start, end] = getStartAndEndIndex(activePage, numberItemsToShow);
     if (search === "") {
-      filterResponses(responses);
+      reloadResponses();
+      setResponsesToDisplay(responses.slice(start,end));
     } else {
-      filterResponses(responses.filter(res => res.name.includes(search)))
+      const filteredResponses = responses.filter(res => res.name.includes(search));
+      setResponses(filteredResponses);
+      setResponsesToDisplay(filteredResponses.slice(start,end));
     }
 
-  }, [responses, search]);
+  }, [search]);
 
   const renderPaginationContent = () => {
-    if (numberPages > 1) {
-      return (
-        <Segment style={{display:"flex", justifyContent:"center"}}>
-          <Pagination 
-            defaultActivePage={getActivePage()}
-            onPageChange={onPageChange}
-            firstItem={null}
-            lastItem={null}
-            secundary
-            totalPages={numberPages}
-            className="pagination"
-          />
-        </Segment>
-      );
-    }
+    return (
+      <Segment style={{display:"flex", justifyContent:"center"}}>
+        <Pagination
+          defaultActivePage={activePage}
+          onPageChange={onPageChange}
+          firstItem={null}
+          lastItem={null}
+          secundary
+          totalPages={totalPages}
+          className="pagination"
+        />
+      </Segment>
+    )
   };
 
   return (
@@ -80,12 +64,17 @@ const TableResponse = ({ responses, selectResponse, reloadResponses, configPage,
       <Table selectable celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Responses</Table.HeaderCell>
+            <Table.HeaderCell>
+              Responses
+
+              <Label circular={true} color={'green'} style={{margin: "3px"}}>Total</Label>
+              <Label circular={true} color={'green'} >{responses.length}</Label>
+            </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {
-            foundResponses.map((response) => (
+            responsesToDisplay.map((response) => (
               <Table.Row key={response._id}>
                 <Table.Cell onClick={() => selectResponse(response._id)}>{response.name}</Table.Cell>
               </Table.Row>

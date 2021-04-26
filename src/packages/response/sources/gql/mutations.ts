@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client';
 
 const createResponse = gql`
-  mutation createResponse($name: String!, $response: JSON) {
+  mutation createResponse($name: String!, $response: JSON!) {
     createResponse(name: $name, response: $response)
   }
 `;
 
 const updateResponse = gql`
-  mutation updateResponse($responseId: String!, $name: String!, $response: JSON) {
+  mutation updateResponse($responseId: String!, $name: String!, $response: JSON!) {
     updateResponse(responseId: $responseId, name: $name, response: $response)
   }
 `;

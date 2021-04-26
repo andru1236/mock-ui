@@ -48,7 +48,7 @@ export const ApiProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState(true)
     const [apis, setApis] = useState([]);
     const [apisToDisplay, setApisToDisplay] = useState([]);
-    const [numberOfApisToShow, setNumberOfApisToShow] = useState(5);
+    const [numberOfApisToShow, setNumberOfApisToShow] = useState(15);
     const [selectedApi, setSelectedApi] = useState({
         _id: "",
         name: "",

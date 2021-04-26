@@ -15,11 +15,6 @@ const getApis = gql`
         path
         resources {
           method
-          response
-          params {
-            param
-            response
-          }
         }
       }
     }
@@ -32,18 +27,6 @@ const getResponses = gql`
       id
       name
       response
-      createdOn
-      trackingAssignation {
-        api {
-          id
-          name
-        }
-        routes {
-          path
-          method
-          date
-        }
-      }
     }
   }
 `;

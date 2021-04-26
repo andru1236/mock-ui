@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Breadcrumb, Input, Segment, Table, Pagination } from "semantic-ui-react";
+import { calculatePageNumber, getStartAndEndIndex } from "../../common/pagination_utils";
 import { IPath } from "../../../domain/api";
 import { withResponseConsumer, ResponseContextProps } from "../ResponseContext";
 
 const SPECIFIC_ROUTE_DEFAULT: IPath = { path: "", resources: [] };
-const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
-const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
-const MAX_NUM_LIMIT = parseInt(REACT_APP_MAX_LIMIT);
 
-const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToUpdate, selectRouteToUpdate, reloadApis, configApiPage, apisLength, setApiPage }: ResponseContextProps) => {
+
+const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToUpdate, selectRouteToUpdate, numberItemsToShow }: ResponseContextProps) => {
   const [foundApis, filterApis] = useState([]);
   const [foundRoutes, filterRoutes] = useState([]);
   const [specificRoute, setSpecificRoute] = useState(SPECIFIC_ROUTE_DEFAULT);
   const [search, setSearch] = useState("");
 
   const [apiActive, setApiActive] = useState(true);
-  const [routeAtive, setRouteActive] = useState(false);
+  const [routeActive, setRouteActive] = useState(false);
   const [resourceActive, setResourceActive] = useState(false);
-  const [lastActivePage, setLastActivePage] = useState(configApiPage.active);
-  const [numberPages, setNumberPages] = useState(configApiPage.active);
+
+  const [activePage, setActivePage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItemsFound, setTotalItemsFound] = useState(0);
 
   const searchHandler = (event: any) => {
     setSearch(event.target.value);
@@ -27,51 +28,47 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
   const onPageChange = (e, pageInfo) => {
     e.preventDefault();
     if (typeof(pageInfo.activePage) === "number") {
-      let next = ((pageInfo.activePage - 1) * PAGE_LIMIT);
-      next = (next >= 0 && next < MAX_NUM_LIMIT) ? next : configApiPage.next;
-      setApiPage({ active:pageInfo.activePage, next:next });
+        setActivePage(pageInfo.activePage);
     }
   };
 
-  const getActivePage = () => {
-    if (lastActivePage != configApiPage.active) {
-        setLastActivePage(configApiPage.active);
-        reloadApis();
-    }
-
-    return configApiPage.active;
-  }
-
-  useEffect(() => {
-      let numPages = ((apisLength % PAGE_LIMIT) == 0) ? 
-          apisLength / PAGE_LIMIT : 
-          (apisLength / PAGE_LIMIT) - ((apisLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
-      setNumberPages(numPages);
-      getActivePage();
-  });
 
   useEffect(() => {
     if (apiActive) {
       if (search === "") {
-        filterApis(apis);
+        const [start, end] = getStartAndEndIndex(activePage, numberItemsToShow);
+        filterApis(apis.slice(start,end));
+        setTotalPages(calculatePageNumber(apis.length, numberItemsToShow));
+        setTotalItemsFound(apis.length);
       } else {
-        filterApis(apis.filter(api => api.name.includes(search)))
+        const filteredApis = apis.filter(api => api.name.includes(search));
+        const [start, end] = getStartAndEndIndex(activePage, numberItemsToShow);
+        filterApis(filteredApis.slice(start, end));
+        setTotalPages(calculatePageNumber(filteredApis.length, numberItemsToShow));
+        setTotalItemsFound(filteredApis.length);
       }
     }
-  }, [apis, search]);
+  }, [apis, search, numberItemsToShow, activePage, apiActive]);
 
   useEffect(() => {
-    if (routeAtive) {
+    if (routeActive) {
       if (search === "") {
-        filterRoutes(selectedApi.routes);
+        const [start, end] = getStartAndEndIndex(activePage, numberItemsToShow);
+        filterRoutes(selectedApi.routes.slice(start, end));
+        setTotalPages(calculatePageNumber(selectedApi.routes.length, numberItemsToShow));
+        setTotalItemsFound(selectedApi.routes.length);
       } else {
-        filterRoutes(selectedApi.routes.filter(route => route.path.includes(search)))
+        const filteredRoutes = selectedApi.routes.filter(route => route.path.includes(search));
+        const [start, end] = getStartAndEndIndex(activePage, numberItemsToShow);
+        filterRoutes(filteredRoutes.slice(start, end));
+        setTotalPages(calculatePageNumber(filteredRoutes.length, numberItemsToShow));
+        setTotalItemsFound(filteredRoutes.length);
       }
     }
 
-  }, [selectedApi, search]);
+  }, [selectedApi, search, numberItemsToShow, activePage, routeActive]);
 
-  // TODO: refactor
+  // TODO: refactor, I am not sure what this do
   useEffect(() => {
     if (resourceActive) {
       if (selectedApi._id === "") {
@@ -84,15 +81,25 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
 
   const renderMiniTabs = () => {
     if (apiActive) {
-      return (<Breadcrumb icon="right angle" sections={[{ key: "api", content: "Api", active: true }]} />)
+      return (<Breadcrumb icon="right angle" sections={[{ key: "api", content: `Api: ${totalItemsFound}`, active: true }]} />)
     }
-    if (routeAtive) {
+
+    if (routeActive) {
       return (<Breadcrumb icon="right angle" sections={
         [
-          { key: "api", content: "Api", link: true, onClick: () => { unSelectApi(); setApiActive(true); setRouteActive(false) } },
-          { key: "route", content: "Route", active: true }
+          { key: "api",
+            content: "Api",
+            link: true,
+            onClick: () => {
+              setRouteActive(false);
+              unSelectApi();
+              setApiActive(true);
+              setSearch("");
+          } },
+          { key: "route", content: `Route: ${totalItemsFound}`, active: true }
         ]} />)
     }
+
     if (resourceActive) {
       return (
         <Breadcrumb icon="right angle" sections={
@@ -142,7 +149,7 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
       ))
     }
 
-    if (routeAtive) {
+    if (routeActive) {
       return foundRoutes.map((route) => (
         <Table.Row key={route._id}>
           <Table.Cell
@@ -185,21 +192,21 @@ const TableApis = ({ apis, selectedApi, selectApi, unSelectApi, selectedRouteToU
   };
 
   const renderPaginationContent = () => {
-    if (numberPages > 1) {
+    if (!resourceActive){
       return (
         <Segment style={{display:"flex", justifyContent:"center"}}>
-          <Pagination 
-            defaultActivePage={getActivePage()}
+          <Pagination
+            defaultActivePage={activePage}
             onPageChange={onPageChange}
             firstItem={null}
             lastItem={null}
             secundary
-            totalPages={numberPages}
+            totalPages={totalPages}
             className="pagination"
           />
-        </Segment>
-      );
-    }
+      </Segment>
+      )}
+    return null;
   };
 
   return (

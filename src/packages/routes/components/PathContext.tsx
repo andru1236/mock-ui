@@ -42,7 +42,7 @@ const _PathProvider = ({ match, children }: any) => {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedApi, setSelectedApi] = useState(defaultApi);
     const [routesToDisplay, setRoutesToDisplay] = useState([]);
-    const [numberOfRoutesToDisplay, setNumberOfRoutesToDisplay] = useState(3);
+    const [numberOfRoutesToDisplay, setNumberOfRoutesToDisplay] = useState(10);
 
     const reloadSelectedApi = () => {
         setIsLoading(true);

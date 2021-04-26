@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Input, Form, Button, Grid, Segment } from "semantic-ui-react";
+// Domain
+import { IResponse } from "../../../domain/response";
+
+// Sources
+import { removeAResponse, createAResponse, updateResponse } from "../sources/gql"
+
 // Third library
 import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
-import FormExportResponseJson from "./forms/FormExportResponseJson"
-//import writeJsonFile from "write-json-file";
 
-import { createAResponse, updateResponse } from '../sources/api_rest';
-import emmitToastMessage from "../../common/emmitToastMessage";
+// HOCs
 import { withResponseConsumer, ResponseContextProps } from '../ResponseContext'
+
+// Components
+import emmitToastMessage from "../../common/emmitToastMessage";
 import AlertConfirmation from './AlertConfirmation';
-import { IResponse } from "../../../domain/response";
+
 
 const exampleJson = {
   field_1: "field_1",
@@ -18,11 +24,10 @@ const exampleJson = {
   object_1: { field_2: 'field_2' }
 };
 
-const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, reloadResponses, exportResponseAsJson }: ResponseContextProps) => {
+const EditorResponse = ({ selectedResponse, unSelectResponse, reloadResponses }: ResponseContextProps) => {
   const [editorValue, setEditorValue] = useState(exampleJson);
   const [name, setName] = useState("");
-  const [openRemoveResponse, setOpenRevemoResponse] = useState(false);
-  const [openExport, setOpenExportJson] = useState(false);
+  const [openRemoveResponse, setOpenRemoveResponse] = useState(false);
 
   const editorHandler = (value) => {
     // const { plainText, json, jsObject } = value;
@@ -50,23 +55,26 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
     unSelectResponse();
   }
 
-  const saveAs = () => {
+  const removeResponse = async () => {
+    selectedResponse._id !== "" ?
+        await removeAResponse(selectedResponse._id)
+        : emmitToastMessage.error('Response no exists', 'First Save the response');
+    reloadResponses();
+  };
+
+  const saveAs = async () => {
     if (_validationFields()) {
       const newResponse: IResponse = { name: name, response: editorValue };
-      createAResponse(newResponse);
+      await createAResponse(newResponse);
       _reset();
-      // TODO: Double reload why?
-      reloadResponses();
       reloadResponses();
     }
   }
 
-  const save = () => {
+  const save = async () => {
     if (_validationFields() && selectedResponse._id !== "") {
       const newResponse: IResponse = { _id:selectedResponse._id, name: name, response: editorValue };
-      updateResponse(newResponse);
-      // TODO: Double reload why?
-      reloadResponses();
+      await updateResponse(newResponse);
       reloadResponses();
     } else {
       emmitToastMessage.warning(
@@ -76,17 +84,20 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
     }
   }
 
-  const exportResponseJson = async (fileName:any) => {
-    if (_validationFields() && selectedResponse._id !== "") {
-      exportResponseAsJson(fileName, editorValue);
-      emmitToastMessage.success('Export JSON', 'Export response as JSON file successfully.');
-    } else {
-      emmitToastMessage.warning(
-        'No exists the response',
-        'The response should be exist to export as JSON.'
-      )
+  const downloadResponseAsJSON = async () => {
+    if (_validationFields()){
+      const fileName = name + ".json";
+      const json = JSON.stringify(editorValue);
+      const blob = new Blob([json],{type:'application/json'});
+      const href = await URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = fileName + ".json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
-  };
+  }
 
   useEffect(() => {
     if (selectedResponse._id !== "") {
@@ -125,33 +136,25 @@ const EditorResponse = ({ selectedResponse, unSelectResponse, removeResponse, re
         <Grid className="btn-editor-content">
 
           <Grid.Column className="left-buttons">
-            <Button negative onClick={() => setOpenRevemoResponse(true)}> Remove </Button>
+            <Button negative onClick={() => setOpenRemoveResponse(true)}> Remove </Button>
             <Button color={'orange'} onClick={() => _reset()}> Reset </Button>
           </Grid.Column>
 
           <Grid.Column className="right-buttons">
             <Button primary onClick={() => save()}> Save </Button>
             <Button primary onClick={() => saveAs()}> Save as </Button>
-            <Button color={'green'} onClick={ () => setOpenExportJson(true) }> Export JSON </Button>
+            <Button color={'green'} onClick={ downloadResponseAsJSON }> Export JSON </Button>
           </Grid.Column>
 
         </Grid>
       </Form>
 
       <AlertConfirmation
-        callback={() => {removeResponse(); _reset()}}
-        closeForm={() => setOpenRevemoResponse(false)}
+        callback={async () => { await removeResponse(); _reset()}}
+        closeForm={() => setOpenRemoveResponse(false)}
         open={openRemoveResponse}
         title={'Delete response'}
         content={'The action will be remove the response and you will not able to restore the Response'}
-      />
-
-      <FormExportResponseJson
-        isOpen={ openExport }
-        response={ editorValue }
-        title={ selectedResponse.name }
-        close={ () => setOpenExportJson(false) }
-        exportResponseAsJson={ exportResponseJson }
       />
     </Segment>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from "semantic-ui-react";
 import { withResponseConsumer, ResponseContextProps } from '../ResponseContext';
-import { assignResponseToApi } from '../sources/api_rest';
+import { assignResponseToApi } from '../sources/gql';
 import AlertConfirmation from './AlertConfirmation';
 
 const ButtonAssignRoute = ({ selectedApi, selectedResponse, selectedRouteToUpdate, unSelectResponse, unSelectApi }: ResponseContextProps) => {

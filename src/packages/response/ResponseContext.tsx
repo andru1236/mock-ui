@@ -1,15 +1,37 @@
 import React, { createContext, useState, useEffect } from "react";
 import { IApiInstance, IRoute } from "../../domain/api";
 import { IResponse } from "../../domain/response";
-import { getApis, getResponses, removeAResponse, getApisLength, getResponsesLength, exportResponseAsJson } from './sources/gql';
+import { getApis, getResponses } from './sources/gql';
 import { handlerError } from '../common/handlerError'
 import { Dimmer, Loader } from "semantic-ui-react";
-import emmitToastMessage from "../common/emmitToastMessage";
+
+
+const nullFn = (...args) => {};
+
+const blankApi: IApiInstance= {
+    _id: "",
+    name: "",
+    port: 0,
+    routes: [],
+};
+
+const blankResponse ={
+    _id: "",
+    name: "",
+    response: {},
+};
+
 
 export interface ResponseContextProps {
     isLoading?: boolean;
     apis: IApiInstance[];
+    setApis(apis): void;
     responses: IResponse[];
+    setResponses(responses): void;
+    numberItemsToShow: number;
+    setNumberItemsToShow(num): void;
+    responsesToDisplay: IResponse[] | any;
+    setResponsesToDisplay(responses: IResponse[]): void;
     selectedApi: any;
     selectedResponse: any;
     selectedRouteToUpdate?: IRoute;
@@ -20,79 +42,42 @@ export interface ResponseContextProps {
     unSelectResponse?(): void;
     reloadApis?(): void;
     reloadResponses?(): void;
-    removeResponse?(): void;
-    exportResponseAsJson?(fileName:any, response:any): void;
-    setApiPage(config): void;
-    setConfigPage(config): void;
-    configApiPage: any;
-    configPage: any;
-    apisLength: any;
-    responsesLength: any;
+
 }
 
 const ResponseContext = createContext<ResponseContextProps>({
     apis: [] as IApiInstance[],
+    setApis: nullFn,
     responses: [] as IResponse[],
-    selectedApi: {
-        _id: "",
-        name: "",
-        routes: {},
-    },
-    selectedResponse: {
-        _id: "",
-        name: "",
-        response: {},
-    },
-    setApiPage: (config) => {},
-    setConfigPage: (config) => {},
-    configApiPage: { active:0, next:0 },
-    configPage: { active:0, next:0 },
-    apisLength: 0,
-    responsesLength: 0,
+    setResponses: nullFn,
+    numberItemsToShow: 10,
+    setNumberItemsToShow: nullFn,
+    selectedApi: blankApi,
+    selectedResponse: blankResponse,
+    responsesToDisplay: [] as IResponse[],
+    setResponsesToDisplay: nullFn,
+
 });
 
 export const ResponseProvider = (props: any) => {
     const [isLoading, setIsLoading] = useState(true)
+    const [numberItemsToShow, setNumberItemsToShow] = useState(10);
     const [apis, setApis] = useState([]);
     const [responses, setResponses] = useState([]);
-    const [apisLength, setApisLength] = useState(0);
-    const [responsesLength, setResponseLength] = useState(0);
-    const [configPage, setConfigPage] = useState({ active:1, next:0 });
-    const [configApiPage, setApiPage] = useState({ active:1, next:0 });
-    const [selectedApi, setSelectedApi] = useState({
-        _id: "",
-        name: "",
-        routes: [],
-    });
-    const [selectedResponse, setSelectedResponse] = useState({
-        _id: "",
-        name: "",
-        response: {},
-    })
-
+    const [responsesToDisplay, setResponsesToDisplay] = useState([]);
+    const [selectedApi, setSelectedApi] = useState(blankApi);
+    const [selectedResponse, setSelectedResponse] = useState(blankResponse);
     const [selectedRouteToUpdate, selectRouteToUpdate] = useState({path:"", method: ""});
 
     const selectApi = apiId => setSelectedApi(apis.find(api => api._id === apiId));
-    const unSelectApi = () => setSelectedApi({
-        _id: "",
-        name: "",
-        routes: [],
-    });
+    const unSelectApi = () => setSelectedApi(blankApi);
 
-    const removeResponse = () => {
-        selectedResponse._id !== "" ?
-            removeAResponse(selectedResponse._id)
-            : emmitToastMessage.error('Response no exists', 'First Save the response');
-        // WHY double render??
-        reloadResponses();
-        reloadResponses();
-    };
     const selectResponse = responseId => setSelectedResponse(responses.find(response => response._id === responseId));
-    const unSelectResponse = () => setSelectedResponse({ _id: "", name: "", response: {} })
+    const unSelectResponse = () => setSelectedResponse(blankResponse);
 
     const reloadApis = () => {
         setIsLoading(true);
-        getApis(configApiPage.next)
+        getApis()
             .then(res => {
                 setApis(res.apis);
                 setIsLoading(false);
@@ -102,37 +87,18 @@ export const ResponseProvider = (props: any) => {
 
     const reloadResponses = () => {
         setIsLoading(true);
-        getResponses(configPage.next)
+        getResponses()
             .then(res => {
                 setResponses(res.responses);
+                setResponsesToDisplay(res.responses.slice(0, numberItemsToShow));
                 setIsLoading(false);
             })
             .catch(error => handlerError(error))
     };
 
     useEffect(() => {
-        setIsLoading(true);
-        getResponses(configPage.next)
-            .then(res => {
-                setResponses(res.responses)
-            })
-            .catch(error => handlerError(error));
-        getApis(configApiPage.next)
-            .then(res => {
-                setApis(res.apis);
-                setIsLoading(false);
-            })
-            .catch(error => handlerError(error));
-        getApisLength()
-            .then(res => {
-                setApisLength(res.length);
-            })
-            .catch(error => handlerError(error));
-        getResponsesLength()
-            .then(res => {
-                setResponseLength(res.length);
-            })
-            .catch(error => handlerError(error));
+        reloadApis();
+        reloadResponses();
     }, []);
 
     return (
@@ -140,6 +106,8 @@ export const ResponseProvider = (props: any) => {
             value={{
                 isLoading,
                 apis,
+                setApis,
+                setResponses,
                 responses,
                 selectedApi,
                 selectedResponse,
@@ -149,16 +117,12 @@ export const ResponseProvider = (props: any) => {
                 selectResponse,
                 unSelectResponse,
                 selectRouteToUpdate,
-                removeResponse,
-                exportResponseAsJson,
                 reloadApis,
                 reloadResponses,
-                setApiPage,
-                setConfigPage,
-                configApiPage,
-                configPage,
-                apisLength,
-                responsesLength
+                numberItemsToShow,
+                setNumberItemsToShow,
+                responsesToDisplay,
+                setResponsesToDisplay,
             }}
         >
             {props.children}
