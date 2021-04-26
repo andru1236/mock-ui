@@ -1,4 +1,4 @@
-import { IApiInstance, IParam, IRoute, IPath, IResource, ISettings } from "../../domain/api";
+import { IApiInstance, IParam, IPath, IResource, ISettings } from "../../domain/api";
 import { IResponse, TrackingAssignation, TrackingRoute } from "../../domain/response";
 
 export const apisBuilder = (apis: any) => {

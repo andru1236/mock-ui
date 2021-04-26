@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Header, Modal, Icon } from "semantic-ui-react";
 
 // sources
-import { cloneApi } from "../../sources/gql";
+import { cloneApiV2 } from "../../sources/gql";
 
 // HOCs
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
@@ -15,7 +15,7 @@ interface IViewProps extends ApiContextProps {
 
 const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, reloadApis }: IViewProps) => {
   const cloneSelectedApi = async () => {
-    await cloneApi(selectedApi);
+    await cloneApiV2(selectedApi._id);
     closeForm();
     emmitToastMessage.success('Clone Api', `Clone Api ${selectedApi.name} successfully.`);
     reloadApis();

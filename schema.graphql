@@ -1,0 +1,152 @@
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+# The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+scalar JSON
+
+type Api {
+  id: String
+  name: String
+  port: Int
+  routes: [Path]
+  settings: Setting
+}
+
+type Path {
+  id: String
+  path: String
+  resources: [Resource]
+}
+
+type Resource {
+  method: String
+  response: JSON
+  params: [Param]
+}
+
+type Param {
+  param: String
+  response: JSON
+}
+
+type Route {
+  path: String
+  method: String
+  response: JSON
+}
+
+type Setting {
+  enabled: Boolean
+  createdOn: String
+}
+
+type Response {
+  id: String
+  name: String
+  response: JSON
+  trackingAssignation: [TrackingAssignation]
+  createdOn: String
+}
+
+type TrackingAssignation {
+  api: Api
+  routes: [TrackingRoute]
+}
+
+type TrackingRoute {
+  path: String
+  method: String
+  date: String
+}
+
+type Device {
+  id: String
+  name: String
+  port: Int
+  isRunning: Boolean
+  agentDb: String
+}
+
+type Query {
+  api(id: String!): Api
+  apis(limit: Int, next: Int): [Api]
+  countApis: Int
+  response(id: String!): Response
+  responses(limit: Int, next: Int): [Response]
+  device(deviceId: String!): Device
+  devices: [Device]
+}
+
+type Mutation {
+  createAPI(name: String!, port: Int!): String
+  updateAPI(apiId: String!, name: String!, port: Int!): String
+  removeAPI(apiId: String!): String
+  startAPI(apiId: String!): String
+  stopAPI(apiId: String!): String
+  createRoute(
+    apiId: String!
+    path: String!
+    method: String!
+    response: JSON
+  ): String
+  updateRoute(
+    apiId: String!
+    path: String!
+    method: String!
+    response: JSON
+  ): String
+  removeRoute(apiId: String!, path: String!, method: String!): String
+  createRouteParams(
+    apiId: String!
+    routeId: String!
+    method: String!
+    param: String!
+    response: JSON
+  ): String
+  updateRouteParams(
+    apiId: String!
+    routeId: String!
+    method: String!
+    param: String!
+    response: JSON
+  ): String
+  removeRouteParams(
+    apiId: String!
+    routeId: String!
+    method: String!
+    param: String!
+  ): String
+  createResponse(name: String!, response: JSON!): String
+  updateResponse(responseId: String!, name: String!, response: JSON!): String
+  removeResponse(responseId: String!): String
+  assignResponseToApi(
+    responseId: String!
+    apiId: String!
+    path: String!
+    method: String!
+  ): String
+  exportResponseJSON(fileName: String!, response: JSON!): String
+  createDevice(name: String, port: Int, agentDb: String): Boolean
+  updateDevice(
+    deviceId: String!
+    name: String
+    port: Int
+    agentDb: String
+  ): Boolean
+  removeDevice(deviceId: String): Boolean
+  startSimulation(deviceId: String): Boolean
+  stopSimulation(deviceId: String): Boolean
+  fixAgentDb(agentDb: String): String
+  transformToSnmpRec(agentDb: String): String
+  transformToWalk(agentDb: String): String
+}
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+# The `Upload` scalar type represents a file upload.
+scalar Upload
