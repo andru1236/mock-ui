@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button } from "semantic-ui-react";
 
+// sources
+import { createApi, updateApi } from "../../sources/gql";
+
 import emmitToastMessage from '../../../common/emmitToastMessage';
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
@@ -10,7 +13,7 @@ interface IViewProps extends ApiContextProps {
     closeForm (): void;
 }
 
-const FormApi = ({ isOpenModal, action, closeForm, reloadApis, createApi, updateApi, selectedApi }: IViewProps) => {
+const FormApi = ({ isOpenModal, action, closeForm, reloadApis, selectedApi }: IViewProps) => {
     const [name, setName] = useState("");
     const [port, setPort] = useState(0);
 

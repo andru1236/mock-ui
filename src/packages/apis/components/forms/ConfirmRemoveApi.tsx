@@ -1,5 +1,10 @@
 import React from 'react';
 import { Button, Header, Modal, Icon } from "semantic-ui-react";
+
+// sources
+import { removeApi} from "../../sources/gql";
+
+// HOCs
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
 interface IViewProps extends ApiContextProps {
@@ -7,7 +12,7 @@ interface IViewProps extends ApiContextProps {
     closeForm (): void;
 }
 
-const ConfirmRemoveApi = ({ isOpenModal, closeForm, selectedApi, reloadApis, removeApi }: IViewProps) => (
+const ConfirmRemoveApi = ({ isOpenModal, closeForm, selectedApi, reloadApis}: IViewProps) => (
   <Modal open={ isOpenModal } basic size='small'>
       <Header icon='archive' content={ `Are you sure to remove this api ${ selectedApi.name }` }/>
 

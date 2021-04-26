@@ -1,5 +1,10 @@
 import React from 'react';
 import { Button, Header, Modal, Icon } from "semantic-ui-react";
+
+// sources
+import { cloneApi } from "../../sources/gql";
+
+// HOCs
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 import emmitToastMessage from "../../../common/emmitToastMessage";
 
@@ -8,11 +13,12 @@ interface IViewProps extends ApiContextProps {
   closeForm (): void;
 }
 
-const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, cloneSelectedApi }: IViewProps) => {
-  const onCloneApi = () => {
-    cloneSelectedApi(selectedApi);
+const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, reloadApis }: IViewProps) => {
+  const cloneSelectedApi = async () => {
+    await cloneApi(selectedApi);
     closeForm();
     emmitToastMessage.success('Clone Api', `Clone Api ${selectedApi.name} successfully.`);
+    reloadApis();
   };
 
   return (
@@ -27,7 +33,7 @@ const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, cloneSelectedApi
       <Button basic color='red' inverted onClick={ closeForm }>
         <Icon name='remove'/> No
       </Button>
-      <Button color='red' inverted onClick={ onCloneApi }>
+      <Button color='red' inverted onClick={ cloneSelectedApi }>
         <Icon name='checkmark'/> Yes
       </Button>
     </Modal.Actions>

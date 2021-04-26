@@ -30,10 +30,11 @@ const stopAPI = gql`
  }
 `;
 
+
 export const mutations ={
   createAPI,
   updateAPI,
   removeAPI,
   startAPI,
-  stopAPI
+  stopAPI,
 };

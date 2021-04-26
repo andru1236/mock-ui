@@ -3,6 +3,9 @@ import { Table, Checkbox, Button } from "semantic-ui-react";
 
 // Domain
 import { IApiInstance } from "../../../../domain/api";
+// sources
+import { startApi, stopApi } from "../../sources/gql";
+
 // HOCs
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
 import { withRouter } from "react-router-dom";
@@ -18,7 +21,7 @@ interface IViewProps extends ApiContextProps {
 }
 
 
-const BodyApiList = ({ apis, startApi, stopApi, reloadApis, selectApi, history }: IViewProps) => {
+const BodyApiList = ({ apis, reloadApis, selectApi, history }: IViewProps) => {
     const [isOpenDeleteApi, setIsOpenDeleteApi] = useState(false);
     const [isOpenUpdateApi, setIsOpenUpdateApi] = useState(false);
     const [isOpenCloneApi, setIsOpenCloneApi] = useState(false);

@@ -225,3 +225,15 @@ export const stopApi = async (apiId: string) => {
         handlerError(error);
     }
 }
+
+export const countAllApis = async () => {
+    try {
+        const opts = {
+            query: queries.countAllApis,
+        }
+        const response = await gql_client.executeQuery(opts);
+        return response.data.countApis;
+    } catch (error){
+        handlerError(error)
+    }
+};

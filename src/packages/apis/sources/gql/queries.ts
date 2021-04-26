@@ -34,17 +34,19 @@ const listApis = gql`
       port
       routes {
         id
-        path
-        resources {
-          method
-          response
-        }
       }
     }
   }
 `;
 
+const countAllApis = gql`
+  query countAllApis {
+    countApis
+  }
+`;
+
 export const queries = {
   getApis,
-  listApis
+  listApis,
+  countAllApis
 };

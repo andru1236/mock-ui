@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Table, Button, Pagination } from "semantic-ui-react";
+import {Table, Button, Pagination, Label} from "semantic-ui-react";
 import FormApi from '../forms/FormApi';
 import { withApiConsumer, ApiContextProps } from "../ApiContext";
+import { countAllApis as countApis } from "../../sources/gql"
 
 const { REACT_APP_PAGE_LIMIT, REACT_APP_MAX_LIMIT } = process.env;
 const PAGE_LIMIT = parseInt(REACT_APP_PAGE_LIMIT);
@@ -24,6 +25,7 @@ const FooterApiTable = ({
 }: IViewProps) => {
     const [isOpen, setDisplay] = useState(false);
     const [lastActivePage, setLastActivePage] = useState(configPage.active);
+    const [totalApis, setTotalApis] = useState(0);
 
     const onPageChange = (e, pageInfo) => {
         e.preventDefault();
@@ -49,7 +51,11 @@ const FooterApiTable = ({
             (apisLength / PAGE_LIMIT) - ((apisLength % PAGE_LIMIT)/PAGE_LIMIT) + 1;
         setNumberPages(numPages);
         getActivePage();
-    });
+    },[numberPages]);
+
+    useEffect(() =>{
+        countApis().then(res => setTotalApis(res));
+    }, [apisLength])
 
     const renderPaginationContent = () => {
         if (!isSearchMode && numberPages > 1) {
@@ -73,6 +79,7 @@ const FooterApiTable = ({
             <Table.Row>
                 <Table.HeaderCell />
                 <Table.HeaderCell colSpan='4'>
+                    <Label circular={true} color={'green'}>{totalApis}</Label>
                     <Button
                         floated='right'
                         primary size='small'
