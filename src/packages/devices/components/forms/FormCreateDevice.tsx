@@ -3,7 +3,6 @@ import { Button, Modal, Form } from "semantic-ui-react";
 import emmitToastMessage from "../../../common/emmitToastMessage";
 import { createDevice } from "../../sources/gql";
 import { withDeviceConsumer, DeviceContextProps } from "../DeviceContext";
-import ConfirmRemoveDevice from "./ConfirmRemoveDevice";
 
 
 interface IViewProps extends DeviceContextProps {
@@ -53,7 +52,7 @@ const ButtonCreateDevice = ({ reloadDevices, floated }: IViewProps) => {
                 Create Device
             </Button>
             <Modal
-                open={false}
+                open={isOpen}
             >
                 <Modal.Header>Create device</Modal.Header>
                 <Modal.Content>

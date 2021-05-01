@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
-import {withRouter} from "react-router-dom";
-import {Container, Divider, Dimmer, Loader} from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import { Container, Divider, Dimmer, Loader } from "semantic-ui-react";
 import HeaderMain from "../../common/HeaderMain";
 import ButtonGoToMainView from "./ButtonGoToMainView";
-import {DeviceProvider, withDeviceConsumer, DeviceContextProps} from "./DeviceContext";
-import {getOneDevice} from "../sources/gql";
+import { DeviceProvider, withDeviceConsumer, DeviceContextProps } from "./DeviceContext";
+import { getOneDevice } from "../sources/gql";
 import emmitToastMessage from "../../common/emmitToastMessage";
 import FormUpdateDevice from "./forms/FormUpdateDevice";
 
@@ -13,7 +13,7 @@ interface IViewProps extends DeviceContextProps {
 }
 
 
-const _LoaderDeviceView = ({match, setSelectedDevice, selectedDevice, reloadDevices}: IViewProps) => {
+const _LoaderDeviceView = ({ match, setSelectedDevice, selectedDevice, reloadDevices }: IViewProps) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -46,12 +46,12 @@ const _LoaderDeviceView = ({match, setSelectedDevice, selectedDevice, reloadDevi
                 </Dimmer>
                 :
                 <>
-                    <HeaderMain section={"Device"}/>
-                    <Divider/>
+                    <HeaderMain section={"Device"} />
+                    <Divider />
                     <Container textAlign='justified'>
-                        <ButtonGoToMainView/>
-                        <Divider/>
-                        <FormUpdateDevice/>
+                        <ButtonGoToMainView />
+                        <Divider />
+                        <FormUpdateDevice />
                     </Container>
                 </>
             }
@@ -68,7 +68,7 @@ const DeviceView = () => {
 
     return (
         <DeviceProvider>
-            <LoaderDeviceView/>
+            <LoaderDeviceView />
         </DeviceProvider>
     )
 }

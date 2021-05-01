@@ -8,9 +8,9 @@ import BodyApiListV2 from "./BodyApiListV2";
 
 const TableApis = () => (
   <Table compact celled definition>
-      <HeaderApiTable/>
-      <BodyApiListV2/>
-      <FooterApiTable/>
+    <HeaderApiTable />
+    <BodyApiListV2 />
+    <FooterApiTable />
   </Table>
 );
 

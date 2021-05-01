@@ -1,7 +1,7 @@
-import React, {createContext, useState, useEffect} from 'react';
-import {IDevice} from '../../../domain/device';
+import React, { createContext, useState, useEffect } from 'react';
+import { IDevice } from '../../../domain/device';
 import emmitToastMessage from '../../common/emmitToastMessage';
-import {getAllDevices, getOneDevice} from '../sources/gql';
+import { getAllDevices } from '../sources/gql';
 
 
 const nullFn = (...args) => {
@@ -13,6 +13,7 @@ const blankDevice: IDevice = {
     id: "",
     name: "",
     port: 0,
+    isRunning: false,
     agentDb: ""
 }
 
@@ -47,14 +48,13 @@ export const DeviceProvider = (props: any) => {
             .then(res => {
                 setDevices(res);
             }).catch(err => {
-            emmitToastMessage.error('Error to reload Devices', "");
-        });
+                emmitToastMessage.error('Error to reload Devices', "");
+            });
     }
 
     const reloadDevicesAsyn = async () => {
         try {
             const devicesFromServer = await getAllDevices();
-            emmitToastMessage.success("PULLED DEVICES", "");
             setDevices(devicesFromServer);
         } catch (error) {
             emmitToastMessage.error('Error to reload Devices', "");

@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from "react";
-import {Button, Form, TextArea} from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Button, Form, TextArea } from "semantic-ui-react";
 import emmitToastMessage from "../../../common/emmitToastMessage";
-import {withDeviceConsumer, DeviceContextProps} from "../DeviceContext";
+import { withDeviceConsumer, DeviceContextProps } from "../DeviceContext";
 
-import {updateDevice, getOneDevice} from "../../sources/gql";
+import { updateDevice, getOneDevice, fixAgentDb } from "../../sources/gql";
 
 
-const FormUpdateDevice = ({selectedDevice, reloadDevices, setSelectedDevice, devices}: DeviceContextProps) => {
+const FormUpdateDevice = ({ selectedDevice, setSelectedDevice }: DeviceContextProps) => {
     const [name, setName] = useState("");
     const [port, setPort] = useState(0);
     const [agentDb, setAgentDb] = useState("");
@@ -34,6 +34,16 @@ const FormUpdateDevice = ({selectedDevice, reloadDevices, setSelectedDevice, dev
         }
     }
 
+    const actionFixAgent = async () => {
+        const response = await fixAgentDb(agentDb);
+        if (response !== agentDb) {
+            emmitToastMessage.success('Fixed sucessfull', 'fixed for SNMP WALK');
+            setAgentDb(response);
+        } else {
+            emmitToastMessage.error('It seems that nothing was fixed', 'Probably the file is not SNMP WALK');
+        }
+    }
+
     useEffect(() => {
         setLoadingFields(true);
         setName(selectedDevice.name);
@@ -45,24 +55,35 @@ const FormUpdateDevice = ({selectedDevice, reloadDevices, setSelectedDevice, dev
     return (
         <Form>
             <Form.Group widths={"equal"}>
-                <Form.Input disabled fluid label={"Device id"} value={selectedDevice.id}/>
+                <Form.Input disabled fluid label={"Device id"} value={selectedDevice.id} />
                 <Form.Input loading={loadingFields} fluid label={"Name"} placeholder={"Device Name"}
-                            value={name}
-                            onChange={handlerName}
+                    value={name}
+                    onChange={handlerName}
                 />
                 <Form.Input loading={loadingFields} fluid label={"Port"} placeholder={"Device Port"} type={"number"}
-                            value={port}
-                            onChange={handlerPort}
+                    value={port}
+                    onChange={handlerPort}
                 />
             </Form.Group>
             <Form.Group>
                 <TextArea loading={loadingFields} rows={20} placeholder={"SNMP walk or Agent DB"}
-                          value={agentDb}
-                          onChange={handlerAgentDb}
+                    value={agentDb}
+                    onChange={handlerAgentDb}
                 />
             </Form.Group>
-            <Button loading={loadingFields} floated={"right"} primary onClick={async (event) => submitFn(event)}> Update </Button>
-            <Button loading={loadingFields} floated={"right"} color={"purple"}> Fix Data base of Agent </Button>
+            <Button loading={loadingFields}
+                floated={"right"}
+                primary
+                onClick={async (event) => submitFn(event)}
+            >
+                Update
+            </Button>
+            <Button
+                loading={loadingFields} floated={"right"} color={"purple"}
+                onClick={async (event) => { await actionFixAgent() }}
+            >
+                Fix Data base of Agent
+            </Button>
         </Form>
     )
 }

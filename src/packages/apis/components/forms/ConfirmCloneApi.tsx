@@ -10,7 +10,7 @@ import emmitToastMessage from "../../../common/emmitToastMessage";
 
 interface IViewProps extends ApiContextProps {
   isOpenModal: boolean;
-  closeForm (): void;
+  closeForm(): void;
 }
 
 const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, reloadApis }: IViewProps) => {
@@ -22,22 +22,22 @@ const ConfirmCloneApi = ({ isOpenModal, closeForm, selectedApi, reloadApis }: IV
   };
 
   return (
-    <Modal open={ isOpenModal } basic size='small'>
-    <Header icon='clone' content={ `Are you sure to clone this api ${ selectedApi.name }?` }/>
+    <Modal open={isOpenModal} basic size='small'>
+      <Header icon='clone' content={`Are you sure to clone this api ${selectedApi.name}?`} />
 
-    <Modal.Content>
-      <p>This API has { selectedApi.routes.length } paths and run in { selectedApi.port }</p>
-    </Modal.Content>
+      <Modal.Content>
+        <p>This API has {selectedApi.routes.length} paths and run in {selectedApi.port}</p>
+      </Modal.Content>
 
-    <Modal.Actions>
-      <Button basic color='red' inverted onClick={ closeForm }>
-        <Icon name='remove'/> No
+      <Modal.Actions>
+        <Button basic color='red' inverted onClick={closeForm}>
+          <Icon name='remove' /> No
       </Button>
-      <Button color='red' inverted onClick={ cloneSelectedApi }>
-        <Icon name='checkmark'/> Yes
+        <Button color='red' inverted onClick={cloneSelectedApi}>
+          <Icon name='checkmark' /> Yes
       </Button>
-    </Modal.Actions>
-  </Modal>
+      </Modal.Actions>
+    </Modal>
   )
 };
 

@@ -10,7 +10,7 @@ import { withApiConsumer, ApiContextProps } from "../ApiContext";
 interface IViewProps extends ApiContextProps {
     isOpenModal: boolean;
     action?: string;
-    closeForm (): void;
+    closeForm(): void;
 }
 
 const FormApi = ({ isOpenModal, action, closeForm, reloadApis, selectedApi }: IViewProps) => {
@@ -26,7 +26,7 @@ const FormApi = ({ isOpenModal, action, closeForm, reloadApis, selectedApi }: IV
     };
 
     const ensureValidFields = () => {
-        if ( name === '' && port === 0 ) {
+        if (name === '' && port === 0) {
             emmitToastMessage.error('Error on Fields', 'name should be a strings and port should be a number');
             return false;
         }
@@ -34,7 +34,7 @@ const FormApi = ({ isOpenModal, action, closeForm, reloadApis, selectedApi }: IV
     };
 
     const submitForm = async () => {
-        if ( ensureValidFields() ) {
+        if (ensureValidFields()) {
             switch (action.toUpperCase()) {
                 case 'CREATE':
                     await createApi({ name: name, port: port });
@@ -55,7 +55,7 @@ const FormApi = ({ isOpenModal, action, closeForm, reloadApis, selectedApi }: IV
     };
 
     useEffect(() => {
-        if (action.toUpperCase() === 'CREATE'){
+        if (action.toUpperCase() === 'CREATE') {
             cleanFields();
         } else {
             setName(selectedApi.name);
@@ -64,44 +64,44 @@ const FormApi = ({ isOpenModal, action, closeForm, reloadApis, selectedApi }: IV
     }, [selectedApi]);
 
     return (
-      <Modal
-        open={ isOpenModal }
-      >
-          <Modal.Header>Create new api</Modal.Header>
-          <Modal.Content>
-              <Form>
-                  <Form.Field>
-                      <label>Name</label>
-                      <input
-                        placeholder='Name'
-                        onChange={ handlerName }
-                        value={ name }
-                      />
-                  </Form.Field>
-                  <Form.Field>
-                      <label>Port</label>
-                      <input
-                        placeholder='Port'
-                        type='number'
-                        onChange={ handlerPort }
-                        value={ port }
-                      />
-                  </Form.Field>
-              </Form>
-          </Modal.Content>
-          <Modal.Actions>
-              <Button onClick={ closeForm } negative>
-                  Close
+        <Modal
+            open={isOpenModal}
+        >
+            <Modal.Header>Create new api</Modal.Header>
+            <Modal.Content>
+                <Form>
+                    <Form.Field>
+                        <label>Name</label>
+                        <input
+                            placeholder='Name'
+                            onChange={handlerName}
+                            value={name}
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Port</label>
+                        <input
+                            placeholder='Port'
+                            type='number'
+                            onChange={handlerPort}
+                            value={port}
+                        />
+                    </Form.Field>
+                </Form>
+            </Modal.Content>
+            <Modal.Actions>
+                <Button onClick={closeForm} negative>
+                    Close
               </Button>
-              <Button
-                onClick={ submitForm }
-                positive
-                labelPosition='right'
-                icon='checkmark'
-                content={ action || 'Create/Update' }
-              />
-          </Modal.Actions>
-      </Modal>);
+                <Button
+                    onClick={submitForm}
+                    positive
+                    labelPosition='right'
+                    icon='checkmark'
+                    content={action || 'Create/Update'}
+                />
+            </Modal.Actions>
+        </Modal>);
 };
 
 export default withApiConsumer(FormApi);

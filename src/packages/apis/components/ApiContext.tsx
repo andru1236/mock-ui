@@ -12,8 +12,8 @@ export interface ApiContextProps {
     apis: IApiInstance[];
     setApis(apis: IApiInstance[]): void;
     selectedApi: IApiInstance;
-    selectApi (apiId: string): void;
-    reloadApis (): void;
+    selectApi(apiId: string): void;
+    reloadApis(): void;
     apisToDisplay: IApiInstance[];
     setApisToDisplay(apis: IApiInstance[]): void;
     numberOfApisToShow: number;
@@ -24,7 +24,7 @@ export interface ApiContextProps {
 const ApiContext = createContext<ApiContextProps>({
     isLoading: false,
     apis: [] as IApiInstance[],
-    setApis: (apis: IApiInstance[]) => {},
+    setApis: (apis: IApiInstance[]) => { },
     selectedApi: {
         _id: "",
         name: "",
@@ -36,11 +36,11 @@ const ApiContext = createContext<ApiContextProps>({
         }
     },
     selectApi: (apiId: string) => apiId,
-    reloadApis: () => {},
+    reloadApis: () => { },
     apisToDisplay: [] as IApiInstance[],
-    setApisToDisplay: (apis: IApiInstance[]) => {},
+    setApisToDisplay: (apis: IApiInstance[]) => { },
     numberOfApisToShow: 15,
-    setNumberOfApisToShow: (num) => {},
+    setNumberOfApisToShow: (num) => { },
 });
 
 // COMPONENTS
@@ -67,7 +67,7 @@ export const ApiProvider = (props: any) => {
             setApisToDisplay(res.apis.slice(0, numberOfApisToShow));
             setIsLoading(false);
         })
-        .catch(error => handlerError(error));
+            .catch(error => handlerError(error));
     };
 
     const selectApi = (apiId) => setSelectedApi(apis.find(api => api._id === apiId));
@@ -75,31 +75,31 @@ export const ApiProvider = (props: any) => {
     useEffect(() => {
         setIsLoading(true);
         getApis()
-          .then(res => {
-              setApis(res.apis);
-              setApisToDisplay(res.apis.slice(0, numberOfApisToShow));
-              setIsLoading(false);
-          })
-          .catch(error => handlerError(error));
+            .then(res => {
+                setApis(res.apis);
+                setApisToDisplay(res.apis.slice(0, numberOfApisToShow));
+                setIsLoading(false);
+            })
+            .catch(error => handlerError(error));
     }, [])
 
     return (
-      <ApiContext.Provider
-        value={ {
-            isLoading,
-            apis,
-            setApis,
-            selectedApi,
-            selectApi,
-            reloadApis,
-            apisToDisplay,
-            setApisToDisplay,
-            numberOfApisToShow,
-            setNumberOfApisToShow,
-        } }
-      >
-          { props.children }
-      </ApiContext.Provider>
+        <ApiContext.Provider
+            value={{
+                isLoading,
+                apis,
+                setApis,
+                selectedApi,
+                selectApi,
+                reloadApis,
+                apisToDisplay,
+                setApisToDisplay,
+                numberOfApisToShow,
+                setNumberOfApisToShow,
+            }}
+        >
+            { props.children}
+        </ApiContext.Provider>
     )
 }
 
@@ -107,17 +107,17 @@ export const ApiConsumer = ApiContext.Consumer;
 
 export const withApiConsumer = WrappedComponent => props => {
     return (
-      <ApiConsumer>
-          { context => {
-              return (
-                <Fragment>
-                    <Dimmer active={ context.isLoading } inverted={ true }>
-                        <Loader inverted={ true }>Loading</Loader>
-                    </Dimmer>
-                    <WrappedComponent { ...props } { ...context }/>
-                </Fragment>
-              )
-          } }
-      </ApiConsumer>
+        <ApiConsumer>
+            { context => {
+                return (
+                    <Fragment>
+                        <Dimmer active={context.isLoading} inverted={true}>
+                            <Loader inverted={true}>Loading</Loader>
+                        </Dimmer>
+                        <WrappedComponent {...props} {...context} />
+                    </Fragment>
+                )
+            }}
+        </ApiConsumer>
     )
 }

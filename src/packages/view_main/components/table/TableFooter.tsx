@@ -4,27 +4,26 @@ import { Table, Button, Pagination, Label } from "semantic-ui-react";
 // Utils
 import { calculatePageNumber, getStartAndEndIndex } from "../../../common/pagination_utils";
 
-// HOCs
+// HOC's
 import { withRouter } from "react-router-dom";
-import { withApiConsumer, ApiContextProps } from "../ApiContext";
+import { SearchContextProps, withSearchConsumer } from "../../SearchContext";
 
 // Components
-import FormApi from '../forms/FormApi';
+import FormApi from '../../../apis/components/forms/FormApi';
 import ButtomFormCreateDevice from '../../../devices/components/forms/FormCreateDevice'
 
-
-interface IViewProps extends ApiContextProps {
+interface IViewProps extends SearchContextProps {
     history: any;
 }
 
-const FooterApiTable = ({
-    apis,
-    numberOfApisToShow,
-    setApisToDisplay,
+const TableFooter = ({
+    entities,
+    numberOfEntitiesToDisplay,
+    setEntitiesToDisplay,
     history,
 }: IViewProps) => {
-    const [isOpen, setDisplay] = useState(false);
-    const [totalApis, setTotalApis] = useState(0);
+    const [isOpenApiForm, setIsOpenApiForm] = useState(false);
+    const [totalEntities, setTotalEntities] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [activePage, setActivePage] = useState(1);
 
@@ -32,20 +31,20 @@ const FooterApiTable = ({
         e.preventDefault();
         if (typeof (pageInfo.activePage) === "number") {
             setActivePage(pageInfo.activePage);
-            const [start, end] = getStartAndEndIndex(pageInfo.activePage, numberOfApisToShow);
-            setApisToDisplay(apis.slice(start, end));
+            const [start, end] = getStartAndEndIndex(pageInfo.activePage, numberOfEntitiesToDisplay);
+            setEntitiesToDisplay(entities.slice(start, end));
         }
     };
 
     useEffect(() => {
-        setTotalPages(calculatePageNumber(apis.length, numberOfApisToShow));
-    }, [apis, numberOfApisToShow]);
+        setTotalPages(calculatePageNumber(entities.length, numberOfEntitiesToDisplay));
+    }, [entities, numberOfEntitiesToDisplay]);
 
     useEffect(() => {
-        setTotalApis(apis.length);
-        const [start, end] = getStartAndEndIndex(activePage, numberOfApisToShow);
-        setApisToDisplay(apis.slice(start, end));
-    }, [apis])
+        setTotalEntities(entities.length);
+        const [start, end] = getStartAndEndIndex(activePage, numberOfEntitiesToDisplay);
+        setEntitiesToDisplay(entities.slice(start, end));
+    }, [entities])
 
     const renderPaginationContent = () => {
         return (
@@ -68,26 +67,29 @@ const FooterApiTable = ({
                 <Table.HeaderCell />
                 <Table.HeaderCell colSpan='4'>
                     <Label circular={true} color={'green'}> Total </Label>
-                    <Label circular={true} color={'green'}>{totalApis}</Label>
+                    <Label circular={true} color={'green'}>{totalEntities}</Label>
 
                     <Button
                         floated='right'
                         primary size='small'
-                        onClick={() => setDisplay(true)}
+                        onClick={() => setIsOpenApiForm(true)}
                     >
                         Create new api
                     </Button>
+
+                    <ButtomFormCreateDevice floated={"right"} />
+
                     <Button color={'purple'} floated={'right'} size={'small'}
                         onClick={() => history.push('/responses')}
                     >
                         Response Creator
                     </Button>
 
-                    <FormApi isOpenModal={isOpen}
-                        closeForm={() => setDisplay(false)}
+                    <FormApi isOpenModal={isOpenApiForm}
+                        closeForm={() => setIsOpenApiForm(false)}
                         action={'Create'}
                     />
-                    <ButtomFormCreateDevice floated={"right"} />
+
                 </Table.HeaderCell>
             </Table.Row>
             {renderPaginationContent()}
@@ -95,4 +97,4 @@ const FooterApiTable = ({
     )
 };
 
-export default withApiConsumer(withRouter(FooterApiTable));
+export default withSearchConsumer(withRouter(TableFooter));

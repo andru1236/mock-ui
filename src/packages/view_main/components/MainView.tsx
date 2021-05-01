@@ -4,22 +4,23 @@ import { Container, Divider } from "semantic-ui-react";
 import { SemanticToastContainer } from 'react-semantic-toasts';
 // Components
 import HeaderMain from "../../common/HeaderMain";
-import TableApis from "./table/TableApis";
-import { ApiProvider } from "./ApiContext";
-import { DeviceProvider } from '../../devices/components/DeviceContext';
-import SearchApis from "./table/SearchApi";
+import { ApiProvider } from "../../apis/components/ApiContext";
+import { DeviceProvider } from "../../devices/components/DeviceContext";
+import SearchEntities from "./SearchEntities";
+import { SearchProvider } from "../SearchContext";
+import TableMain from "./table/TableMain";
 
-// THIS VIEW was replaced for main view
-// we are using the context API and components, forms, tables, etc
-const ViewApi = () => (
+const ViewMain = () => (
     <div className="App">
         <HeaderMain />
         <Divider />
         <Container textAlign='justified'>
             <ApiProvider>
                 <DeviceProvider>
-                    <SearchApis />
-                    <TableApis />
+                    <SearchProvider>
+                        <SearchEntities />
+                        <TableMain />
+                    </SearchProvider>
                 </DeviceProvider>
             </ApiProvider>
         </Container>
@@ -27,4 +28,4 @@ const ViewApi = () => (
     </div>
 );
 
-export default ViewApi;
+export default ViewMain;
