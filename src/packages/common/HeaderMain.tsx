@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 const HeaderMain = (props: HeadProps) => (
   <Wrapper>
       <Header size={ 'huge' } as={ 'h1' } textAlign={ 'center' }>
-          Api mock { !props.section ? '' : ` / ${ props.section }` }
+          System Mock { !props.section ? '' : ` / ${ props.section }` }
       </Header>
   </Wrapper>
 );

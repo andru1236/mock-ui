@@ -6,20 +6,23 @@ import { SemanticToastContainer } from 'react-semantic-toasts';
 import HeaderMain from "../../common/HeaderMain";
 import TableApis from "./table/TableApis";
 import { ApiProvider } from "./ApiContext";
+import { DeviceProvider } from '../../devices/components/DeviceContext';
 import SearchApis from "./table/SearchApi";
 
 const ViewApi = () => (
-  <div className="App">
-      <HeaderMain/>
-      <Divider/>
-      <Container textAlign='justified'>
-          <ApiProvider>
-              <SearchApis/>
-              <TableApis/>
-          </ApiProvider>
-      </Container>
-      <SemanticToastContainer/>
-  </div>
+    <div className="App">
+        <HeaderMain />
+        <Divider />
+        <Container textAlign='justified'>
+            <ApiProvider>
+                <DeviceProvider>
+                    <SearchApis />
+                    <TableApis />
+                </DeviceProvider>
+            </ApiProvider>
+        </Container>
+        <SemanticToastContainer />
+    </div>
 );
 
 export default ViewApi;

@@ -8,6 +8,7 @@ import {
 import ViewApi from "./packages/apis/components/ViewApi";
 import ViewRoutes from "./packages/routes/components/ViewRoutes";
 import ViewResponse from "./packages/response/ViewResponse";
+import ViewDevice from "./packages/devices/components/DeviceView";
 
 
 const App: React.FC = () => {
@@ -15,9 +16,12 @@ const App: React.FC = () => {
       <div className="App">
           <Router>
               <Switch>
-
                   <Route path="/apis/:apiId/routes">
                       <ViewRoutes/>
+                  </Route>
+
+                  <Route path={"/device/:deviceId"}>
+                      <ViewDevice/>
                   </Route>
 
                   <Route path="/responses">

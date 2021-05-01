@@ -10,6 +10,7 @@ import { withApiConsumer, ApiContextProps } from "../ApiContext";
 
 // Components
 import FormApi from '../forms/FormApi';
+import ButtomFormCreateDevice from '../../../devices/components/forms/FormCreateDevice'
 
 
 interface IViewProps extends ApiContextProps {
@@ -67,6 +68,7 @@ const FooterApiTable = ({
                 <Table.HeaderCell colSpan='4'>
                     <Label circular={true} color={'green'}> Total </Label>
                     <Label circular={true} color={'green'}>{totalApis}</Label>
+                    
                     <Button
                         floated='right'
                         primary size='small'
@@ -84,6 +86,7 @@ const FooterApiTable = ({
                         closeForm={() => setDisplay(false)}
                         action={'Create'}
                     />
+                    <ButtomFormCreateDevice floated={"right"}/>
                 </Table.HeaderCell>
             </Table.Row>
             {renderPaginationContent()}
