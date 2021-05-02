@@ -5,5 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: mock-ui-image
+    container_name: mock-ui-container
     ports:
       - "3000:80"
