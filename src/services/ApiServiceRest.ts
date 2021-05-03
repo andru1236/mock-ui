@@ -3,10 +3,10 @@ import { IResponse } from '../domain/response'
 import { RestAPI } from "../domain/gateways";
 
 const axios = require('axios');
-const { REACT_APP_BACKEND } = process.env
+const { REACT_APP_REST_API_URL } = process.env
 
 export class ApiServiceRest implements RestAPI {
-    public readonly BASE_URL = `http://${REACT_APP_BACKEND}:5000/api/v1`;
+    public readonly BASE_URL = `http://${REACT_APP_REST_API_URL}:5000/api/v1`;
     public readonly END_POINT = '/apis';
     public readonly RESPONSE_END_PODINT = '/responses';
     private axiosInstance: any;

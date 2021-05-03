@@ -1,11 +1,12 @@
-version: '3'
+version: '3.4'
 
 services:
   ui-mock-api:
+    env_file: .env
     build:
       context: .
       dockerfile: Dockerfile
     image: mock-ui-image
     container_name: mock-ui-container
     ports:
-      - "3000:80"
+      - ${UI_PORT}:80
